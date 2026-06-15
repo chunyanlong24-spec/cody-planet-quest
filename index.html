@@ -619,6 +619,51 @@
       font-size: 13px;
     }
 
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .day-cell {
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      padding: 10px 8px;
+      background: rgba(7, 17, 31, 0.62);
+      min-height: 82px;
+    }
+
+    .day-cell b {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .day-cell span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .day-cell.complete {
+      background: rgba(84, 240, 160, 0.22);
+    }
+
+    .day-cell.partial {
+      background: rgba(255, 189, 74, 0.20);
+    }
+
+    .day-cell.missed {
+      background: rgba(255, 64, 84, 0.18);
+    }
+
+    .day-cell.today {
+      outline: 3px solid var(--cyan);
+      box-shadow: 0 0 24px rgba(69, 215, 255, 0.20);
+    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -721,6 +766,7 @@
       .ops { padding: 16px; min-height: 680px; }
       .stats, .grid, .revive-list, .answers { grid-template-columns: 1fr; }
       .progress-grid { grid-template-columns: 1fr; }
+      .calendar-grid { grid-template-columns: repeat(2, 1fr); }
       .planet-map {
         min-height: auto;
         display: grid;
@@ -956,11 +1002,10 @@
       }
     ];
 
-    const todayKey = new Date().toLocaleDateString("zh-CN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }).split("/").join("-");
+    const pad2 = value => String(value).padStart(2, "0");
+    const makeDateKey = date => `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+    const todayKey = makeDateKey(new Date());
+    const planDates = Array.from({ length: 14 }, (_, index) => makeDateKey(new Date(2026, 5, 16 + index)));
 
     const state = {
       xp: 140,
@@ -978,8 +1023,27 @@
 
     const abilityBase = { "数学": 36, "语文": 32, "英语": 28 };
     const $ = (id) => document.getElementById(id);
-    const activeDowned = () => state.downed.filter(item => !item.corrected);
+    const activeItems = items => (items || []).filter(item => !item.corrected);
+    const activeDowned = () => activeItems(state.downed);
     const storageKey = `cody-planet-progress-${todayKey}`;
+
+    function storageKeyFor(dateKey) {
+      return `cody-planet-progress-${dateKey}`;
+    }
+
+    function readProgressForDate(dateKey) {
+      if (dateKey === todayKey) return state;
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKeyFor(dateKey)) || "null");
+        return saved && saved.date === dateKey ? saved : { date: dateKey, completed: {}, downed: [] };
+      } catch (error) {
+        return { date: dateKey, completed: {}, downed: [] };
+      }
+    }
+
+    function isDayComplete(progress) {
+      return Object.keys(progress.completed || {}).length === subjects.length && activeItems(progress.downed).length === 0;
+    }
 
     function loadProgress() {
       try {
@@ -1124,14 +1188,40 @@
       const done = Object.keys(state.completed).length;
       const needs = activeDowned();
       const focus = needs[0]?.subjectTitle || "暂无倒地题";
-      const isComplete = done === subjects.length && needs.length === 0;
+      const isComplete = isDayComplete(state);
       const subjectProgress = subjects.map(subject => `
         <div class="progress-chip">
           <b>${subject.title}</b>
           <span>${state.completed[subject.id] ? "已完成" : "未完成"}</span>
         </div>
       `).join("");
+      const calendarCells = planDates.map((dateKey, index) => {
+        const progress = readProgressForDate(dateKey);
+        const completedCount = Object.keys(progress.completed || {}).length;
+        const downedCount = activeItems(progress.downed).length;
+        const complete = isDayComplete(progress);
+        const started = completedCount > 0 || downedCount > 0;
+        const isPast = dateKey < todayKey;
+        const isToday = dateKey === todayKey;
+        const status = complete ? "完成" : started ? "进行中" : isPast ? "未完成" : "未开始";
+        const cls = complete ? "complete" : started ? "partial" : isPast ? "missed" : "";
+        return `
+          <div class="day-cell ${cls} ${isToday ? "today" : ""}">
+            <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
+            <span>${status}</span>
+            <span>${completedCount}/3 关 · ${downedCount} 倒地题</span>
+          </div>
+        `;
+      }).join("");
       $("parentPanel").innerHTML = `
+        <div class="parent-row">
+          <div>
+            <h3>6月16日-6月29日进度雷达</h3>
+            <p>每天完成数学、语文、英语三关，并清空倒地题，才算当天完成。</p>
+            <div class="calendar-grid">${calendarCells}</div>
+          </div>
+          <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
+        </div>
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
