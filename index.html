@@ -742,7 +742,7 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>数学星、语文星、英语星围绕 Cody 飞船。每颗星球 5 道题，答错会掉进陨石坑复活站，改正后才能继续航行。</p>
+          <p>数学星、语文星、英语星围绕 Cody 飞船。每科 30 题题库，每局随机抽 5 题；答错会掉进陨石坑复活站，改正后才能继续航行。</p>
           <div class="hero-actions">
             <button class="btn primary" id="startToday">开始今日三关</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
@@ -812,45 +812,120 @@
         id: "math",
         title: "数学突击关",
         tag: "第一关",
-        skill: "计算与应用",
+        skill: "30题题库",
         color: "#45d7ff",
-        desc: "分数、因数倍数、长方体正方体，先清基础丢分点。",
+        desc: "分数、因数倍数、长方体正方体，每局随机抽 5 题。",
         questions: [
           { q: "12 和 18 的最大公因数是？", a: "6", options: ["3", "6", "12", "36"], hint: "列出共同因数，最大的是 6。", explain: "12 的因数有 1、2、3、4、6、12；18 的因数有 1、2、3、6、9、18。共同因数里最大的是 6。" },
-          { q: "3/8 + 1/4 = ?", a: "5/8", options: ["4/12", "1/2", "5/8", "3/10"], hint: "先把 1/4 通分成 2/8。", explain: "异分母分数相加先通分。1/4 = 2/8，所以 3/8 + 2/8 = 5/8。" },
-          { q: "长方体长 8cm、宽 5cm、高 3cm，体积是？", a: "120cm³", options: ["16cm³", "40cm³", "120cm³", "240cm³"], hint: "体积 = 长 × 宽 × 高。", explain: "长方体体积公式 V=abh，8×5×3=120，单位是 cm³。" },
-          { q: "正方体棱长 4cm，表面积是？", a: "96cm²", options: ["16cm²", "64cm²", "96cm²", "24cm²"], hint: "一个面是 4×4，再乘 6。", explain: "正方体有 6 个相同的面，一个面面积 16cm²，6 个面是 96cm²。" },
-          { q: "1 立方分米等于多少立方厘米？", a: "1000cm³", options: ["10cm³", "100cm³", "1000cm³", "10000cm³"], hint: "1dm=10cm，体积要乘三次。", explain: "1dm³ = 10cm×10cm×10cm = 1000cm³。" }
+          { q: "4 和 6 的最小公倍数是？", a: "12", options: ["2", "10", "12", "24"], hint: "找共同倍数中最小的。", explain: "4 的倍数有 4、8、12；6 的倍数有 6、12。第一个共同倍数是 12。" },
+          { q: "下面哪个数是质数？", a: "29", options: ["21", "27", "29", "39"], hint: "质数只有 1 和它本身两个因数。", explain: "21、27、39 都能被 3 整除，29 只有 1 和 29 两个因数，所以是质数。" },
+          { q: "同时是 2、3、5 的倍数的最小两位数是？", a: "30", options: ["10", "15", "20", "30"], hint: "个位是 0，还要能被 3 整除。", explain: "同时是 2 和 5 的倍数，个位必须是 0；再满足 3 的倍数，最小两位数是 30。" },
+          { q: "36 的因数一共有多少个？", a: "9个", options: ["6个", "8个", "9个", "12个"], hint: "成对找，平方数中间只算一次。", explain: "36 的因数是 1、2、3、4、6、9、12、18、36，共 9 个。" },
+          { q: "3/8 + 1/4 = ?", a: "5/8", options: ["4/12", "1/2", "5/8", "3/10"], hint: "先把 1/4 通分成 2/8。", explain: "异分母分数相加先通分。1/4=2/8，所以 3/8+2/8=5/8。" },
+          { q: "7/10 - 1/5 = ?", a: "1/2", options: ["6/5", "6/10", "1/2", "4/10"], hint: "1/5 = 2/10。", explain: "7/10-2/10=5/10，约分后是 1/2。" },
+          { q: "把 17/5 化成带分数是？", a: "3又2/5", options: ["2又3/5", "3又2/5", "3又1/5", "4又2/5"], hint: "17 ÷ 5 = 3 余 2。", explain: "分子除以分母，商是整数部分，余数做分子，所以是 3又2/5。" },
+          { q: "下面哪个分数等于 3/4？", a: "9/12", options: ["6/10", "9/12", "8/10", "12/9"], hint: "分子分母同时乘同一个数。", explain: "3/4 的分子分母同时乘 3，得到 9/12。" },
+          { q: "比较大小：5/6 和 3/4，哪个大？", a: "5/6", options: ["5/6", "3/4", "一样大", "无法比较"], hint: "通分到 12。", explain: "5/6=10/12，3/4=9/12，所以 5/6 更大。" },
+          { q: "2/3 + 1/6 = ?", a: "5/6", options: ["3/9", "1/2", "5/6", "4/6"], hint: "2/3 = 4/6。", explain: "4/6+1/6=5/6。" },
+          { q: "9/12 约分后是？", a: "3/4", options: ["2/3", "3/4", "4/5", "9/6"], hint: "分子分母同时除以 3。", explain: "9÷3=3，12÷3=4，所以约分为 3/4。" },
+          { q: "长方体长 8cm、宽 5cm、高 3cm，体积是？", a: "120cm³", options: ["16cm³", "40cm³", "120cm³", "240cm³"], hint: "体积 = 长 × 宽 × 高。", explain: "8×5×3=120，单位是 cm³。" },
+          { q: "正方体棱长 4cm，表面积是？", a: "96cm²", options: ["16cm²", "64cm²", "96cm²", "24cm²"], hint: "一个面是 4×4，再乘 6。", explain: "一个面面积 16cm²，6 个面是 96cm²。" },
+          { q: "1 立方分米等于多少立方厘米？", a: "1000cm³", options: ["10cm³", "100cm³", "1000cm³", "10000cm³"], hint: "1dm=10cm，体积要乘三次。", explain: "1dm³ = 10cm×10cm×10cm = 1000cm³。" },
+          { q: "一个无盖长方体盒子，求用料面积时算几个面？", a: "5个面", options: ["4个面", "5个面", "6个面", "8个面"], hint: "无盖就是少上面。", explain: "长方体有 6 个面，无盖少算上面，所以算 5 个面。" },
+          { q: "正方体体积是 27cm³，它的棱长是？", a: "3cm", options: ["3cm", "6cm", "9cm", "27cm"], hint: "哪个数乘自己三次等于 27？", explain: "3×3×3=27，所以棱长是 3cm。" },
+          { q: "一个长方体水箱长 6dm、宽 4dm、高 5dm，最多能装水多少升？", a: "120L", options: ["15L", "24L", "120L", "240L"], hint: "1dm³ = 1L。", explain: "体积 6×4×5=120dm³，也就是 120L。" },
+          { q: "长方体有多少条棱？", a: "12条", options: ["6条", "8条", "12条", "24条"], hint: "长方体有 6 个面、8 个顶点、12 条棱。", explain: "长方体的棱分三组，每组 4 条，共 12 条。" },
+          { q: "正方体棱长总和是 60cm，棱长是？", a: "5cm", options: ["4cm", "5cm", "6cm", "12cm"], hint: "正方体有 12 条棱。", explain: "60÷12=5，所以棱长是 5cm。" },
+          { q: "4、5、6、9 的平均数是？", a: "6", options: ["5", "6", "7", "24"], hint: "总数 ÷ 个数。", explain: "4+5+6+9=24，24÷4=6。" },
+          { q: "一组数据：12、15、15、18、20，众数是？", a: "15", options: ["12", "15", "18", "20"], hint: "众数是出现次数最多的数。", explain: "15 出现 2 次，其他数只出现 1 次，所以众数是 15。" },
+          { q: "折线统计图最适合看什么？", a: "变化趋势", options: ["变化趋势", "物体形状", "字数多少", "图形面积"], hint: "折线能看升降。", explain: "折线统计图适合表示数量随时间变化的趋势。" },
+          { q: "一根 2 米长的绳子，用去 3/5 米，还剩多少米？", a: "1又2/5米", options: ["2/5米", "1又2/5米", "7/5米", "1/5米"], hint: "2=10/5。", explain: "10/5-3/5=7/5=1又2/5。" },
+          { q: "48 个苹果平均分袋，每袋同样多且正好分完，每袋可能是？", a: "6个", options: ["5个", "6个", "7个", "10个"], hint: "每袋数量必须是 48 的因数。", explain: "6 是 48 的因数，48÷6=8，能正好分完。" },
+          { q: "一个数既是 3 的倍数，又是 5 的倍数，最小的两位数是？", a: "15", options: ["10", "12", "15", "30"], hint: "同时是 3 和 5 的倍数。", explain: "3 和 5 的最小公倍数是 15。" },
+          { q: "5/8 和 1/2 比，哪个大？", a: "5/8", options: ["5/8", "1/2", "一样大", "无法比较"], hint: "1/2=4/8。", explain: "5/8 大于 4/8，所以 5/8 大。" },
+          { q: "2.5L 等于多少 mL？", a: "2500mL", options: ["25mL", "250mL", "2500mL", "25000mL"], hint: "1L=1000mL。", explain: "2.5×1000=2500mL。" },
+          { q: "一个长方体底面积 30cm²，高 4cm，体积是？", a: "120cm³", options: ["34cm³", "60cm³", "120cm³", "240cm³"], hint: "体积=底面积×高。", explain: "30×4=120cm³。" },
+          { q: "把 11/4 化成带分数是？", a: "2又3/4", options: ["1又3/4", "2又3/4", "3又2/4", "2又1/4"], hint: "11÷4=2 余 3。", explain: "商 2 做整数部分，余数 3 做分子，所以是 2又3/4。" }
         ]
       },
       {
         id: "chinese",
         title: "语文侦察关",
         tag: "第二关",
-        skill: "字词与阅读",
+        skill: "30题题库",
         color: "#ffbd4a",
-        desc: "字词、修辞、阅读理解，训练考试里最常见的判断题。",
+        desc: "字词、修辞、阅读、作文，每局随机抽 5 题。",
         questions: [
           { q: "“聚精会神”的意思最接近哪一个？", a: "注意力非常集中", options: ["动作很快", "注意力非常集中", "声音很大", "心情很难过"], hint: "关键词是“聚精”和“会神”。", explain: "聚精会神表示集中全部精神，形容注意力非常集中。" },
-          { q: "“弯弯的月亮像小船”使用了什么修辞？", a: "比喻", options: ["拟人", "排比", "比喻", "夸张"], hint: "把月亮比作小船。", explain: "句子里把一种事物说成另一种相似的事物，这是比喻。" },
-          { q: "阅读题里问“这段主要写什么”，通常要找什么？", a: "中心意思", options: ["标点符号", "中心意思", "生字数量", "作者年龄"], hint: "问主要内容，就是找中心。", explain: "概括段落主要内容时，要抓中心句、关键词和事情的起因经过结果。" },
-          { q: "下面哪个词语有错别字？", a: "再接再励", options: ["坚持不懈", "再接再励", "全神贯注", "恍然大悟"], hint: "正确写法是“再接再厉”。", explain: "“再接再厉”的“厉”表示努力、奋勉，不是鼓励的“励”。" },
-          { q: "作文结尾最重要的作用是？", a: "点明中心", options: ["增加字数", "点明中心", "随便收尾", "只写天气"], hint: "好结尾要收住主题。", explain: "作文结尾常用来总结全文、点明中心、升华感受，让文章更完整。" }
+          { q: "“弯弯的月亮像小船”使用了什么修辞？", a: "比喻", options: ["拟人", "排比", "比喻", "夸张"], hint: "把月亮比作小船。", explain: "把一种事物说成另一种相似的事物，这是比喻。" },
+          { q: "阅读题里问“这段主要写什么”，通常要找什么？", a: "中心意思", options: ["标点符号", "中心意思", "生字数量", "作者年龄"], hint: "问主要内容，就是找中心。", explain: "概括段落主要内容，要抓中心句、关键词和事件主线。" },
+          { q: "下面哪个词语有错别字？", a: "再接再励", options: ["坚持不懈", "再接再励", "全神贯注", "恍然大悟"], hint: "正确写法是“再接再厉”。", explain: "“再接再厉”的“厉”表示奋勉，不是鼓励的“励”。" },
+          { q: "作文结尾最重要的作用是？", a: "点明中心", options: ["增加字数", "点明中心", "随便收尾", "只写天气"], hint: "好结尾要收住主题。", explain: "作文结尾常用来总结全文、点明中心、升华感受。" },
+          { q: "“神机妙算”常用来形容谁？", a: "计谋高明的人", options: ["跑得快的人", "计谋高明的人", "声音大的人", "很懒的人"], hint: "神机和妙算都和计谋有关。", explain: "神机妙算形容计谋高明、预料准确。" },
+          { q: "“他急得像热锅上的蚂蚁”用了什么修辞？", a: "比喻", options: ["比喻", "拟人", "反问", "设问"], hint: "把着急的人比作蚂蚁。", explain: "用相似事物来说明状态，是比喻。" },
+          { q: "“小草偷偷地从土里钻出来”用了什么修辞？", a: "拟人", options: ["比喻", "拟人", "排比", "夸张"], hint: "偷偷、钻出来像人的动作。", explain: "把小草当作人来写，这是拟人。" },
+          { q: "下列哪个是描写人物神态的词？", a: "眉开眼笑", options: ["健步如飞", "眉开眼笑", "大声朗读", "仔细观察"], hint: "神态是脸上的表情。", explain: "眉开眼笑描写人的表情，属于神态描写。" },
+          { q: "“举世闻名”的意思是？", a: "全世界都知道", options: ["只在本地有名", "全世界都知道", "声音很响", "马上出发"], hint: "举世就是全世界。", explain: "举世闻名表示全世界都知道，形容名气很大。" },
+          { q: "“既……又……”表示什么关系？", a: "并列", options: ["转折", "因果", "并列", "假设"], hint: "两个方面同时存在。", explain: "既……又……连接两个并列特点。" },
+          { q: "“因为……所以……”表示什么关系？", a: "因果", options: ["并列", "因果", "递进", "选择"], hint: "前面是原因，后面是结果。", explain: "因为表示原因，所以表示结果，是因果关系。" },
+          { q: "修改病句：他的学习成绩增加了。哪项更合适？", a: "他的学习成绩提高了。", options: ["他的学习成绩提高了。", "他的学习成绩长高了。", "他的学习成绩扩大了。", "他的学习成绩很响。"], hint: "成绩搭配“提高”。", explain: "成绩不能说增加，常说提高。" },
+          { q: "“络绎不绝”常形容什么？", a: "人或车连续不断", options: ["非常安静", "人或车连续不断", "天气寒冷", "颜色鲜艳"], hint: "不绝就是不断。", explain: "络绎不绝形容人、车等前后相接，连续不断。" },
+          { q: "阅读理解中“联系上下文”主要是为了？", a: "理解词句意思", options: ["数标点", "理解词句意思", "抄写全文", "找页码"], hint: "上下文能帮助判断意思。", explain: "词语在不同语境中意思可能不同，要结合前后文理解。" },
+          { q: "“难道这不是伟大的奇观吗？”是什么句式？", a: "反问句", options: ["陈述句", "反问句", "祈使句", "感叹句"], hint: "难道……吗常是反问。", explain: "反问句用疑问形式表达肯定或否定的意思。" },
+          { q: "“请把门关上。”是什么句式？", a: "祈使句", options: ["祈使句", "反问句", "设问句", "陈述句"], hint: "表示请求或命令。", explain: "祈使句用于请求、命令、劝告等。" },
+          { q: "“春风又绿江南岸”中“绿”字好在哪里？", a: "写出春天生机", options: ["表示颜色难看", "写出春天生机", "说明天气寒冷", "表示声音很大"], hint: "绿让景色有变化。", explain: "绿字生动写出春天到来、万物复苏的景象。" },
+          { q: "下面哪个词语适合形容认真读书？", a: "专心致志", options: ["东张西望", "专心致志", "漫不经心", "心不在焉"], hint: "找注意力集中的词。", explain: "专心致志形容一心一意，注意力集中。" },
+          { q: "“画蛇添足”告诉我们什么道理？", a: "多余的事反而坏事", options: ["速度越快越好", "多余的事反而坏事", "要画得漂亮", "蛇很可怕"], hint: "添足是多此一举。", explain: "画蛇添足比喻做了多余的事，反而不恰当。" },
+          { q: "概括文章主要内容时，通常不需要写什么？", a: "无关细节", options: ["人物", "事件", "结果", "无关细节"], hint: "概括要简洁。", explain: "概括主要内容要抓重点，不写无关细节。" },
+          { q: "“顿时”表示什么？", a: "时间很短，马上", options: ["很久以后", "时间很短，马上", "慢慢地", "以前"], hint: "顿时就是立刻。", explain: "顿时表示动作或情况马上发生。" },
+          { q: "下面哪个是近义词搭配？", a: "美丽—漂亮", options: ["美丽—漂亮", "认真—马虎", "高兴—难过", "寒冷—炎热"], hint: "意思相近。", explain: "美丽和漂亮意思相近，是近义词。" },
+          { q: "下面哪个是反义词搭配？", a: "谦虚—骄傲", options: ["谦虚—骄傲", "美丽—漂亮", "认真—仔细", "快乐—高兴"], hint: "意思相反。", explain: "谦虚和骄傲意思相反，是反义词。" },
+          { q: "作文写事时，最基本要交代什么？", a: "时间地点人物事件", options: ["只写天气", "时间地点人物事件", "只写结尾", "只写题目"], hint: "记叙文六要素。", explain: "写事要交代时间、地点、人物、起因、经过、结果。" },
+          { q: "“兴高采烈”表示什么心情？", a: "高兴", options: ["高兴", "害怕", "伤心", "生气"], hint: "兴高和采烈都表示开心。", explain: "兴高采烈形容非常高兴、兴致很高。" },
+          { q: "阅读题问“表达了作者怎样的感情”，应关注什么？", a: "关键词和结尾", options: ["错别字", "关键词和结尾", "页码", "字体大小"], hint: "感情常在关键词和结尾出现。", explain: "作者感情常通过抒情句、关键词、结尾句体现。" },
+          { q: "“一眨眼，假期就过去了”用了什么修辞？", a: "夸张", options: ["比喻", "拟人", "夸张", "排比"], hint: "一眨眼表示时间非常快。", explain: "这里夸大时间过得快，是夸张。" },
+          { q: "下面哪个句子标点更合适？", a: "妈妈问：“你写完作业了吗？”", options: ["妈妈问：“你写完作业了吗？”", "妈妈问，你写完作业了吗。", "妈妈问：“你写完作业了吗”。", "妈妈问你写完作业了吗！"], hint: "问句末尾用问号，引号内保留问号。", explain: "直接引用问句时，问号放在引号内。" },
+          { q: "“坚持不懈”的“懈”是什么意思？", a: "松懈", options: ["高兴", "松懈", "害怕", "迅速"], hint: "不懈就是不放松。", explain: "懈表示松懈，坚持不懈就是一直坚持不放松。" }
         ]
       },
       {
         id: "english",
         title: "英语通讯关",
         tag: "第三关",
-        skill: "听读与句型",
+        skill: "30题题库",
         color: "#9b7cff",
-        desc: "带音频按钮，训练单词、句型、阅读判断和听读反应。",
+        desc: "单词、句型、语法、听音频理解，每局随机抽 5 题。",
         questions: [
           { q: "听音频，选择你听到的单词。", a: "apple", options: ["apple", "table", "people", "pencil"], hint: "注意开头音 /æ/。", explain: "音频读的是 apple，意思是苹果。", audio: "audio/eng-apple.wav", speak: "apple" },
           { q: "听音频，句子里的地点是哪里？", a: "library", options: ["park", "library", "classroom", "kitchen"], hint: "听 I go to the ...", explain: "句子是 I go to the library on Sunday. 地点是 library。", audio: "audio/eng-library.wav", speak: "I go to the library on Sunday." },
           { q: "He is running on the playground. 这句话是什么时态？", a: "现在进行时", options: ["一般现在时", "现在进行时", "一般过去时", "将来时"], hint: "is + 动词 ing。", explain: "is running 是 be doing 结构，表示现在进行时。", audio: "audio/eng-running.wav", speak: "He is running on the playground." },
           { q: "听音频，问题在问什么？", a: "早餐想吃什么", options: ["几点起床", "早餐想吃什么", "天气怎么样", "喜欢什么颜色"], hint: "What would you like for breakfast?", explain: "What would you like for breakfast? 意思是早餐你想要什么。", audio: "audio/eng-breakfast.wav", speak: "What would you like for breakfast?" },
-          { q: "It is sunny and warm today. 天气怎么样？", a: "晴朗暖和", options: ["下雨寒冷", "晴朗暖和", "多云有风", "下雪"], hint: "sunny 是晴朗，warm 是暖和。", explain: "sunny and warm 表示晴朗并且暖和。", audio: "audio/eng-weather.wav", speak: "It is sunny and warm today." }
+          { q: "It is sunny and warm today. 天气怎么样？", a: "晴朗暖和", options: ["下雨寒冷", "晴朗暖和", "多云有风", "下雪"], hint: "sunny 是晴朗，warm 是暖和。", explain: "sunny and warm 表示晴朗并且暖和。", audio: "audio/eng-weather.wav", speak: "It is sunny and warm today." },
+          { q: "听音频，句子说去了哪里？", a: "museum", options: ["museum", "zoo", "school", "shop"], hint: "听 visited the ...", explain: "We visited the museum last Friday. 句子说去了 museum。", audio: "audio/eng-museum.wav", speak: "We visited the museum last Friday." },
+          { q: "听音频，她什么时候完成作业？", a: "before dinner", options: ["after dinner", "before dinner", "in the morning", "at school"], hint: "听 before dinner。", explain: "She finished her homework before dinner. 表示她晚饭前完成作业。", audio: "audio/eng-homework.wav", speak: "She finished her homework before dinner." },
+          { q: "听音频，说话者最喜欢的季节是？", a: "spring", options: ["spring", "summer", "autumn", "winter"], hint: "favourite season。", explain: "My favourite season is spring. 最喜欢的季节是 spring。", audio: "audio/eng-season.wav", speak: "My favourite season is spring." },
+          { q: "听音频，他们在做什么运动？", a: "basketball", options: ["football", "basketball", "ping-pong", "swimming"], hint: "听 playing ...", explain: "They are playing basketball after school. 他们在打篮球。", audio: "audio/eng-basketball.wav", speak: "They are playing basketball after school." },
+          { q: "听音频，说话者请求喝什么？", a: "water", options: ["milk", "juice", "water", "tea"], hint: "drink some ...", explain: "Please drink some water. 请求喝水。", audio: "audio/eng-water.wav", speak: "Please drink some water." },
+          { q: "听音频，故事怎么样？", a: "interesting and funny", options: ["boring", "interesting and funny", "too long", "sad"], hint: "听两个形容词。", explain: "The story is interesting and funny. 故事有趣又好笑。", audio: "audio/eng-story.wav", speak: "The story is interesting and funny." },
+          { q: "听音频，说话者怎样去学校？", a: "by bike", options: ["by bus", "by bike", "on foot", "by car"], hint: "ride my bike。", explain: "I ride my bike to school. 表示骑自行车去学校。", audio: "audio/eng-bike.wav", speak: "I ride my bike to school." },
+          { q: "听音频，农场上有什么？", a: "many animals", options: ["many books", "many animals", "many cars", "many desks"], hint: "on the farm。", explain: "There are many animals on the farm. 农场上有很多动物。", audio: "audio/eng-farm.wav", speak: "There are many animals on the farm." },
+          { q: "听音频，请打开什么？", a: "window", options: ["door", "book", "window", "box"], hint: "Open the ...", explain: "Open the window, please. 请打开窗户。", audio: "audio/eng-window.wav", speak: "Open the window, please." },
+          { q: "听音频，应该仔细看什么？", a: "picture", options: ["picture", "map", "clock", "letter"], hint: "Look at the ...", explain: "Look at the picture carefully. 仔细看图片。", audio: "audio/eng-picture.wav", speak: "Look at the picture carefully." },
+          { q: "I ____ a student.", a: "am", options: ["am", "is", "are", "be"], hint: "I 搭配 am。", explain: "主语 I 后面用 am。" },
+          { q: "She ____ tall and thin.", a: "is", options: ["am", "is", "are", "be"], hint: "She 是第三人称单数。", explain: "She 后面用 is。" },
+          { q: "They ____ playing football.", a: "are", options: ["am", "is", "are", "be"], hint: "They 是复数。", explain: "They 后面用 are，are playing 是现在进行时。" },
+          { q: "选择正确复数：box", a: "boxes", options: ["boxs", "boxes", "boxies", "box"], hint: "以 x 结尾加 es。", explain: "box 的复数是 boxes。" },
+          { q: "选择正确过去式：visit", a: "visited", options: ["visits", "visited", "visitting", "visit"], hint: "规则动词加 ed。", explain: "visit 的过去式是 visited。" },
+          { q: "选择正确过去式：go", a: "went", options: ["goed", "goes", "went", "going"], hint: "go 是不规则动词。", explain: "go 的过去式是 went。" },
+          { q: "What time is it? 可以回答：", a: "It is seven o'clock.", options: ["I am fine.", "It is seven o'clock.", "It is red.", "I like apples."], hint: "问时间。", explain: "What time is it? 是问几点了。" },
+          { q: "How many books do you have? 是问什么？", a: "有多少本书", options: ["书在哪里", "有多少本书", "书是谁的", "书多少钱"], hint: "How many 问数量。", explain: "How many books 表示多少本书。" },
+          { q: "选择同类词：apple, banana, ____", a: "orange", options: ["orange", "desk", "run", "blue"], hint: "前两个都是水果。", explain: "apple、banana、orange 都是水果。" },
+          { q: "选择反义词：hot", a: "cold", options: ["warm", "cold", "sunny", "big"], hint: "热的反义词。", explain: "hot 的反义词是 cold。" },
+          { q: "选择正确句子：", a: "I like English.", options: ["I likes English.", "I like English.", "I liking English.", "I is like English."], hint: "I 后面动词用原形。", explain: "I like English. 是正确表达。" },
+          { q: "There ____ a cat under the table.", a: "is", options: ["is", "are", "am", "be"], hint: "a cat 是单数。", explain: "There is + 单数名词。" },
+          { q: "There ____ two dogs in the park.", a: "are", options: ["is", "are", "am", "be"], hint: "two dogs 是复数。", explain: "There are + 复数名词。" },
+          { q: "Can you swim? 肯定回答是：", a: "Yes, I can.", options: ["Yes, I do.", "Yes, I can.", "Yes, I am.", "Yes, I is."], hint: "Can 开头，用 can 回答。", explain: "Can you...? 的肯定回答是 Yes, I can." },
+          { q: "选择正确翻译：我正在读书。", a: "I am reading a book.", options: ["I read a book yesterday.", "I am reading a book.", "I reads a book.", "I reading book."], hint: "正在做用 am doing。", explain: "I am reading a book. 表示我正在读书。" }
         ]
       }
     ];
@@ -862,6 +937,7 @@
       completed: {},
       downed: [],
       currentSubject: null,
+      currentQuestions: [],
       index: 0,
       score: 0,
       answered: false
@@ -1007,6 +1083,7 @@
       const subject = subjects.find(s => s.id === id);
       if (!subject) return;
       state.currentSubject = subject;
+      state.currentQuestions = pickQuestions(subject.questions, 5);
       state.index = 0;
       state.score = 0;
       state.answered = false;
@@ -1014,13 +1091,17 @@
       showQuestion();
     }
 
+    function pickQuestions(pool, count) {
+      return [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+    }
+
     function showQuestion() {
       const subject = state.currentSubject;
-      const question = subject.questions[state.index];
+      const question = state.currentQuestions[state.index];
       state.answered = false;
       $("questTag").textContent = subject.title;
       $("questionTitle").textContent = question.q;
-      $("questionProgress").style.width = `${state.index / subject.questions.length * 100}%`;
+      $("questionProgress").style.width = `${state.index / state.currentQuestions.length * 100}%`;
       $("feedback").textContent = "选一个答案。错题会进入复活站，看讲解并改正后才能复活。";
       $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak));
@@ -1059,7 +1140,7 @@
     function answer(value, btn) {
       if (state.answered) return;
       state.answered = true;
-      const question = state.currentSubject.questions[state.index];
+      const question = state.currentQuestions[state.index];
       const correct = value === question.a;
       document.querySelectorAll(".answer").forEach(b => {
         if (b.dataset.answer === question.a) b.classList.add("correct");
@@ -1070,7 +1151,7 @@
         $("feedback").textContent = "命中目标！能量 +12。";
       } else {
         btn.classList.add("wrong");
-        const key = `${state.currentSubject.id}-${state.index}`;
+        const key = `${state.currentSubject.id}-${question.q}`;
         if (!state.downed.some(item => item.key === key && !item.corrected)) {
           state.downed.push({
             key,
@@ -1092,7 +1173,7 @@
 
     function nextQuestion() {
       if (!state.currentSubject) return;
-      if (state.index < state.currentSubject.questions.length - 1) {
+      if (state.index < state.currentQuestions.length - 1) {
         state.index += 1;
         showQuestion();
       } else {
@@ -1114,6 +1195,7 @@
         state.xp -= 220;
       }
       state.currentSubject = null;
+      state.currentQuestions = [];
       $("questionProgress").style.width = "100%";
       setTimeout(() => {
         $("questModal").classList.remove("open");
@@ -1152,11 +1234,11 @@
     $("nextQuestion").addEventListener("click", nextQuestion);
     $("showHint").addEventListener("click", () => {
       if (!state.currentSubject) return;
-      $("feedback").textContent = state.currentSubject.questions[state.index].hint;
+      $("feedback").textContent = state.currentQuestions[state.index].hint;
     });
     $("playAudio").addEventListener("click", () => {
       if (!state.currentSubject) return;
-      playPromptAudio(state.currentSubject.questions[state.index]);
+      playPromptAudio(state.currentQuestions[state.index]);
     });
 
     if ("speechSynthesis" in window) {
