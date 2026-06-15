@@ -639,7 +639,7 @@
           <h2 class="question-title" id="questionTitle">题目</h2>
           <div class="audio-line" id="audioLine">
             <button class="btn safe" id="playAudio">播放音频</button>
-            <span class="audio-note" id="audioNote">优先播放内置音频，失败时自动朗读。</span>
+            <span class="audio-note" id="audioNote"></span>
           </div>
         </div>
         <button class="small" id="closeModal">撤离</button>
@@ -865,7 +865,7 @@
       $("feedback").textContent = "选一个答案。错题会进入复活站，看讲解并改正后才能复活。";
       $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak));
-      $("audioNote").textContent = question.audio ? "优先播放内置音频，失败时自动朗读。" : "使用浏览器英文朗读。";
+      $("audioNote").textContent = "";
       document.querySelectorAll(".answer").forEach(btn => {
         btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
       });
