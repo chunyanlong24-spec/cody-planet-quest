@@ -594,6 +594,31 @@
       white-space: nowrap;
     }
 
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .progress-chip {
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      padding: 10px;
+      background: rgba(7, 17, 31, 0.58);
+    }
+
+    .progress-chip b {
+      display: block;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .progress-chip span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -695,6 +720,7 @@
       .patch { width: 50px; height: 50px; font-size: 17px; }
       .ops { padding: 16px; min-height: 680px; }
       .stats, .grid, .revive-list, .answers { grid-template-columns: 1fr; }
+      .progress-grid { grid-template-columns: 1fr; }
       .planet-map {
         min-height: auto;
         display: grid;
@@ -930,10 +956,17 @@
       }
     ];
 
+    const todayKey = new Date().toLocaleDateString("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).split("/").join("-");
+
     const state = {
       xp: 140,
       level: 3,
       streak: 1,
+      date: todayKey,
       completed: {},
       downed: [],
       currentSubject: null,
@@ -946,6 +979,36 @@
     const abilityBase = { "数学": 36, "语文": 32, "英语": 28 };
     const $ = (id) => document.getElementById(id);
     const activeDowned = () => state.downed.filter(item => !item.corrected);
+    const storageKey = `cody-planet-progress-${todayKey}`;
+
+    function loadProgress() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (!saved || saved.date !== todayKey) return;
+        state.xp = saved.xp ?? state.xp;
+        state.level = saved.level ?? state.level;
+        state.streak = saved.streak ?? state.streak;
+        state.completed = saved.completed || {};
+        state.downed = saved.downed || [];
+      } catch (error) {
+        console.warn("Progress load failed", error);
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({
+          date: todayKey,
+          xp: state.xp,
+          level: state.level,
+          streak: state.streak,
+          completed: state.completed,
+          downed: state.downed
+        }));
+      } catch (error) {
+        console.warn("Progress save failed", error);
+      }
+    }
 
     function render() {
       $("streakCount").textContent = state.streak;
@@ -1035,6 +1098,7 @@
       document.querySelectorAll("[data-video]").forEach(btn => {
         btn.addEventListener("click", () => {
           state.downed[Number(btn.dataset.video)].seen = true;
+          saveProgress();
           render();
         });
       });
@@ -1044,6 +1108,7 @@
           if (!item.seen) return;
           item.corrected = true;
           state.xp += 10;
+          saveProgress();
           render();
         });
       });
@@ -1059,7 +1124,22 @@
       const done = Object.keys(state.completed).length;
       const needs = activeDowned();
       const focus = needs[0]?.subjectTitle || "暂无倒地题";
+      const isComplete = done === subjects.length && needs.length === 0;
+      const subjectProgress = subjects.map(subject => `
+        <div class="progress-chip">
+          <b>${subject.title}</b>
+          <span>${state.completed[subject.id] ? "已完成" : "未完成"}</span>
+        </div>
+      `).join("");
       $("parentPanel").innerHTML = `
+        <div class="parent-row">
+          <div>
+            <h3>今日完成状态</h3>
+            <p>${todayKey}：${isComplete ? "今日三关已完成，倒地题已清空。" : "今日还未完成，请继续完成三关或清空倒地题。"}</p>
+            <div class="progress-grid">${subjectProgress}</div>
+          </div>
+          <div class="score">${isComplete ? "完成" : "未完成"}</div>
+        </div>
         <div class="parent-row">
           <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 5 题。总时长 30 分钟以内，完成后再给娱乐时间。</p></div>
           <div class="score">${done}/3</div>
@@ -1148,6 +1228,7 @@
       if (correct) {
         state.score += 1;
         state.xp += 12;
+        saveProgress();
         $("feedback").textContent = "命中目标！能量 +12。";
       } else {
         btn.classList.add("wrong");
@@ -1166,6 +1247,7 @@
             corrected: false
           });
         }
+        saveProgress();
         $("feedback").textContent = `飞船坠入陨石坑：这题已进入复活站。提示：${question.hint}`;
       }
       render();
@@ -1194,6 +1276,7 @@
         state.level += 1;
         state.xp -= 220;
       }
+      saveProgress();
       state.currentSubject = null;
       state.currentQuestions = [];
       $("questionProgress").style.width = "100%";
@@ -1245,6 +1328,7 @@
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
 
+    loadProgress();
     render();
   </script>
 </body>
