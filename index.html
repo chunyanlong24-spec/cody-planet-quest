@@ -198,7 +198,7 @@
     }
 
     .ops::after {
-      content: "THREE MISSIONS";
+      content: "CODY ORBIT";
       position: absolute;
       left: 24px;
       bottom: 18px;
@@ -342,6 +342,135 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
+    }
+
+    .planet-map {
+      min-height: 560px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 3px solid #000;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(69, 215, 255, 0.15), transparent 28%),
+        radial-gradient(circle at 18% 22%, rgba(255, 189, 74, 0.16), transparent 16%),
+        radial-gradient(circle at 84% 28%, rgba(155, 124, 255, 0.16), transparent 18%),
+        linear-gradient(145deg, rgba(10, 21, 36, 0.96), rgba(9, 15, 28, 0.98));
+      box-shadow: var(--shadow);
+    }
+
+    .orbit-ring {
+      position: absolute;
+      width: min(72vw, 760px);
+      height: min(72vw, 760px);
+      max-width: 760px;
+      max-height: 760px;
+      border: 2px dashed rgba(136, 244, 255, 0.28);
+      border-radius: 50%;
+      transform: rotate(-11deg);
+      pointer-events: none;
+    }
+
+    .orbit-ring.second {
+      width: min(52vw, 560px);
+      height: min(52vw, 560px);
+      opacity: 0.78;
+      transform: rotate(18deg);
+    }
+
+    .ship-core {
+      position: relative;
+      z-index: 2;
+      width: 210px;
+      min-height: 168px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 3px solid #000;
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, transparent 0 17%, rgba(136, 244, 255, 0.88) 17% 25%, transparent 25% 75%, rgba(136, 244, 255, 0.88) 75% 83%, transparent 83%),
+        radial-gradient(circle at 50% 34%, var(--amber) 0 15%, transparent 16%),
+        linear-gradient(145deg, #536b88, #132135 62%, #07111f);
+      clip-path: polygon(12% 0, 88% 0, 100% 28%, 90% 100%, 10% 100%, 0 28%);
+      box-shadow: inset -22px -18px 0 rgba(0,0,0,0.24), 9px 9px 0 #000, 0 0 44px rgba(69, 215, 255, 0.28);
+    }
+
+    .ship-core strong {
+      display: block;
+      margin-top: 18px;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 32px;
+      color: var(--paper);
+    }
+
+    .ship-core span {
+      display: block;
+      color: #c8d8e9;
+      font-size: 13px;
+      padding: 0 18px;
+      line-height: 1.4;
+    }
+
+    .planet-card {
+      position: absolute;
+      z-index: 3;
+      width: 230px;
+      min-height: 230px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 3px solid #000;
+      border-radius: 50%;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 34% 26%, rgba(255,255,255,0.5), transparent 17%),
+        radial-gradient(circle at 68% 68%, rgba(0,0,0,0.2), transparent 25%),
+        var(--accent, var(--cyan));
+      color: #07111f;
+      box-shadow: 8px 8px 0 #000, 0 0 34px color-mix(in srgb, var(--accent, var(--cyan)) 42%, transparent);
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+    }
+
+    .planet-card:hover {
+      transform: translate(-2px, -4px) scale(1.03);
+      box-shadow: 11px 11px 0 #000, 0 0 46px color-mix(in srgb, var(--accent, var(--cyan)) 56%, transparent);
+      filter: saturate(1.06);
+    }
+
+    .planet-card.locked {
+      filter: grayscale(0.75);
+      opacity: 0.72;
+      cursor: not-allowed;
+    }
+
+    .planet-card.math { left: 7%; top: 13%; }
+    .planet-card.chinese { right: 7%; top: 17%; }
+    .planet-card.english { left: 50%; bottom: 7%; transform: translateX(-50%); }
+    .planet-card.english:hover { transform: translate(-50%, -4px) scale(1.03); }
+
+    .planet-card .tag {
+      background: rgba(255,255,255,0.8);
+      margin-bottom: 8px;
+    }
+
+    .planet-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .planet-card p {
+      color: rgba(7, 17, 31, 0.78);
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .planet-card .small {
+      background: rgba(238, 246, 255, 0.92);
+      color: #07111f;
     }
 
     .card {
@@ -552,6 +681,10 @@
       .topbar, .hero { grid-template-columns: 1fr; }
       .tabs { justify-content: flex-start; }
       .grid, .revive-list { grid-template-columns: repeat(2, 1fr); }
+      .planet-map { min-height: 720px; }
+      .planet-card.math { left: 4%; top: 8%; }
+      .planet-card.chinese { right: 4%; top: 13%; }
+      .planet-card.english { bottom: 6%; }
       .ops { min-height: 540px; }
       .ops::before { width: 280px; height: 215px; }
     }
@@ -562,6 +695,25 @@
       .patch { width: 50px; height: 50px; font-size: 17px; }
       .ops { padding: 16px; min-height: 680px; }
       .stats, .grid, .revive-list, .answers { grid-template-columns: 1fr; }
+      .planet-map {
+        min-height: auto;
+        display: grid;
+        gap: 14px;
+        padding: 16px;
+      }
+      .orbit-ring { display: none; }
+      .ship-core, .planet-card, .planet-card.math, .planet-card.chinese, .planet-card.english {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        transform: none;
+        width: 100%;
+        min-height: 150px;
+        border-radius: var(--radius);
+      }
+      .planet-card.english:hover { transform: translate(-2px, -4px) scale(1.02); }
       .parent-row { grid-template-columns: 1fr; }
       .operator { grid-template-columns: 72px 1fr; }
       .helmet { height: 72px; }
@@ -579,8 +731,8 @@
         </div>
       </div>
       <nav class="tabs" aria-label="页面">
-        <button class="tab active" data-view="home">行动基地</button>
-        <button class="tab" data-view="revive">复活站</button>
+        <button class="tab active" data-view="home">星球地图</button>
+        <button class="tab" data-view="revive">陨石坑复活站</button>
         <button class="tab" data-view="parent">家长雷达</button>
       </nav>
     </header>
@@ -589,8 +741,8 @@
       <div class="ops">
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
-          <h2>先闯三关，再复活补弱点。</h2>
-          <p>每关 5 道题，三科轮流出任务。答错会倒地进入复活站，先看讲解、改正，再复活开下一局。</p>
+          <h2>选择星球，开始闯关。</h2>
+          <p>数学星、语文星、英语星围绕 Cody 飞船。每颗星球 5 道题，答错会掉进陨石坑复活站，改正后才能继续航行。</p>
           <div class="hero-actions">
             <button class="btn primary" id="startToday">开始今日三关</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
@@ -620,7 +772,7 @@
 
     <main>
       <section class="view active" id="home">
-        <div class="grid" id="questGrid"></div>
+        <div class="planet-map" id="questGrid"></div>
       </section>
       <section class="view" id="revive">
         <div class="revive-list" id="reviveList"></div>
@@ -753,20 +905,27 @@
       const locked = activeDowned().length > 0;
       const done = state.completed[s.id];
       return `
-        <article class="card ${locked ? "locked" : ""}" style="--accent:${s.color}">
+        <article class="planet-card ${s.id} ${locked ? "locked" : ""}" style="--accent:${s.color}" data-subject="${s.id}">
           <span class="tag">${done ? "已通关" : s.tag}</span>
           <h3>${s.title}</h3>
           <p>${s.desc}</p>
-          <footer>
-            <b>${s.skill}</b>
-            <button class="small" ${locked ? "disabled" : ""} data-subject="${s.id}">${locked ? "需复活" : done ? "再开一局" : "出任务"}</button>
-          </footer>
+          <button class="small" ${locked ? "disabled" : ""}>${locked ? "需复活" : done ? "再开一局" : "进入星球"}</button>
         </article>
       `;
     }
 
     function renderQuests() {
-      $("questGrid").innerHTML = subjects.map(questCard).join("");
+      $("questGrid").innerHTML = `
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring second"></div>
+        <div class="ship-core">
+          <div>
+            <strong>CODY</strong>
+            <span>选择一颗星球，完成今日三关</span>
+          </div>
+        </div>
+        ${subjects.map(questCard).join("")}
+      `;
       document.querySelectorAll("[data-subject]").forEach(btn => {
         btn.addEventListener("click", () => startSubject(btn.dataset.subject));
       });
@@ -776,8 +935,8 @@
       if (!state.downed.length) {
         $("reviveList").innerHTML = `
           <div class="revive-card">
-            <h3>复活站空闲</h3>
-            <p>做错的题会进入这里。先看“讲解+正确答案”，英语题也可以重听音频；点“我已改正”后，全部清空才能复活再玩一局。</p>
+            <h3>陨石坑空闲</h3>
+            <p>做错的题会掉进这里。先看“讲解+正确答案”，英语题也可以重听音频；点“我已改正”后，全部清空才能复活再玩一局。</p>
           </div>
         `;
         return;
@@ -830,7 +989,7 @@
           <div class="score">${done}/3</div>
         </div>
         <div class="parent-row">
-          <div><h3>复活机制</h3><p>只要有错题未改正，就不能继续开局。这样可以把“输一局”转成“复盘一局”，更容易补基础。</p></div>
+          <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。这样可以把“输一局”转成“复盘一局”，更容易补基础。</p></div>
           <div class="score">${needs.length}</div>
         </div>
         <div class="parent-row">
@@ -926,7 +1085,7 @@
             corrected: false
           });
         }
-        $("feedback").textContent = `队员倒地：这题已进入复活站。提示：${question.hint}`;
+        $("feedback").textContent = `飞船坠入陨石坑：这题已进入复活站。提示：${question.hint}`;
       }
       render();
     }
@@ -948,7 +1107,7 @@
         state.xp += 30;
         $("feedback").textContent = `成功通关！本关 ${state.score}/5，额外能量 +30。`;
       } else {
-        $("feedback").textContent = `完成行动，本关 ${state.score}/5。先去复活站清倒地题，再开下一局。`;
+        $("feedback").textContent = `完成行动，本关 ${state.score}/5。先去陨石坑复活站清倒地题，再开下一局。`;
       }
       if (state.xp >= 220) {
         state.level += 1;
