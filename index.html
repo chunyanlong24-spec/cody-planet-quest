@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cody星球闯关｜人教版五下战术复习</title>
+  <style>
+    :root {
+      --bg: #080b0a;
+      --field: #111712;
+      --field2: #182019;
+      --panel: rgba(16, 22, 17, 0.94);
+      --paper: #efe7cf;
+      --text: #f4f1df;
+      --muted: #a8b49d;
+      --black: #030504;
+      --lime: #b7ff3c;
+      --amber: #f6b73c;
+      --orange: #ff6b1a;
+      --red: #ef2f2f;
+      --cyan: #38d8ff;
+      --line: rgba(183, 255, 60, 0.24);
+      --radius: 6px;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.52);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Microsoft YaHei", "Trebuchet MS", sans-serif;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(183, 255, 60, 0.13), transparent 28%),
+        radial-gradient(circle at 86% 16%, rgba(255, 107, 26, 0.16), transparent 26%),
+        linear-gradient(145deg, #050706 0%, #111712 48%, #21170d 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.28;
+      background-image:
+        linear-gradient(90deg, rgba(183, 255, 60, 0.16) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(183, 255, 60, 0.10) 1px, transparent 1px),
+        repeating-linear-gradient(135deg, transparent 0 26px, rgba(246, 183, 60, 0.08) 26px 31px);
+      background-size: 44px 44px, 44px 44px, 130px 130px;
+    }
+
+    button { font: inherit; }
+    h1, h2, h3, p { margin: 0; }
+
+    .app {
+      position: relative;
+      width: min(1220px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 34px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .patch {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #000;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, var(--lime), var(--amber));
+      color: #060806;
+      box-shadow: 5px 5px 0 #000, 0 0 28px rgba(183, 255, 60, 0.34);
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 20px;
+      letter-spacing: 0;
+      transform: skew(-4deg);
+    }
+
+    h1 {
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: clamp(30px, 5vw, 60px);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tab, .btn, .small, .answer {
+      min-height: 42px;
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      background: #1a2119;
+      color: var(--text);
+      box-shadow: 3px 3px 0 #000;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+    }
+
+    .tab { padding: 9px 12px; }
+    .btn { padding: 11px 15px; font-weight: 900; }
+    .small { min-height: 34px; padding: 7px 10px; font-weight: 900; }
+
+    .tab:hover, .btn:hover, .small:hover, .answer:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0 #000;
+      filter: brightness(1.08);
+    }
+
+    .tab.active {
+      background: var(--lime);
+      color: #060806;
+      font-weight: 900;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--orange), var(--amber));
+      color: #080b0a;
+    }
+
+    .btn.safe {
+      background: var(--lime);
+      color: #080b0a;
+    }
+
+    .btn.ghost {
+      background: var(--paper);
+      color: #111712;
+    }
+
+    .btn:disabled, .small:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.16fr 0.84fr;
+      gap: 15px;
+    }
+
+    .ops, .status, .card, .revive-card, .parent-row, .modal-card {
+      border: 3px solid #000;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: var(--panel);
+    }
+
+    .ops {
+      position: relative;
+      min-height: 455px;
+      padding: 24px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255,255,255,0.01)),
+        repeating-linear-gradient(90deg, rgba(183, 255, 60, 0.09) 0 8px, transparent 8px 24px),
+        #101711;
+    }
+
+    .ops::before {
+      content: "";
+      position: absolute;
+      right: -36px;
+      bottom: -36px;
+      width: 380px;
+      height: 270px;
+      border: 4px solid #000;
+      border-radius: 12px;
+      background:
+        linear-gradient(90deg, transparent 0 18%, rgba(56, 216, 255, 0.85) 18% 25%, transparent 25% 75%, rgba(56, 216, 255, 0.85) 75% 82%, transparent 82%),
+        radial-gradient(circle at 50% 32%, var(--amber) 0 16%, transparent 17%),
+        linear-gradient(145deg, #6d735a, #222b20 62%, #0a0d0b);
+      clip-path: polygon(12% 0, 88% 0, 100% 28%, 90% 100%, 10% 100%, 0 28%);
+      box-shadow: inset -30px -22px 0 rgba(0,0,0,0.32), 10px 10px 0 #000, 0 0 46px rgba(183, 255, 60, 0.22);
+      animation: drone 4.2s ease-in-out infinite;
+    }
+
+    .ops::after {
+      content: "EXAM EXTRACTION";
+      position: absolute;
+      left: 24px;
+      bottom: 18px;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: clamp(42px, 7vw, 92px);
+      color: rgba(183, 255, 60, 0.08);
+      letter-spacing: 0;
+      pointer-events: none;
+    }
+
+    @keyframes drone {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-9px) rotate(1deg); }
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 610px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 10px;
+      border: 2px solid #000;
+      border-radius: 999px;
+      background: var(--lime);
+      color: #060806;
+      font-weight: 900;
+      margin-bottom: 17px;
+    }
+
+    .hero-copy h2 {
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: clamp(38px, 6vw, 82px);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .hero-copy p {
+      max-width: 540px;
+      margin-top: 18px;
+      color: #d3dbc9;
+      font-size: 17px;
+      line-height: 1.68;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 540px;
+      margin-top: 25px;
+    }
+
+    .stat {
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      padding: 12px;
+      background: rgba(4, 7, 5, 0.72);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--lime);
+    }
+
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    .status {
+      padding: 18px;
+    }
+
+    .operator {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .helmet {
+      height: 92px;
+      border: 3px solid #000;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 34% 42%, var(--cyan) 0 6px, transparent 7px),
+        radial-gradient(circle at 66% 42%, var(--cyan) 0 6px, transparent 7px),
+        linear-gradient(90deg, transparent 0 27%, var(--lime) 27% 73%, transparent 73%),
+        linear-gradient(135deg, #6e765e, #111712);
+      box-shadow: 5px 5px 0 #000, 0 0 24px rgba(183, 255, 60, 0.22);
+    }
+
+    .level {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .bar {
+      height: 16px;
+      border: 2px solid #000;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #050706;
+      margin-top: 8px;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      width: 34%;
+      background: linear-gradient(90deg, var(--lime), var(--amber));
+    }
+
+    .ability { display: grid; gap: 10px; margin-top: 14px; }
+
+    .ability-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 40px;
+      gap: 9px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    main { margin-top: 15px; }
+    .view { display: none; }
+    .view.active { display: block; animation: rise 240ms ease both; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 194px;
+      padding: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      bottom: -48px;
+      width: 136px;
+      height: 136px;
+      border: 3px solid #000;
+      border-radius: 50%;
+      background: var(--accent, var(--lime));
+      opacity: 0.72;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 2px solid #000;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: var(--lime);
+      color: #060806;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 11px;
+    }
+
+    .card h3 {
+      position: relative;
+      z-index: 1;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      position: relative;
+      z-index: 1;
+      color: #c5cfbb;
+      font-size: 14px;
+      line-height: 1.52;
+    }
+
+    .card footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .locked { opacity: 0.65; filter: grayscale(0.7); }
+
+    .revive-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .revive-card {
+      padding: 14px;
+      background: rgba(16, 22, 17, 0.94);
+    }
+
+    .revive-card.done {
+      border-color: #000;
+      background: rgba(33, 52, 29, 0.94);
+    }
+
+    .revive-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .revive-card p {
+      color: #c5cfbb;
+      line-height: 1.5;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .briefing {
+      border: 2px dashed rgba(183, 255, 60, 0.36);
+      border-radius: var(--radius);
+      padding: 10px;
+      margin: 10px 0;
+      color: #f1eacb;
+      line-height: 1.55;
+      background: rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .revive-card.seen .briefing { display: block; }
+
+    .parent {
+      display: grid;
+      gap: 12px;
+    }
+
+    .parent-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .parent-row p {
+      color: #c5cfbb;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .score {
+      font-family: Impact, "Microsoft YaHei", sans-serif;
+      font-size: 30px;
+      color: var(--lime);
+      white-space: nowrap;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.76);
+    }
+
+    .modal.open { display: grid; }
+
+    .modal-card {
+      width: min(790px, 100%);
+      padding: 20px;
+    }
+
+    .question-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .question-title {
+      font-size: clamp(24px, 4.8vw, 42px);
+      line-height: 1.18;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .answer {
+      min-height: 66px;
+      padding: 12px;
+      text-align: left;
+      background: var(--paper);
+      color: #111712;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .answer.correct { background: var(--lime); color: #060806; }
+    .answer.wrong { background: var(--red); color: white; }
+
+    .feedback {
+      min-height: 52px;
+      margin-top: 14px;
+      padding: 12px;
+      border: 2px dashed rgba(183, 255, 60, 0.42);
+      border-radius: var(--radius);
+      color: #e8eadc;
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar, .hero { grid-template-columns: 1fr; }
+      .tabs { justify-content: flex-start; }
+      .grid, .revive-list { grid-template-columns: repeat(2, 1fr); }
+      .ops { min-height: 530px; }
+      .ops::before { width: 280px; height: 215px; }
+    }
+
+    @media (max-width: 570px) {
+      .app { width: min(100% - 18px, 1220px); padding-top: 12px; }
+      .brand { align-items: flex-start; }
+      .patch { width: 50px; height: 50px; font-size: 17px; }
+      .ops { padding: 16px; min-height: 650px; }
+      .stats, .grid, .revive-list, .answers { grid-template-columns: 1fr; }
+      .parent-row { grid-template-columns: 1fr; }
+      .operator { grid-template-columns: 72px 1fr; }
+      .helmet { height: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="patch">CODY</div>
+        <div>
+          <h1>Cody星球闯关</h1>
+          <p class="subtitle">人教版五年级下册 · 期末战术复习：出任务、倒地复盘、看讲解、改正复活。</p>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="页面">
+        <button class="tab active" data-view="home">行动基地</button>
+        <button class="tab" data-view="map">考点地图</button>
+        <button class="tab" data-view="revive">复活站</button>
+        <button class="tab" data-view="parent">家长雷达</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="ops">
+        <div class="hero-copy">
+          <div class="kicker">考前14天 · PEP五下</div>
+          <h2>任务失败不扣命，看讲解后复活再开。</h2>
+          <p>借用战术游戏的节奏：每个考点是一局行动。做错的题会进入“复活站”，必须看视频讲解和正确答案，再完成改正，全部清完才能复活开下一局。</p>
+          <div class="hero-actions">
+            <button class="btn primary" id="startToday">开始今日行动</button>
+            <button class="btn safe" id="reviveBtn">复活再玩一局</button>
+            <button class="btn ghost" data-jump="parent">看14天打法</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong id="todayDone">0/4</strong><span>今日行动</span></div>
+            <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
+            <div class="stat"><strong id="streakCount">1</strong><span>连续天数</span></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="status">
+        <div class="operator">
+          <div class="helmet"></div>
+          <div>
+            <div class="level">Lv.<span id="level">3</span> 战术复习队员</div>
+            <p class="subtitle">距离下一等级还差 <span id="nextXp">80</span> 能量</p>
+            <div class="bar"><i id="xpBar"></i></div>
+          </div>
+        </div>
+        <h3>人教版五下掌握度</h3>
+        <div class="ability" id="abilities"></div>
+      </aside>
+    </section>
+
+    <main>
+      <section class="view active" id="home">
+        <div class="grid" id="dailyQuests"></div>
+      </section>
+      <section class="view" id="map">
+        <div class="grid" id="mapQuests"></div>
+      </section>
+      <section class="view" id="revive">
+        <div class="revive-list" id="reviveList"></div>
+      </section>
+      <section class="view" id="parent">
+        <div class="parent" id="parentPanel"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="questModal" role="dialog" aria-modal="true" aria-labelledby="questionTitle">
+    <div class="modal-card">
+      <div class="question-head">
+        <div>
+          <div class="tag" id="questTag">行动任务</div>
+          <h2 class="question-title" id="questionTitle">题目</h2>
+        </div>
+        <button class="small" id="closeModal">撤离</button>
+      </div>
+      <div class="bar"><i id="questionProgress"></i></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback">选一个答案。错题会进入复活站，看讲解并改正后才能复活。</div>
+      <div class="modal-actions">
+        <button class="btn ghost" id="showHint">战术提示</button>
+        <button class="btn primary" id="nextQuestion">下一题</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quests = [
+      {
+        id: "factor",
+        title: "质因数雷区",
+        tag: "今日行动",
+        skill: "因数与倍数",
+        desc: "人教五下第2单元：因数、倍数、2/3/5倍数特征、质数合数。",
+        color: "#b7ff3c",
+        questions: [
+          { q: "下面哪个数是质数？", a: "29", options: ["21", "27", "29", "39"], hint: "质数只有 1 和它本身两个因数。", video: "先排除能被 3 整除的数：21、27、39 都是 3 的倍数。29 不能被 2、3、5 整除，所以是质数。" },
+          { q: "12 和 18 的最大公因数是？", a: "6", options: ["3", "6", "12", "36"], hint: "列因数或短除法都可以。", video: "12 的因数有 1、2、3、4、6、12；18 的因数有 1、2、3、6、9、18。共同因数里最大的是 6。" },
+          { q: "同时是 2、3、5 的倍数的最小两位数是？", a: "30", options: ["10", "15", "20", "30"], hint: "末尾要是 0，同时各位数字和能被 3 整除。", video: "同时是 2 和 5 的倍数，个位必须是 0；再满足 3 的倍数，最小两位数就是 30。" },
+          { q: "36 的因数一共有多少个？", a: "9个", options: ["6个", "8个", "9个", "12个"], hint: "成对找，别漏平方数 6×6。", video: "36 的因数：1、2、3、4、6、9、12、18、36，共 9 个。中间的 6 只算一次。" },
+          { q: "4 和 6 的最小公倍数是？", a: "12", options: ["2", "10", "12", "24"], hint: "找共同倍数中最小的。", video: "4 的倍数：4、8、12；6 的倍数：6、12。第一个共同出现的是 12。" }
+        ]
+      },
+      {
+        id: "fraction",
+        title: "分数火力舱",
+        tag: "今日行动",
+        skill: "分数意义和性质",
+        desc: "人教五下第4单元：约分、通分、分数大小、假分数带分数。",
+        color: "#38d8ff",
+        questions: [
+          { q: "3/8 + 1/4 = ?", a: "5/8", options: ["4/12", "1/2", "5/8", "3/10"], hint: "先通分，1/4 = 2/8。", video: "异分母分数相加，先通分。1/4 化成 2/8，所以 3/8 + 2/8 = 5/8。" },
+          { q: "把 17/5 化成带分数是？", a: "3又2/5", options: ["2又3/5", "3又2/5", "3又1/5", "4又2/5"], hint: "17 ÷ 5 = 3 余 2。", video: "分子除以分母，商是整数部分，余数做分子。17 ÷ 5 = 3 余 2，所以是 3又2/5。" },
+          { q: "下面哪个分数等于 3/4？", a: "9/12", options: ["6/10", "9/12", "8/10", "12/9"], hint: "分子分母同时乘同一个数。", video: "3/4 的分子分母同时乘 3，得到 9/12。分数大小不变。" },
+          { q: "7/10 - 1/5 = ?", a: "1/2", options: ["6/5", "6/10", "1/2", "4/10"], hint: "1/5 = 2/10。", video: "先把 1/5 通分成 2/10，7/10 - 2/10 = 5/10，约分后是 1/2。" },
+          { q: "比较大小：5/6 和 3/4，哪个大？", a: "5/6", options: ["5/6", "3/4", "一样大", "无法比较"], hint: "通分到 12。", video: "5/6 = 10/12，3/4 = 9/12，所以 5/6 更大。" }
+        ]
+      },
+      {
+        id: "solid",
+        title: "立体装甲库",
+        tag: "今日行动",
+        skill: "长方体和正方体",
+        desc: "人教五下第3单元：棱、表面积、体积、容积和单位换算。",
+        color: "#ff6b1a",
+        questions: [
+          { q: "长方体长 8cm、宽 5cm、高 3cm，体积是？", a: "120cm³", options: ["16cm³", "40cm³", "120cm³", "240cm³"], hint: "体积 = 长 × 宽 × 高。", video: "长方体体积公式 V=abh。8×5×3=120，单位是立方厘米。" },
+          { q: "正方体棱长 4cm，表面积是？", a: "96cm²", options: ["16cm²", "64cm²", "96cm²", "24cm²"], hint: "正方体有 6 个完全相同的正方形面。", video: "一个面的面积是 4×4=16cm²，6 个面就是 16×6=96cm²。" },
+          { q: "1 立方分米等于多少立方厘米？", a: "1000cm³", options: ["10cm³", "100cm³", "1000cm³", "10000cm³"], hint: "1dm = 10cm，体积要乘三次。", video: "1dm³ = 10cm × 10cm × 10cm = 1000cm³。" },
+          { q: "一个无盖长方体盒子，求用料面积时要算几个面？", a: "5个面", options: ["4个面", "5个面", "6个面", "8个面"], hint: "无盖就是少上面。", video: "长方体原本 6 个面，无盖盒子少算上面，所以只算 5 个面。" },
+          { q: "一个正方体体积是 27cm³，它的棱长是？", a: "3cm", options: ["3cm", "6cm", "9cm", "27cm"], hint: "哪个数乘自己三次等于 27？", video: "3×3×3=27，所以棱长是 3cm。" }
+        ]
+      },
+      {
+        id: "stats",
+        title: "情报统计站",
+        tag: "今日行动",
+        skill: "折线统计图",
+        desc: "人教五下第7单元：看趋势、最高最低、平均数、众数。",
+        color: "#f6b73c",
+        questions: [
+          { q: "一组数据：12、15、15、18、20，众数是？", a: "15", options: ["12", "15", "16", "20"], hint: "众数是出现次数最多的数。", video: "15 出现了 2 次，其他数都只出现 1 次，所以众数是 15。" },
+          { q: "折线统计图最适合看什么？", a: "数量变化趋势", options: ["各部分占比", "数量变化趋势", "物体形状", "文字内容"], hint: "折线连起来能看升降变化。", video: "折线统计图的优势是看变化趋势，比如气温、身高、成绩随时间的变化。" },
+          { q: "4、5、6、9 的平均数是？", a: "6", options: ["5", "6", "7", "24"], hint: "总数 ÷ 个数。", video: "4+5+6+9=24，一共 4 个数，24÷4=6。" },
+          { q: "一周气温从 20℃ 升到 28℃，折线整体趋势是？", a: "上升", options: ["上升", "下降", "不变", "无法判断"], hint: "后面的数比前面大。", video: "从 20℃ 到 28℃，数值增加，所以折线整体呈上升趋势。" },
+          { q: "如果要比较两个班每月阅读量变化，适合用？", a: "复式折线统计图", options: ["单式条形图", "复式折线统计图", "饼图", "表面积图"], hint: "两个对象随时间变化，用两条折线。", video: "两个班都随月份变化，使用复式折线统计图可以同时比较两条变化线。" }
+        ]
+      },
+      {
+        id: "application",
+        title: "期末撤离战",
+        tag: "解锁任务",
+        skill: "综合应用题",
+        desc: "体积容积、分数、因数倍数混合，适合考前最后一周。",
+        color: "#ef2f2f",
+        locked: true,
+        questions: []
+      }
+    ];
+
+    const state = {
+      xp: 140,
+      level: 3,
+      streak: 1,
+      completed: {},
+      downed: [],
+      currentQuest: null,
+      index: 0,
+      score: 0,
+      answered: false
+    };
+
+    const abilityBase = {
+      "因数倍数": 35,
+      "分数": 38,
+      "立体图形": 30,
+      "统计": 28,
+      "应用题": 26
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const activeDowned = () => state.downed.filter(item => !item.corrected);
+
+    function render() {
+      $("streakCount").textContent = state.streak;
+      $("level").textContent = state.level;
+      $("nextXp").textContent = Math.max(0, 220 - state.xp);
+      $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
+      $("todayDone").textContent = `${Object.keys(state.completed).length}/4`;
+      $("downedCount").textContent = activeDowned().length;
+      $("reviveBtn").disabled = activeDowned().length > 0;
+      $("reviveBtn").textContent = activeDowned().length > 0 ? "先清倒地题" : "复活再玩一局";
+      renderAbilities();
+      renderQuests();
+      renderRevive();
+      renderParent();
+    }
+
+    function renderAbilities() {
+      const bonus = Object.keys(state.completed).length * 5;
+      const penalty = Math.min(12, activeDowned().length * 3);
+      $("abilities").innerHTML = Object.entries(abilityBase).map(([name, base]) => {
+        const value = Math.max(8, Math.min(99, base + bonus - penalty));
+        return `
+          <div class="ability-row">
+            <b>${name}</b>
+            <div class="bar"><i style="width:${value}%; background:${value > 45 ? "linear-gradient(90deg, var(--lime), var(--amber))" : "linear-gradient(90deg, var(--red), var(--amber))"}"></i></div>
+            <span>${value}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function questCard(q) {
+      const locked = q.locked || activeDowned().length > 0;
+      const done = state.completed[q.id];
+      return `
+        <article class="card ${locked ? "locked" : ""}" style="--accent:${q.color}">
+          <span class="tag">${done ? "已撤离" : q.tag}</span>
+          <h3>${q.title}</h3>
+          <p>${q.desc}</p>
+          <footer>
+            <b>${q.skill}</b>
+            <button class="small" ${locked ? "disabled" : ""} data-quest="${q.id}">${activeDowned().length > 0 ? "需复活" : done ? "再开一局" : "出任务"}</button>
+          </footer>
+        </article>
+      `;
+    }
+
+    function renderQuests() {
+      $("dailyQuests").innerHTML = quests.slice(0, 4).map(questCard).join("");
+      $("mapQuests").innerHTML = quests.map(questCard).join("");
+      document.querySelectorAll("[data-quest]").forEach(btn => {
+        btn.addEventListener("click", () => startQuest(btn.dataset.quest));
+      });
+    }
+
+    function renderRevive() {
+      if (!state.downed.length) {
+        $("reviveList").innerHTML = `
+          <div class="revive-card">
+            <h3>复活站空闲</h3>
+            <p>做错的题会进入这里。先看“视频讲解+正确答案”，再点“我已改正”，全部清空后才能复活再玩一局。</p>
+          </div>
+        `;
+        return;
+      }
+      $("reviveList").innerHTML = state.downed.map((item, idx) => `
+        <article class="revive-card ${item.seen ? "seen" : ""} ${item.corrected ? "done" : ""}">
+          <span class="tag">${item.corrected ? "已复活" : "倒地题"}</span>
+          <h3>${item.questTitle}</h3>
+          <p><b>题目：</b>${item.q}</p>
+          <p><b>你的答案：</b>${item.wrong}　<b>正确答案：</b>${item.a}</p>
+          <div class="briefing">
+            <b>视频讲解模拟：</b>${item.video}<br>
+            <b>正确答案：</b>${item.a}
+          </div>
+          <button class="small" data-video="${idx}">${item.seen ? "重看讲解" : "看视频讲解+正确答案"}</button>
+          <button class="small" data-correct="${idx}" ${item.seen && !item.corrected ? "" : "disabled"}>我已改正，申请复活</button>
+        </article>
+      `).join("");
+      document.querySelectorAll("[data-video]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.downed[Number(btn.dataset.video)].seen = true;
+          render();
+        });
+      });
+      document.querySelectorAll("[data-correct]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const item = state.downed[Number(btn.dataset.correct)];
+          if (!item.seen) return;
+          item.corrected = true;
+          state.xp += 10;
+          render();
+        });
+      });
+    }
+
+    function renderParent() {
+      const done = Object.keys(state.completed).length;
+      const needs = activeDowned();
+      const focus = needs[0]?.questTitle || "暂无倒地题";
+      $("parentPanel").innerHTML = `
+        <div class="parent-row">
+          <div><h3>今日行动进度</h3><p>人教版五下建议每天 4 个短任务：因数倍数、分数、长方体正方体、统计。总时长控制在 20 到 30 分钟。</p></div>
+          <div class="score">${done}/4</div>
+        </div>
+        <div class="parent-row">
+          <div><h3>复活机制</h3><p>孩子做错后不要立刻继续刷。先看讲解和正确答案，再点改正，全部清空后才能复活。这比单纯奖励更能打牢基础。</p></div>
+          <div class="score">${needs.length}</div>
+        </div>
+        <div class="parent-row">
+          <div><h3>当前最该补</h3><p>${needs.length ? "先处理这个倒地题，再进入下一局。" : "可以开始新一局，或安排一组综合应用题。"}</p></div>
+          <div class="score">${focus}</div>
+        </div>
+        <div class="parent-row">
+          <div><h3>考前14天打法</h3><p>前5天清基础概念；第6到10天练分数和立体图形应用；第11到13天混合卷；最后1天只看复活站错题和公式。</p></div>
+          <div class="score">14D</div>
+        </div>
+      `;
+    }
+
+    function startQuest(id) {
+      if (activeDowned().length > 0) {
+        document.querySelector('.tab[data-view="revive"]').click();
+        return;
+      }
+      const quest = quests.find(q => q.id === id);
+      if (!quest || quest.locked) return;
+      state.currentQuest = quest;
+      state.index = 0;
+      state.score = 0;
+      state.answered = false;
+      $("questModal").classList.add("open");
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const quest = state.currentQuest;
+      const question = quest.questions[state.index];
+      state.answered = false;
+      $("questTag").textContent = quest.title;
+      $("questionTitle").textContent = question.q;
+      $("questionProgress").style.width = `${state.index / quest.questions.length * 100}%`;
+      $("feedback").textContent = "选一个答案。错题会进入复活站，看讲解并改正后才能复活。";
+      $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
+      document.querySelectorAll(".answer").forEach(btn => {
+        btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
+      });
+    }
+
+    function answer(value, btn) {
+      if (state.answered) return;
+      state.answered = true;
+      const question = state.currentQuest.questions[state.index];
+      const correct = value === question.a;
+      document.querySelectorAll(".answer").forEach(b => {
+        if (b.dataset.answer === question.a) b.classList.add("correct");
+      });
+      if (correct) {
+        state.score += 1;
+        state.xp += 12;
+        $("feedback").textContent = "命中目标！能量 +12。";
+      } else {
+        btn.classList.add("wrong");
+        const key = `${state.currentQuest.id}-${state.index}`;
+        if (!state.downed.some(item => item.key === key && !item.corrected)) {
+          state.downed.push({
+            key,
+            questTitle: state.currentQuest.title,
+            q: question.q,
+            a: question.a,
+            wrong: value,
+            video: question.video,
+            seen: false,
+            corrected: false
+          });
+        }
+        $("feedback").textContent = `队员倒地：这题已进入复活站。提示：${question.hint}`;
+      }
+      render();
+    }
+
+    function nextQuestion() {
+      if (!state.currentQuest) return;
+      if (state.index < state.currentQuest.questions.length - 1) {
+        state.index += 1;
+        showQuestion();
+      } else {
+        finishQuest();
+      }
+    }
+
+    function finishQuest() {
+      const quest = state.currentQuest;
+      state.completed[quest.id] = true;
+      if (state.score >= 4) {
+        state.xp += 30;
+        $("feedback").textContent = `成功撤离！本局 ${state.score}/5，额外能量 +30。`;
+      } else {
+        $("feedback").textContent = `完成行动，本局 ${state.score}/5。先去复活站清倒地题，再开下一局。`;
+      }
+      if (state.xp >= 220) {
+        state.level += 1;
+        state.xp -= 220;
+      }
+      state.currentQuest = null;
+      $("questionProgress").style.width = "100%";
+      setTimeout(() => {
+        $("questModal").classList.remove("open");
+        render();
+        if (activeDowned().length > 0) document.querySelector('.tab[data-view="revive"]').click();
+      }, 900);
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+        tab.classList.add("active");
+        $(tab.dataset.view).classList.add("active");
+      });
+    });
+
+    document.querySelectorAll("[data-jump]").forEach(btn => {
+      btn.addEventListener("click", () => document.querySelector(`.tab[data-view="${btn.dataset.jump}"]`).click());
+    });
+
+    $("startToday").addEventListener("click", () => {
+      const next = quests.slice(0, 4).find(q => !state.completed[q.id]) || quests[0];
+      startQuest(next.id);
+    });
+
+    $("reviveBtn").addEventListener("click", () => {
+      if (activeDowned().length > 0) {
+        document.querySelector('.tab[data-view="revive"]').click();
+      } else {
+        startQuest(quests[0].id);
+      }
+    });
+
+    $("closeModal").addEventListener("click", () => $("questModal").classList.remove("open"));
+    $("nextQuestion").addEventListener("click", nextQuestion);
+    $("showHint").addEventListener("click", () => {
+      if (!state.currentQuest) return;
+      $("feedback").textContent = state.currentQuest.questions[state.index].hint;
+    });
+
+    render();
+  </script>
+</body>
+</html>
