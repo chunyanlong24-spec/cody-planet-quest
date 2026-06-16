@@ -814,7 +814,7 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>数学星、语文星、英语星围绕 Cody 飞船。每科 30 题题库，每局随机抽 5 题；答错会掉进陨石坑复活站，改正后才能继续航行。</p>
+          <p>数学星、语文星、英语星围绕 Cody 飞船。每科 30 题题库，每局随机抽 3 题速通；答错会掉进陨石坑复活站，打赢复活题后才能继续航行。</p>
           <div class="hero-actions">
             <button class="btn primary" id="startToday">开始今日三关</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
@@ -886,7 +886,7 @@
         tag: "第一关",
         skill: "30题题库",
         color: "#45d7ff",
-        desc: "分数、因数倍数、长方体正方体，每局随机抽 5 题。",
+        desc: "分数、因数倍数、长方体正方体，每局随机抽 3 题。",
         questions: [
           { q: "12 和 18 的最大公因数是？", a: "6", options: ["3", "6", "12", "36"], hint: "列出共同因数，最大的是 6。", explain: "12 的因数有 1、2、3、4、6、12；18 的因数有 1、2、3、6、9、18。共同因数里最大的是 6。" },
           { q: "4 和 6 的最小公倍数是？", a: "12", options: ["2", "10", "12", "24"], hint: "找共同倍数中最小的。", explain: "4 的倍数有 4、8、12；6 的倍数有 6、12。第一个共同倍数是 12。" },
@@ -926,7 +926,7 @@
         tag: "第二关",
         skill: "30题题库",
         color: "#ffbd4a",
-        desc: "字词、修辞、阅读、作文，每局随机抽 5 题。",
+        desc: "字词、修辞、阅读、作文，每局随机抽 3 题。",
         questions: [
           { q: "“聚精会神”的意思最接近哪一个？", a: "注意力非常集中", options: ["动作很快", "注意力非常集中", "声音很大", "心情很难过"], hint: "关键词是“聚精”和“会神”。", explain: "聚精会神表示集中全部精神，形容注意力非常集中。" },
           { q: "“弯弯的月亮像小船”使用了什么修辞？", a: "比喻", options: ["拟人", "排比", "比喻", "夸张"], hint: "把月亮比作小船。", explain: "把一种事物说成另一种相似的事物，这是比喻。" },
@@ -966,7 +966,7 @@
         tag: "第三关",
         skill: "30题题库",
         color: "#9b7cff",
-        desc: "单词、句型、语法、听音频理解，每局随机抽 5 题。",
+        desc: "单词、句型、语法、听音频理解，每局随机抽 3 题。",
         questions: [
           { q: "听音频，选择你听到的单词。", a: "apple", options: ["apple", "table", "people", "pencil"], hint: "注意开头音 /æ/。", explain: "音频读的是 apple，意思是苹果。", audio: "audio/eng-apple.wav", speak: "apple" },
           { q: "听音频，句子里的地点是哪里？", a: "library", options: ["park", "library", "classroom", "kitchen"], hint: "听 I go to the ...", explain: "句子是 I go to the library on Sunday. 地点是 library。", audio: "audio/eng-library.wav", speak: "I go to the library on Sunday." },
@@ -1016,6 +1016,8 @@
       downed: [],
       currentSubject: null,
       currentQuestions: [],
+      reviveItemIndex: null,
+      combo: 0,
       index: 0,
       score: 0,
       answered: false
@@ -1139,7 +1141,7 @@
         $("reviveList").innerHTML = `
           <div class="revive-card">
             <h3>陨石坑空闲</h3>
-            <p>做错的题会掉进这里。先看“讲解+正确答案”，英语题也可以重听音频；点“我已改正”后，全部清空才能复活再玩一局。</p>
+            <p>做错的题会掉进这里。先看“讲解+正确答案”，再打一题同科复活题；全部清空才能复活再玩一局。</p>
           </div>
         `;
         return;
@@ -1156,7 +1158,7 @@
           </div>
           ${item.audio ? `<button class="small" data-replay="${idx}">重听音频</button>` : ""}
           <button class="small" data-video="${idx}">${item.seen ? "重看讲解" : "看讲解+正确答案"}</button>
-          <button class="small" data-correct="${idx}" ${item.seen && !item.corrected ? "" : "disabled"}>我已改正，申请复活</button>
+          <button class="small" data-correct="${idx}" ${item.seen && !item.corrected ? "" : "disabled"}>打一题复活挑战</button>
         </article>
       `).join("");
       document.querySelectorAll("[data-video]").forEach(btn => {
@@ -1168,12 +1170,7 @@
       });
       document.querySelectorAll("[data-correct]").forEach(btn => {
         btn.addEventListener("click", () => {
-          const item = state.downed[Number(btn.dataset.correct)];
-          if (!item.seen) return;
-          item.corrected = true;
-          state.xp += 10;
-          saveProgress();
-          render();
+          startReviveChallenge(Number(btn.dataset.correct));
         });
       });
       document.querySelectorAll("[data-replay]").forEach(btn => {
@@ -1231,11 +1228,11 @@
           <div class="score">${isComplete ? "完成" : "未完成"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 5 题。总时长 30 分钟以内，完成后再给娱乐时间。</p></div>
+          <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 3 题速通。总时长 20 分钟左右，完成后再给娱乐时间。</p></div>
           <div class="score">${done}/3</div>
         </div>
         <div class="parent-row">
-          <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。这样可以把“输一局”转成“复盘一局”，更容易补基础。</p></div>
+          <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。看讲解后还要答对一道同科复活题，才算真正复活。</p></div>
           <div class="score">${needs.length}</div>
         </div>
         <div class="parent-row">
@@ -1253,7 +1250,7 @@
       const subject = subjects.find(s => s.id === id);
       if (!subject) return;
       state.currentSubject = subject;
-      state.currentQuestions = pickQuestions(subject.questions, 5);
+      state.currentQuestions = pickQuestions(subject.questions, 3);
       state.index = 0;
       state.score = 0;
       state.answered = false;
@@ -1269,10 +1266,12 @@
       const subject = state.currentSubject;
       const question = state.currentQuestions[state.index];
       state.answered = false;
-      $("questTag").textContent = subject.title;
+      $("questTag").textContent = state.reviveItemIndex === null ? subject.title : `${subject.title} · 复活挑战`;
       $("questionTitle").textContent = question.q;
       $("questionProgress").style.width = `${state.index / state.currentQuestions.length * 100}%`;
-      $("feedback").textContent = "选一个答案。错题会进入复活站，看讲解并改正后才能复活。";
+      $("feedback").textContent = state.reviveItemIndex === null
+        ? "选一个答案。错题会进入复活站，看讲解并完成复活挑战后才能复活。"
+        : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
       $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak));
       $("audioNote").textContent = "";
@@ -1317,15 +1316,27 @@
       });
       if (correct) {
         state.score += 1;
+        state.combo += 1;
         state.xp += 12;
         saveProgress();
-        $("feedback").textContent = "命中目标！能量 +12。";
+        if (state.reviveItemIndex !== null) {
+          completeReviveChallenge(true);
+          return;
+        }
+        $("feedback").textContent = `命中目标！${state.combo} 连击，能量 +12。`;
       } else {
         btn.classList.add("wrong");
+        state.combo = 0;
+        if (state.reviveItemIndex !== null) {
+          $("feedback").textContent = `复活挑战失败：先复盘讲解，再打一题。提示：${question.hint}`;
+          setTimeout(() => completeReviveChallenge(false), 900);
+          return;
+        }
         const key = `${state.currentSubject.id}-${question.q}`;
         if (!state.downed.some(item => item.key === key && !item.corrected)) {
           state.downed.push({
             key,
+            subjectId: state.currentSubject.id,
             subjectTitle: state.currentSubject.title,
             q: question.q,
             a: question.a,
@@ -1345,6 +1356,10 @@
 
     function nextQuestion() {
       if (!state.currentSubject) return;
+      if (state.reviveItemIndex !== null) {
+        $("feedback").textContent = "先完成这道复活挑战题。";
+        return;
+      }
       if (state.index < state.currentQuestions.length - 1) {
         state.index += 1;
         showQuestion();
@@ -1355,12 +1370,13 @@
 
     function finishSubject() {
       const subject = state.currentSubject;
+      const total = state.currentQuestions.length;
       state.completed[subject.id] = true;
-      if (state.score >= 4) {
+      if (state.score === total) {
         state.xp += 30;
-        $("feedback").textContent = `成功通关！本关 ${state.score}/5，额外能量 +30。`;
+        $("feedback").textContent = `完美通关！本关 ${state.score}/${total}，额外能量 +30。`;
       } else {
-        $("feedback").textContent = `完成行动，本关 ${state.score}/5。先去陨石坑复活站清倒地题，再开下一局。`;
+        $("feedback").textContent = `完成行动，本关 ${state.score}/${total}。先去陨石坑复活站清倒地题，再开下一局。`;
       }
       if (state.xp >= 220) {
         state.level += 1;
@@ -1375,6 +1391,50 @@
         render();
         if (activeDowned().length > 0) document.querySelector('.tab[data-view="revive"]').click();
       }, 900);
+    }
+
+    function startReviveChallenge(index) {
+      const item = state.downed[index];
+      if (!item || !item.seen || item.corrected) return;
+      const subject = subjects.find(s => s.id === item.subjectId) || subjects.find(s => s.title === item.subjectTitle);
+      if (!subject) return;
+      const candidates = subject.questions.filter(question => question.q !== item.q);
+      state.reviveItemIndex = index;
+      state.currentSubject = subject;
+      state.currentQuestions = pickQuestions(candidates.length ? candidates : subject.questions, 1);
+      state.index = 0;
+      state.score = 0;
+      state.answered = false;
+      $("questModal").classList.add("open");
+      showQuestion();
+    }
+
+    function completeReviveChallenge(success) {
+      const index = state.reviveItemIndex;
+      const item = state.downed[index];
+      if (success && item) {
+        item.corrected = true;
+        state.xp += 18;
+        $("feedback").textContent = "复活成功！倒地题已清除，额外能量 +18。";
+      }
+      saveProgress();
+      state.reviveItemIndex = null;
+      state.currentSubject = null;
+      state.currentQuestions = [];
+      setTimeout(() => {
+        $("questModal").classList.remove("open");
+        render();
+        document.querySelector('.tab[data-view="revive"]').click();
+      }, success ? 850 : 350);
+    }
+
+    function closeQuestModal() {
+      $("questModal").classList.remove("open");
+      state.reviveItemIndex = null;
+      state.currentSubject = null;
+      state.currentQuestions = [];
+      state.answered = false;
+      render();
     }
 
     document.querySelectorAll(".tab").forEach(tab => {
@@ -1403,7 +1463,7 @@
       }
     });
 
-    $("closeModal").addEventListener("click", () => $("questModal").classList.remove("open"));
+    $("closeModal").addEventListener("click", closeQuestModal);
     $("nextQuestion").addEventListener("click", nextQuestion);
     $("showHint").addEventListener("click", () => {
       if (!state.currentSubject) return;
