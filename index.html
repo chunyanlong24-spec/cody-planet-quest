@@ -814,14 +814,14 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>数学星、语文星、英语星围绕 Cody 飞船。每局 8 题作战训练，题库会避开已做题；语文加入阅读和诗词，英语加入短文阅读和综合语法，打赢复活题后才能继续航行。</p>
+          <p>每天按考前小测来打：20题混合训练，数学、语文、英语一起出击；语文加入阅读和诗词，英语加入短文阅读和综合语法，错题清空才算今日达标。</p>
           <div class="hero-actions">
-            <button class="btn primary" id="startToday">开始今日三关</button>
+            <button class="btn primary" id="startToday">今日20题小测</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
             <button class="btn ghost" data-jump="parent">看家长建议</button>
           </div>
           <div class="stats">
-            <div class="stat"><strong id="todayDone">0/3</strong><span>今日三关</span></div>
+            <div class="stat"><strong id="todayDone">0/20</strong><span>今日小测</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
             <div class="stat"><strong id="lootCount">0</strong><span>装备箱</span></div>
           </div>
@@ -1090,6 +1090,8 @@
     });
 
     const QUESTIONS_PER_ROUND = 8;
+    const MOCK_TEST_COUNT = 20;
+    const mockSubjectPlan = { math: 7, chinese: 7, english: 6 };
 
     const pad2 = value => String(value).padStart(2, "0");
     const makeDateKey = date => `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
@@ -1106,6 +1108,8 @@
       downed: [],
       seenKeys: {},
       mastery: { math: 36, chinese: 32, english: 28 },
+      mockDone: false,
+      currentMode: "subject",
       currentSubject: null,
       currentQuestions: [],
       reviveItemIndex: null,
@@ -1136,7 +1140,8 @@
     }
 
     function isDayComplete(progress) {
-      return Object.keys(progress.completed || {}).length === subjects.length && activeItems(progress.downed).length === 0;
+      const legacyComplete = Object.keys(progress.completed || {}).length === subjects.length;
+      return (progress.mockDone || legacyComplete) && activeItems(progress.downed).length === 0;
     }
 
     function loadProgress() {
@@ -1151,6 +1156,7 @@
         state.downed = saved.downed || [];
         state.seenKeys = saved.seenKeys || {};
         state.mastery = { ...state.mastery, ...(saved.mastery || {}) };
+        state.mockDone = saved.mockDone || false;
       } catch (error) {
         console.warn("Progress load failed", error);
       }
@@ -1167,7 +1173,8 @@
           completed: state.completed,
           downed: state.downed,
           seenKeys: state.seenKeys,
-          mastery: state.mastery
+          mastery: state.mastery,
+          mockDone: state.mockDone
         }));
       } catch (error) {
         console.warn("Progress save failed", error);
@@ -1179,7 +1186,9 @@
       $("level").textContent = state.level;
       $("nextXp").textContent = Math.max(0, 220 - state.xp);
       $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
-      $("todayDone").textContent = `${Object.keys(state.completed).length}/3`;
+      $("todayDone").textContent = state.currentMode === "mock"
+        ? `${state.score}/${MOCK_TEST_COUNT}`
+        : state.mockDone ? "20/20" : `0/${MOCK_TEST_COUNT}`;
       $("downedCount").textContent = activeDowned().length;
       $("reviveBtn").disabled = activeDowned().length > 0;
       $("reviveBtn").textContent = activeDowned().length > 0 ? "先清倒地题" : "复活再玩一局";
@@ -1223,7 +1232,7 @@
         <div class="ship-core">
           <div>
             <strong>CODY</strong>
-            <span>选择一颗星球，完成今日三关</span>
+            <span>先做20题小测，再用星球专项补弱</span>
           </div>
         </div>
         ${subjects.map(questCard).join("")}
@@ -1303,7 +1312,7 @@
           <div class="day-cell ${cls} ${isToday ? "today" : ""}">
             <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
             <span>${status}</span>
-            <span>${completedCount}/3 关 · ${downedCount} 倒地题</span>
+            <span>${progress.mockDone ? "20题完成" : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
           </div>
         `;
       }).join("");
@@ -1311,7 +1320,7 @@
         <div class="parent-row">
           <div>
             <h3>6月16日-6月29日进度雷达</h3>
-            <p>每天完成数学、语文、英语三关，并清空倒地题，才算当天完成。</p>
+            <p>每天完成20题考前小测，并清空倒地题，才算当天完成；星球专项用于补薄弱科目。</p>
             <div class="calendar-grid">${calendarCells}</div>
           </div>
           <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
@@ -1319,14 +1328,14 @@
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
-            <p>${todayKey}：${isComplete ? "今日三关已完成，倒地题已清空。" : "今日还未完成，请继续完成三关或清空倒地题。"}</p>
+            <p>${todayKey}：${isComplete ? "今日20题小测已完成，倒地题已清空。" : "今日还未达标，请完成20题小测并清空倒地题。"}</p>
             <div class="progress-grid">${subjectProgress}</div>
           </div>
           <div class="score">${isComplete ? "完成" : "未完成"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 8 题作战训练。总时长约 25-35 分钟，错题清空后再给娱乐时间。</p></div>
-          <div class="score">${done}/3</div>
+          <div><h3>今日90分作战节奏</h3><p>每天先做20题小测：数学7题、语文7题、英语6题。目标不是快，而是稳定拿保分题，错题全部复活后再专项补弱。</p></div>
+          <div class="score">${state.mockDone ? "20/20" : `${done}/3`}</div>
         </div>
         <div class="parent-row">
           <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。看讲解后还要答对一道同科复活题，才算真正复活。</p></div>
@@ -1346,8 +1355,28 @@
       }
       const subject = subjects.find(s => s.id === id);
       if (!subject) return;
+      state.currentMode = "subject";
       state.currentSubject = subject;
       state.currentQuestions = pickSubjectQuestions(subject, QUESTIONS_PER_ROUND);
+      state.index = 0;
+      state.score = 0;
+      state.answered = false;
+      $("questModal").classList.add("open");
+      showQuestion();
+    }
+
+    function startMockTest() {
+      if (activeDowned().length > 0) {
+        document.querySelector('.tab[data-view="revive"]').click();
+        return;
+      }
+      const mixed = subjects.flatMap(subject => {
+        const count = mockSubjectPlan[subject.id] || Math.floor(MOCK_TEST_COUNT / subjects.length);
+        return pickSubjectQuestions(subject, count);
+      });
+      state.currentMode = "mock";
+      state.currentSubject = { id: "mock", title: "90分考前小测" };
+      state.currentQuestions = pickQuestions(mixed, MOCK_TEST_COUNT);
       state.index = 0;
       state.score = 0;
       state.answered = false;
@@ -1371,14 +1400,20 @@
       selected.forEach(question => nextSeen.add(question.q));
       state.seenKeys[subject.id] = [...nextSeen].slice(-subject.questions.length);
       saveProgress();
-      return selected;
+      return selected.map(question => ({
+        ...question,
+        subjectId: subject.id,
+        subjectTitle: subject.title
+      }));
     }
 
     function showQuestion() {
       const subject = state.currentSubject;
       const question = state.currentQuestions[state.index];
       state.answered = false;
-      $("questTag").textContent = state.reviveItemIndex === null ? subject.title : `${subject.title} · 复活挑战`;
+      $("questTag").textContent = state.reviveItemIndex === null
+        ? `${subject.title}${question.subjectTitle && subject.id === "mock" ? ` · ${question.subjectTitle}` : ""}`
+        : `${subject.title} · 复活挑战`;
       $("questionTitle").textContent = question.q;
       $("questionProgress").style.width = `${state.index / state.currentQuestions.length * 100}%`;
       $("feedback").textContent = state.reviveItemIndex === null
@@ -1430,7 +1465,7 @@
         state.score += 1;
         state.combo += 1;
         state.xp += 12;
-        updateMastery(state.currentSubject.id, 2);
+        updateMastery(question.subjectId || state.currentSubject.id, 2);
         saveProgress();
         if (state.reviveItemIndex !== null) {
           completeReviveChallenge(true);
@@ -1440,18 +1475,20 @@
       } else {
         btn.classList.add("wrong");
         state.combo = 0;
-        updateMastery(state.currentSubject.id, -1);
+        updateMastery(question.subjectId || state.currentSubject.id, -1);
         if (state.reviveItemIndex !== null) {
           $("feedback").textContent = `复活挑战失败：先复盘讲解，再打一题。提示：${question.hint}`;
           setTimeout(() => completeReviveChallenge(false), 900);
           return;
         }
-        const key = `${state.currentSubject.id}-${question.q}`;
+        const subjectId = question.subjectId || state.currentSubject.id;
+        const subjectTitle = question.subjectTitle || state.currentSubject.title;
+        const key = `${subjectId}-${question.q}`;
         if (!state.downed.some(item => item.key === key && !item.corrected)) {
           state.downed.push({
             key,
-            subjectId: state.currentSubject.id,
-            subjectTitle: state.currentSubject.title,
+            subjectId,
+            subjectTitle,
             q: question.q,
             a: question.a,
             wrong: value,
@@ -1490,14 +1527,20 @@
     function finishSubject() {
       const subject = state.currentSubject;
       const total = state.currentQuestions.length;
-      state.completed[subject.id] = true;
+      if (state.currentMode === "mock") {
+        state.mockDone = true;
+        subjects.forEach(item => { state.completed[item.id] = true; });
+      } else {
+        state.completed[subject.id] = true;
+      }
       if (state.score === total) {
         state.xp += 45;
         state.loot += 1;
-        $("feedback").textContent = `完美通关！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
+        $("feedback").textContent = `${state.currentMode === "mock" ? "90分小测满分通关" : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
       } else {
         if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
-        $("feedback").textContent = `行动结算：本关 ${state.score}/${total}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。`;
+        const estimate = state.currentMode === "mock" ? `，折算约 ${Math.round(state.score / total * 100)} 分` : "";
+        $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。`;
       }
       if (state.xp >= 220) {
         state.level += 1;
@@ -1506,6 +1549,7 @@
       saveProgress();
       state.currentSubject = null;
       state.currentQuestions = [];
+      state.currentMode = "subject";
       $("questionProgress").style.width = "100%";
       setTimeout(() => {
         $("questModal").classList.remove("open");
@@ -1522,6 +1566,7 @@
       const candidates = subject.questions.filter(question => question.q !== item.q);
       state.reviveItemIndex = index;
       state.currentSubject = subject;
+      state.currentMode = "revive";
       state.currentQuestions = pickQuestions(candidates.length ? candidates : subject.questions, 1);
       state.index = 0;
       state.score = 0;
@@ -1542,6 +1587,7 @@
       state.reviveItemIndex = null;
       state.currentSubject = null;
       state.currentQuestions = [];
+      state.currentMode = "subject";
       setTimeout(() => {
         $("questModal").classList.remove("open");
         render();
@@ -1554,6 +1600,7 @@
       state.reviveItemIndex = null;
       state.currentSubject = null;
       state.currentQuestions = [];
+      state.currentMode = "subject";
       state.answered = false;
       render();
     }
@@ -1572,8 +1619,7 @@
     });
 
     $("startToday").addEventListener("click", () => {
-      const next = subjects.find(s => !state.completed[s.id]) || subjects[0];
-      startSubject(next.id);
+      startMockTest();
     });
 
     $("reviveBtn").addEventListener("click", () => {
