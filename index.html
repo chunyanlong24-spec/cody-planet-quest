@@ -709,6 +709,20 @@
       font-size: 13px;
     }
 
+    .speaking-card {
+      grid-column: 1 / -1;
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(69, 215, 255, 0.12);
+      color: #edf7ff;
+      line-height: 1.55;
+    }
+
+    .speaking-card b {
+      color: var(--amber);
+    }
+
     .answers {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -804,6 +818,7 @@
       </div>
       <nav class="tabs" aria-label="页面">
         <button class="tab active" data-view="home">星球地图</button>
+        <button class="tab" data-view="warehouse">仓库</button>
         <button class="tab" data-view="revive">陨石坑复活站</button>
         <button class="tab" data-view="parent">家长雷达</button>
       </nav>
@@ -814,16 +829,16 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>每天按考前小测来打：20题混合训练，数学、语文、英语一起出击；语文加入阅读和诗词，英语加入短文阅读和综合语法，错题清空才算今日达标。</p>
+          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁20题自测，得分兑换积分，去仓库换铅笔、文具和装备。</p>
           <div class="hero-actions">
             <button class="btn primary" id="startToday">今日20题小测</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
-            <button class="btn ghost" data-jump="parent">看家长建议</button>
+            <button class="btn ghost" data-jump="warehouse">进入仓库</button>
           </div>
           <div class="stats">
             <div class="stat"><strong id="todayDone">0/20</strong><span>今日小测</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
-            <div class="stat"><strong id="lootCount">0</strong><span>装备箱</span></div>
+            <div class="stat"><strong id="creditCount">0</strong><span>积分</span></div>
           </div>
         </div>
       </div>
@@ -839,12 +854,16 @@
         </div>
         <h3>三科掌握度</h3>
         <div class="ability" id="abilities"></div>
+        <div class="ability" id="operatorPanel"></div>
       </aside>
     </section>
 
     <main>
       <section class="view active" id="home">
         <div class="planet-map" id="questGrid"></div>
+      </section>
+      <section class="view" id="warehouse">
+        <div class="parent" id="warehousePanel"></div>
       </section>
       <section class="view" id="revive">
         <div class="revive-list" id="reviveList"></div>
@@ -863,6 +882,7 @@
           <h2 class="question-title" id="questionTitle">题目</h2>
           <div class="audio-line" id="audioLine">
             <button class="btn safe" id="playAudio">播放音频</button>
+            <button class="btn primary" id="startSpeaking">跟读打分</button>
             <span class="audio-note" id="audioNote"></span>
           </div>
         </div>
@@ -1083,6 +1103,30 @@
       ]
     };
 
+    extraQuestionBank.chinese.push(
+      { q: "诗句填空：牧童归去横牛背，____。", a: "短笛无腔信口吹", options: ["短笛无腔信口吹", "彩丝穿取当银钲", "也傍桑阴学种瓜", "白雨跳珠乱入船"], hint: "这是《村晚》中的诗句。", explain: "《村晚》后两句是“牧童归去横牛背，短笛无腔信口吹”。", tier: "secure" },
+      { q: "诗句填空：稚子金盆脱晓冰，____。", a: "彩丝穿取当银钲", options: ["彩丝穿取当银钲", "短笛无腔信口吹", "也傍桑阴学种瓜", "子规声里雨如烟"], hint: "这是《稚子弄冰》中的句子。", explain: "“稚子金盆脱晓冰，彩丝穿取当银钲”写孩子清晨玩冰的画面。", tier: "secure" },
+      { q: "诗句填空：绿遍山原白满川，____。", a: "子规声里雨如烟", options: ["子规声里雨如烟", "短笛无腔信口吹", "彩丝穿取当银钲", "何须马革裹尸还"], hint: "这是《乡村四月》中的景物描写。", explain: "《乡村四月》开头是“绿遍山原白满川，子规声里雨如烟”。", tier: "secure" },
+      { q: "诗句填空：青山处处埋忠骨，____。", a: "何须马革裹尸还", options: ["何须马革裹尸还", "子规声里雨如烟", "彩丝穿取当银钲", "短笛无腔信口吹"], hint: "注意“忠骨”和“马革裹尸”对应。", explain: "这句话表达革命者为国牺牲的崇高精神。", tier: "improve" },
+      { q: "字词辨析：下列词语书写完全正确的是哪一项？", a: "胸有成竹", options: ["胸有成竹", "磨拳擦掌", "出谋画策", "跃跃欲式"], hint: "逐个看有没有错别字。", explain: "正确写法应为“摩拳擦掌、出谋划策、跃跃欲试”，只有“胸有成竹”正确。", tier: "improve" },
+      { q: "字音判断：“顽劣”的“劣”读音正确的是哪一项？", a: "liè", options: ["liè", "lüè", "liě", "lèi"], hint: "不要读成“略”。", explain: "“劣”读 liè，意思是不好、差。", tier: "secure" },
+      { q: "关联词选择：____遇到难题，____要先读题、画关键词。", a: "即使……也……", options: ["即使……也……", "因为……所以……", "不仅……还……", "一边……一边……"], hint: "前后有让步关系。", explain: "“即使……也……”表示让步，意思是就算遇到难题，也要按方法处理。", tier: "improve" },
+      { q: "修改病句：下列修改最合适的是哪一项？原句：通过复习，使我掌握了分数运算。", a: "复习使我掌握了分数运算。", options: ["复习使我掌握了分数运算。", "通过复习，使我掌握。", "通过复习，我的分数运算。", "使我通过复习掌握。"], hint: "“通过”和“使”连用会缺主语。", explain: "去掉“通过”或“使”都可以，这里“复习使我掌握了分数运算”最完整。", tier: "improve" },
+      { q: "阅读方法：回答“这个句子在文中有什么作用”时，最应该从哪两方面想？", a: "内容和结构", options: ["字数和标点", "内容和结构", "作者年龄和职业", "题目长短"], hint: "作用题常看写了什么、和上下文有什么关系。", explain: "句子作用题常从内容作用和结构作用两方面回答，例如点明中心、承上启下、照应题目。", tier: "stretch" },
+      { q: "阅读理解：一句话反复出现，通常可能有什么作用？", a: "强调中心或推动情节", options: ["凑字数", "强调中心或推动情节", "说明作者忘了删", "只表示声音大"], hint: "反复不是随便重复。", explain: "反复出现的句子常用来强调情感、突出中心，也可能推动情节或形成线索。", tier: "stretch" },
+      { q: "作文表达：写“他很紧张”时，哪种写法最具体？", a: "他的手心冒汗，声音也小了下去。", options: ["他很紧张。", "他特别特别紧张。", "他的手心冒汗，声音也小了下去。", "他紧张得不得了。"], hint: "具体描写要有动作、神态、细节。", explain: "通过手心冒汗、声音变小等细节能更具体地表现紧张。", tier: "stretch" },
+      { q: "课文理解：抓人物特点时，最可靠的依据是什么？", a: "人物的语言、动作、神态和事件", options: ["人物名字", "人物的语言、动作、神态和事件", "段落数量", "标点符号"], hint: "人物特点要从文本证据里找。", explain: "分析人物要结合语言、动作、神态、心理和具体事件。", tier: "improve" }
+    );
+
+    extraQuestionBank.english.push(
+      { type: "speaking", q: "跟读训练：I cleaned my room yesterday.（中文：我昨天打扫了我的房间。）", speak: "I cleaned my room yesterday.", meaning: "我昨天打扫了我的房间。", a: "跟读达标", options: ["跟读达标"], hint: "注意 cleaned 的 /d/ 音和 yesterday 的重音。", explain: "这句话练习一般过去时，cleaned 表示已经做过。", tier: "improve" },
+      { type: "speaking", q: "跟读训练：Can you help me, please?（中文：请问你能帮我吗？）", speak: "Can you help me, please?", meaning: "请问你能帮我吗？", a: "跟读达标", options: ["跟读达标"], hint: "请求帮助时语气要礼貌，please 要读清楚。", explain: "这是请求帮助的常用句型。", tier: "secure" },
+      { type: "speaking", q: "跟读训练：The library is quiet.（中文：图书馆很安静。）", speak: "The library is quiet.", meaning: "图书馆很安静。", a: "跟读达标", options: ["跟读达标"], hint: "library 可以分成 li-bra-ry 练。", explain: "quiet 表示安静的。", tier: "secure" },
+      { type: "speaking", q: "跟读训练：Sarah's bag is heavier than Amy's bag.（中文：Sarah 的书包比 Amy 的书包更重。）", speak: "Sarah's bag is heavier than Amy's bag.", meaning: "Sarah 的书包比 Amy 的书包更重。", a: "跟读达标", options: ["跟读达标"], hint: "than 前面用比较级 heavier。", explain: "这句话练习比较级 heavier than。", tier: "stretch" },
+      { type: "speaking", q: "跟读训练：I am going to swim tomorrow.（中文：我明天打算去游泳。）", speak: "I am going to swim tomorrow.", meaning: "我明天打算去游泳。", a: "跟读达标", options: ["跟读达标"], hint: "going to 表示打算做某事。", explain: "be going to 表示计划或打算。", tier: "improve" },
+      { type: "speaking", q: "跟读训练：You mustn't talk loudly.（中文：你不能大声说话。）", speak: "You mustn't talk loudly.", meaning: "你不能大声说话。", a: "跟读达标", options: ["跟读达标"], hint: "mustn't 表示禁止，loudly 表示大声地。", explain: "这是规则类句子，常见于阅读理解。", tier: "stretch" }
+    );
+
     const tierMeta = {
       secure: { label: "保分题", bonus: 10, mastery: 1 },
       improve: { label: "提分题", bonus: 12, mastery: 2 },
@@ -1106,6 +1150,18 @@
     const QUESTIONS_PER_ROUND = 8;
     const MOCK_TEST_COUNT = 20;
     const mockSubjectPlan = { math: 7, chinese: 7, english: 6 };
+    const operators = [
+      { id: "scout", name: "小路", role: "侦察干员", perk: "阅读题提示更明确", badge: "侦" },
+      { id: "medic", name: "阿澈", role: "医疗干员", perk: "错题复活奖励+5", badge: "医" },
+      { id: "engineer", name: "小砚", role: "工程干员", perk: "数学应用题能量+3", badge: "工" }
+    ];
+    const warehouseItems = [
+      { id: "pencil", name: "黑金铅笔", cost: 30, type: "文具", desc: "完成一次80分小测即可兑换。" },
+      { id: "eraser", name: "错题橡皮", cost: 45, type: "文具", desc: "错题复盘专用装备。" },
+      { id: "ruler", name: "战术直尺", cost: 60, type: "文具", desc: "数学图形题装备。" },
+      { id: "notebook", name: "冲90笔记本", cost: 90, type: "装备", desc: "90分目标纪念装备。" },
+      { id: "case", name: "Cody文具盒", cost: 120, type: "稀有", desc: "连续认真训练后兑换。" }
+    ];
 
     const pad2 = value => String(value).padStart(2, "0");
     const makeDateKey = date => `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
@@ -1117,12 +1173,16 @@
       level: 3,
       streak: 1,
       loot: 0,
+      credits: 0,
+      inventory: [],
+      selectedOperator: null,
       date: todayKey,
       completed: {},
       downed: [],
       seenKeys: {},
       mastery: { math: 36, chinese: 32, english: 28 },
       mockDone: false,
+      mockRewardClaimed: false,
       lastMockScore: null,
       lastMockTotal: MOCK_TEST_COUNT,
       lastMockPercent: null,
@@ -1195,11 +1255,15 @@
         state.level = saved.level ?? state.level;
         state.streak = saved.streak ?? state.streak;
         state.loot = saved.loot ?? state.loot;
+        state.credits = saved.credits ?? state.credits;
+        state.inventory = saved.inventory || [];
+        state.selectedOperator = saved.selectedOperator || null;
         state.completed = saved.completed || {};
         state.downed = saved.downed || [];
         state.seenKeys = saved.seenKeys || {};
         state.mastery = { ...state.mastery, ...(saved.mastery || {}) };
         state.mockDone = saved.mockDone || false;
+        state.mockRewardClaimed = saved.mockRewardClaimed || false;
         state.lastMockScore = saved.lastMockScore ?? null;
         state.lastMockTotal = saved.lastMockTotal || MOCK_TEST_COUNT;
         state.lastMockPercent = saved.lastMockPercent ?? null;
@@ -1216,11 +1280,15 @@
           level: state.level,
           streak: state.streak,
           loot: state.loot,
+          credits: state.credits,
+          inventory: state.inventory,
+          selectedOperator: state.selectedOperator,
           completed: state.completed,
           downed: state.downed,
           seenKeys: state.seenKeys,
           mastery: state.mastery,
           mockDone: state.mockDone,
+          mockRewardClaimed: state.mockRewardClaimed,
           lastMockScore: state.lastMockScore,
           lastMockTotal: state.lastMockTotal,
           lastMockPercent: state.lastMockPercent
@@ -1231,7 +1299,7 @@
     }
 
     function render() {
-      $("lootCount").textContent = state.loot;
+      $("creditCount").textContent = state.credits;
       $("level").textContent = state.level;
       $("nextXp").textContent = Math.max(0, 220 - state.xp);
       $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
@@ -1239,12 +1307,14 @@
         ? `${Math.round(state.score / MOCK_TEST_COUNT * 100)}分`
         : state.mockDone ? `${state.lastMockPercent ?? 0}分` : `0分`;
       $("downedCount").textContent = activeDowned().length;
-      $("reviveBtn").disabled = activeDowned().length > 0;
+      $("reviveBtn").disabled = false;
       $("reviveBtn").textContent = activeDowned().length > 0 ? "先清倒地题" : "复活再玩一局";
       renderAbilities();
+      renderOperators();
       renderQuests();
       renderRevive();
       renderParent();
+      renderWarehouse();
     }
 
     function renderAbilities() {
@@ -1259,6 +1329,66 @@
           </div>
         `;
       }).join("");
+    }
+
+    function renderOperators() {
+      const selected = operators.find(item => item.id === state.selectedOperator);
+      $("operatorPanel").innerHTML = `
+        <div class="progress-chip">
+          <b>今日干员</b>
+          <span>${selected ? `${selected.name} · ${selected.role}` : "未选择"}</span>
+        </div>
+        ${operators.map(operator => `
+          <button class="small" data-operator="${operator.id}">
+            ${state.selectedOperator === operator.id ? "已选择" : "选择"} ${operator.badge} ${operator.name}
+          </button>
+        `).join("")}
+      `;
+      document.querySelectorAll("[data-operator]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.selectedOperator = btn.dataset.operator;
+          saveProgress();
+          render();
+        });
+      });
+    }
+
+    function renderWarehouse() {
+      $("warehousePanel").innerHTML = `
+        <div class="parent-row">
+          <div>
+            <h3>战术仓库</h3>
+            <p>小测得分兑换积分：80分给30积分，90分给60积分，100分给100积分。积分可以兑换铅笔、橡皮、尺子、笔记本和文具盒。</p>
+          </div>
+          <div class="score">${state.credits}积分</div>
+        </div>
+        <div class="progress-grid">
+          ${warehouseItems.map(item => `
+            <div class="progress-chip">
+              <b>${item.name}</b>
+              <span>${item.type} · ${item.cost}积分</span>
+              <span>${item.desc}</span>
+              <button class="small" data-buy="${item.id}" ${state.credits < item.cost ? "disabled" : ""}>
+                ${state.inventory.includes(item.id) ? "再兑换" : "兑换"}
+              </button>
+            </div>
+          `).join("")}
+        </div>
+        <div class="parent-row">
+          <div><h3>已入库装备</h3><p>${state.inventory.length ? state.inventory.map(id => warehouseItems.find(item => item.id === id)?.name || id).join("、") : "还没有兑换，先完成今日任务拿积分。"}</p></div>
+          <div class="score">${state.inventory.length}</div>
+        </div>
+      `;
+      document.querySelectorAll("[data-buy]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const item = warehouseItems.find(entry => entry.id === btn.dataset.buy);
+          if (!item || state.credits < item.cost) return;
+          state.credits -= item.cost;
+          state.inventory.push(item.id);
+          saveProgress();
+          render();
+        });
+      });
     }
 
     function questCard(s) {
@@ -1281,7 +1411,7 @@
         <div class="ship-core">
           <div>
             <strong>CODY</strong>
-            <span>先做20题小测，再用星球专项补弱</span>
+            <span>先三科专项，再复活错题，最后20题小测</span>
           </div>
         </div>
         ${subjects.map(questCard).join("")}
@@ -1370,7 +1500,7 @@
         <div class="parent-row">
           <div>
             <h3>6月16日-6月29日进度雷达</h3>
-            <p>每天完成20题考前小测，并清空倒地题，才算当天完成；星球专项用于补薄弱科目。</p>
+            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成20题考前小测，才算当天完成。</p>
             <div class="calendar-grid">${calendarCells}</div>
           </div>
           <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
@@ -1384,7 +1514,7 @@
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>每天20题：数学7、语文7、英语6；其中保分题8、提分题8、冲90题4。冲90题专练最后5-10分的阅读、应用、综合题。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题/跟读 → 复活错题 → 20题小测。小测按保分题8、提分题8、冲90题4出题。</p></div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -1398,7 +1528,26 @@
       `;
     }
 
+    function incompleteSubjects() {
+      return subjects.filter(subject => !state.completed[subject.id]);
+    }
+
+    function requireOperator() {
+      if (state.selectedOperator) return true;
+      $("feedback").textContent = "先选择今日干员，再开始行动。";
+      alert("先选择今日干员，再开始今天的学习任务。");
+      return false;
+    }
+
+    function creditsForScore(percent) {
+      if (percent >= 100) return 100;
+      if (percent >= 90) return 60;
+      if (percent >= 80) return 30;
+      return 0;
+    }
+
     function startSubject(id) {
+      if (!requireOperator()) return;
       if (activeDowned().length > 0) {
         document.querySelector('.tab[data-view="revive"]').click();
         return;
@@ -1416,8 +1565,16 @@
     }
 
     function startMockTest() {
+      if (!requireOperator()) return;
       if (activeDowned().length > 0) {
+        alert("先去复活站清空错题，再开启20题小测。");
         document.querySelector('.tab[data-view="revive"]').click();
+        return;
+      }
+      const missing = incompleteSubjects();
+      if (missing.length > 0) {
+        alert(`先完成三科单科学习，再开启20题小测。还差：${missing.map(subject => subject.title).join("、")}`);
+        document.querySelector('.tab[data-view="home"]').click();
         return;
       }
       const mixed = subjects.flatMap(subject => pickMockSubjectQuestions(subject));
@@ -1437,29 +1594,53 @@
 
     function pickMockSubjectQuestions(subject) {
       const plan = mockTierPlan[subject.id] || {};
-      const planned = Object.entries(plan).flatMap(([tier, count]) => pickSubjectQuestions(subject, count, tier));
+      const used = new Set();
+      const planned = [];
+      Object.entries(plan).forEach(([tier, count]) => {
+        const picked = pickSubjectQuestions(subject, count, tier, used);
+        picked.forEach(question => {
+          used.add(question.q);
+          planned.push(question);
+        });
+      });
       const target = mockSubjectPlan[subject.id] || planned.length;
       if (planned.length >= target) return planned.slice(0, target);
-      const fill = pickSubjectQuestions(subject, target - planned.length);
-      return [...planned, ...fill].slice(0, target);
+      const fill = pickSubjectQuestions(subject, target - planned.length, null, used);
+      fill.forEach(question => {
+        if (!used.has(question.q)) {
+          used.add(question.q);
+          planned.push(question);
+        }
+      });
+      return planned.slice(0, target);
     }
 
-    function pickSubjectQuestions(subject, count, tier = null) {
+    function pickSubjectQuestions(subject, count, tier = null, excludeKeys = new Set()) {
       if (count <= 0) return [];
       const seen = new Set(state.seenKeys[subject.id] || []);
       const matchesTier = question => !tier || question.tier === tier;
-      let pool = subject.questions.filter(question => matchesTier(question) && !seen.has(question.q));
+      const fresh = question => !seen.has(question.q) && !excludeKeys.has(question.q);
+      const unused = question => !excludeKeys.has(question.q);
+      let pool = subject.questions.filter(question => matchesTier(question) && fresh(question));
       if (pool.length < count) {
-        pool = subject.questions.filter(matchesTier);
+        pool = subject.questions.filter(question => matchesTier(question) && unused(question));
       }
       if (pool.length < count) {
-        pool = subject.questions.filter(question => !seen.has(question.q));
+        pool = subject.questions.filter(question => fresh(question));
       }
       if (pool.length < count) {
-        pool = subject.questions;
+        pool = subject.questions.filter(unused);
         if (!tier) state.seenKeys[subject.id] = [];
       }
-      const selected = pickQuestions(pool, count);
+      if (pool.length < count) pool = subject.questions;
+      const selected = [];
+      const localSeen = new Set(excludeKeys);
+      pickQuestions(pool, pool.length).forEach(question => {
+        if (selected.length < count && !localSeen.has(question.q)) {
+          selected.push(question);
+          localSeen.add(question.q);
+        }
+      });
       const nextSeen = new Set(state.seenKeys[subject.id] || []);
       selected.forEach(question => nextSeen.add(question.q));
       state.seenKeys[subject.id] = [...nextSeen].slice(-subject.questions.length);
@@ -1484,11 +1665,19 @@
       $("feedback").textContent = state.reviveItemIndex === null
         ? "选一个答案。错题会进入复活站，看讲解并完成复活挑战后才能复活。"
         : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
-      $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
-      $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak));
-      $("audioNote").textContent = "";
+      const isSpeaking = question.type === "speaking";
+      $("answers").innerHTML = isSpeaking
+        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，再点“跟读打分”。浏览器无法识别时，可由家长确认通过。</div><button class="answer" data-speaking-manual="true">家长确认通过</button><button class="answer" disabled>等待跟读评分</button>`
+        : question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
+      $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak || isSpeaking));
+      $("startSpeaking").style.display = isSpeaking ? "" : "none";
+      $("audioNote").textContent = isSpeaking ? "英语跟读会显示中文意思，并按发音相似度给分。" : "";
       document.querySelectorAll(".answer").forEach(btn => {
-        btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
+        if (btn.dataset.speakingManual) {
+          btn.addEventListener("click", () => passSpeakingQuestion(80, "家长确认"));
+        } else {
+          btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
+        }
       });
     }
 
@@ -1516,6 +1705,60 @@
       const enVoice = voices.find(v => /en[-_](US|GB)/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang));
       if (enVoice) utterance.voice = enVoice;
       window.speechSynthesis.speak(utterance);
+    }
+
+    function normalizeSpeech(text) {
+      return String(text || "")
+        .toLowerCase()
+        .replace(/[^a-z\s']/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function pronunciationScore(expected, heard) {
+      const expectedWords = normalizeSpeech(expected).split(" ").filter(Boolean);
+      const heardWords = normalizeSpeech(heard).split(" ").filter(Boolean);
+      if (!expectedWords.length || !heardWords.length) return 0;
+      const heardSet = new Set(heardWords);
+      const hit = expectedWords.filter(word => heardSet.has(word) || heardWords.some(item => item.startsWith(word) || word.startsWith(item))).length;
+      const lengthPenalty = Math.max(0, Math.abs(expectedWords.length - heardWords.length) * 4);
+      return Math.max(0, Math.min(100, Math.round(hit / expectedWords.length * 100 - lengthPenalty)));
+    }
+
+    function startSpeakingPractice() {
+      if (!state.currentSubject) return;
+      const question = state.currentQuestions[state.index];
+      if (!question || question.type !== "speaking" || state.answered) return;
+      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Recognition) {
+        $("feedback").textContent = "这个浏览器不支持自动跟读打分。可以先听示范，让孩子跟读，再点“家长确认通过”。Chrome 和 Edge 通常最稳定。";
+        return;
+      }
+      const recognition = new Recognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      $("feedback").textContent = "正在听，请大声跟读目标句。";
+      recognition.onresult = event => {
+        const heard = event.results?.[0]?.[0]?.transcript || "";
+        const score = pronunciationScore(question.speak, heard);
+        if (score >= 70) {
+          passSpeakingQuestion(score, heard);
+        } else {
+          $("feedback").textContent = `跟读分 ${score}，听到的是：“${heard}”。再听一遍示范，重读到70分以上再过关。`;
+        }
+      };
+      recognition.onerror = () => {
+        $("feedback").textContent = "没有成功听到声音。请检查麦克风权限，或让孩子跟读后由家长确认通过。";
+      };
+      recognition.start();
+    }
+
+    function passSpeakingQuestion(score, heard) {
+      if (state.answered) return;
+      const question = state.currentQuestions[state.index];
+      answer(question.a, {});
+      $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}；识别结果：${heard}。`;
     }
 
     function answer(value, btn) {
@@ -1596,23 +1839,34 @@
       const subject = state.currentSubject;
       const total = state.currentQuestions.length;
       const percent = Math.round(state.score / total * 100);
+      let awardedCredits = 0;
+      let firstMockSettlement = false;
       if (state.currentMode === "mock") {
         state.mockDone = true;
         state.lastMockScore = state.score;
         state.lastMockTotal = total;
         state.lastMockPercent = percent;
         subjects.forEach(item => { state.completed[item.id] = true; });
+        if (!state.mockRewardClaimed) {
+          firstMockSettlement = true;
+          awardedCredits = creditsForScore(percent);
+          state.credits += awardedCredits;
+          if (awardedCredits > 0) state.mockRewardClaimed = true;
+        }
       } else {
         state.completed[subject.id] = true;
       }
+      const rewardText = state.currentMode === "mock"
+        ? (awardedCredits > 0 ? ` 本次小测奖励 ${awardedCredits} 积分，去仓库兑换装备。` : firstMockSettlement ? " 本次低于80分，复盘后再冲80分拿积分。" : " 今天积分已结算，重复小测只记录新分数。")
+        : "";
       if (state.score === total) {
         state.xp += 45;
         state.loot += 1;
-        $("feedback").textContent = `${state.currentMode === "mock" ? `小测得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
+        $("feedback").textContent = `${state.currentMode === "mock" ? `小测得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。${rewardText}`;
       } else {
         if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
         const estimate = state.currentMode === "mock" ? `，小测得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
-        $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。`;
+        $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。${rewardText}`;
       }
       if (state.xp >= 220) {
         state.level += 1;
@@ -1653,7 +1907,9 @@
       if (success && item) {
         item.corrected = true;
         state.xp += 18;
-        $("feedback").textContent = "复活成功！倒地题已清除，额外能量 +18。";
+        const medicBonus = state.selectedOperator === "medic" ? 5 : 0;
+        state.credits += medicBonus;
+        $("feedback").textContent = `复活成功！倒地题已清除，额外能量 +18。${medicBonus ? "医疗干员奖励 +5 积分。" : ""}`;
       }
       saveProgress();
       state.reviveItemIndex = null;
@@ -1712,6 +1968,7 @@
       if (!state.currentSubject) return;
       playPromptAudio(state.currentQuestions[state.index]);
     });
+    $("startSpeaking").addEventListener("click", startSpeakingPractice);
 
     if ("speechSynthesis" in window) {
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
