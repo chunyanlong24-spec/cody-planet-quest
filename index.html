@@ -1083,10 +1083,24 @@
       ]
     };
 
+    const tierMeta = {
+      secure: { label: "保分题", bonus: 10, mastery: 1 },
+      improve: { label: "提分题", bonus: 12, mastery: 2 },
+      stretch: { label: "冲90题", bonus: 16, mastery: 3 }
+    };
+
+    const mockTierPlan = {
+      math: { secure: 3, improve: 3, stretch: 1 },
+      chinese: { secure: 2, improve: 3, stretch: 2 },
+      english: { secure: 3, improve: 2, stretch: 1 }
+    };
+
     subjects.forEach(subject => {
       const extras = extraQuestionBank[subject.id] || [];
       subject.questions.push(...extras);
-      if (extras.length) subject.skill = `${subject.questions.length}题题库`;
+      applyQuestionTiers(subject);
+      const stretchCount = subject.questions.filter(question => question.tier === "stretch").length;
+      subject.skill = `${subject.questions.length}题 · ${stretchCount}道冲90`;
     });
 
     const QUESTIONS_PER_ROUND = 8;
@@ -1127,6 +1141,32 @@
 
     function storageKeyFor(dateKey) {
       return `cody-planet-progress-${dateKey}`;
+    }
+
+    function applyQuestionTiers(subject) {
+      subject.questions.forEach(question => {
+        question.tier = question.tier || classifyQuestion(subject.id, question);
+      });
+    }
+
+    function classifyQuestion(subjectId, question) {
+      const text = `${question.q} ${question.hint || ""} ${question.explain || ""}`;
+      if (subjectId === "math") {
+        if (/鱼缸|盒子|至少|最多|扩大|实际|应用|混合|一根|还剩|单位|换算|最小的是|多步骤|无盖/.test(text)) return "stretch";
+        if (/最大公因数|最小公倍数|通分|约分|比较|表面积|体积|分数|带分数|公倍数|公因数/.test(text)) return "improve";
+        return "secure";
+      }
+      if (subjectId === "chinese") {
+        if (/阅读：|诗句|表达了|体现了|作用|中心|作文|联系生活|详略|照应题目|主要写|为什么|人物|情感|赏析|题眼|开放/.test(text)) return "stretch";
+        if (/修辞|描写|病句|关联词|句式|标点|古诗|默写|意思|近义词|反义词|词语|概括/.test(text)) return "improve";
+        return "secure";
+      }
+      if (subjectId === "english") {
+        if (/^Read:|best title|Which sentence|Make a question|Which one means|past tense|heavier|mustn't|No photos|belongs to|going to/.test(text)) return "stretch";
+        if (/听音频|There|____|Choose|What should|birthday|party|than|doesn't|比较级|介词|时态|过去式/.test(text)) return "improve";
+        return "secure";
+      }
+      return "secure";
     }
 
     function readProgressForDate(dateKey) {
@@ -1254,7 +1294,7 @@
       }
       $("reviveList").innerHTML = state.downed.map((item, idx) => `
         <article class="revive-card ${item.seen ? "seen" : ""} ${item.corrected ? "done" : ""}">
-          <span class="tag">${item.corrected ? "已复活" : "倒地题"}</span>
+          <span class="tag">${item.corrected ? "已复活" : "倒地题"} · ${(tierMeta[item.tier] || tierMeta.secure).label}</span>
           <h3>${item.subjectTitle}</h3>
           <p><b>题目：</b>${item.q}</p>
           <p><b>你的答案：</b>${item.wrong}　<b>正确答案：</b>${item.a}</p>
@@ -1334,7 +1374,7 @@
           <div class="score">${isComplete ? "完成" : "未完成"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>每天先做20题小测：数学7题、语文7题、英语6题。目标不是快，而是稳定拿保分题，错题全部复活后再专项补弱。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>每天20题：数学7、语文7、英语6；其中保分题8、提分题8、冲90题4。冲90题专练最后5-10分的阅读、应用、综合题。</p></div>
           <div class="score">${state.mockDone ? "20/20" : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -1370,10 +1410,7 @@
         document.querySelector('.tab[data-view="revive"]').click();
         return;
       }
-      const mixed = subjects.flatMap(subject => {
-        const count = mockSubjectPlan[subject.id] || Math.floor(MOCK_TEST_COUNT / subjects.length);
-        return pickSubjectQuestions(subject, count);
-      });
+      const mixed = subjects.flatMap(subject => pickMockSubjectQuestions(subject));
       state.currentMode = "mock";
       state.currentSubject = { id: "mock", title: "90分考前小测" };
       state.currentQuestions = pickQuestions(mixed, MOCK_TEST_COUNT);
@@ -1388,12 +1425,29 @@
       return [...pool].sort(() => Math.random() - 0.5).slice(0, count);
     }
 
-    function pickSubjectQuestions(subject, count) {
+    function pickMockSubjectQuestions(subject) {
+      const plan = mockTierPlan[subject.id] || {};
+      const planned = Object.entries(plan).flatMap(([tier, count]) => pickSubjectQuestions(subject, count, tier));
+      const target = mockSubjectPlan[subject.id] || planned.length;
+      if (planned.length >= target) return planned.slice(0, target);
+      const fill = pickSubjectQuestions(subject, target - planned.length);
+      return [...planned, ...fill].slice(0, target);
+    }
+
+    function pickSubjectQuestions(subject, count, tier = null) {
+      if (count <= 0) return [];
       const seen = new Set(state.seenKeys[subject.id] || []);
-      let pool = subject.questions.filter(question => !seen.has(question.q));
+      const matchesTier = question => !tier || question.tier === tier;
+      let pool = subject.questions.filter(question => matchesTier(question) && !seen.has(question.q));
+      if (pool.length < count) {
+        pool = subject.questions.filter(matchesTier);
+      }
+      if (pool.length < count) {
+        pool = subject.questions.filter(question => !seen.has(question.q));
+      }
       if (pool.length < count) {
         pool = subject.questions;
-        state.seenKeys[subject.id] = [];
+        if (!tier) state.seenKeys[subject.id] = [];
       }
       const selected = pickQuestions(pool, count);
       const nextSeen = new Set(state.seenKeys[subject.id] || []);
@@ -1410,10 +1464,11 @@
     function showQuestion() {
       const subject = state.currentSubject;
       const question = state.currentQuestions[state.index];
+      const tier = tierMeta[question.tier] || tierMeta.secure;
       state.answered = false;
       $("questTag").textContent = state.reviveItemIndex === null
-        ? `${subject.title}${question.subjectTitle && subject.id === "mock" ? ` · ${question.subjectTitle}` : ""}`
-        : `${subject.title} · 复活挑战`;
+        ? `${subject.title}${question.subjectTitle && subject.id === "mock" ? ` · ${question.subjectTitle}` : ""} · ${tier.label}`
+        : `${subject.title} · 复活挑战 · ${tier.label}`;
       $("questionTitle").textContent = question.q;
       $("questionProgress").style.width = `${state.index / state.currentQuestions.length * 100}%`;
       $("feedback").textContent = state.reviveItemIndex === null
@@ -1462,20 +1517,22 @@
         if (b.dataset.answer === question.a) b.classList.add("correct");
       });
       if (correct) {
+        const tier = tierMeta[question.tier] || tierMeta.secure;
         state.score += 1;
         state.combo += 1;
-        state.xp += 12;
-        updateMastery(question.subjectId || state.currentSubject.id, 2);
+        state.xp += tier.bonus;
+        updateMastery(question.subjectId || state.currentSubject.id, tier.mastery);
         saveProgress();
         if (state.reviveItemIndex !== null) {
           completeReviveChallenge(true);
           return;
         }
-        $("feedback").textContent = `命中目标！${state.combo} 连击，能量 +12。`;
+        $("feedback").textContent = `命中${tier.label}！${state.combo} 连击，能量 +${tier.bonus}。`;
       } else {
         btn.classList.add("wrong");
         state.combo = 0;
-        updateMastery(question.subjectId || state.currentSubject.id, -1);
+        const tier = tierMeta[question.tier] || tierMeta.secure;
+        updateMastery(question.subjectId || state.currentSubject.id, tier.mastery > 2 ? -2 : -1);
         if (state.reviveItemIndex !== null) {
           $("feedback").textContent = `复活挑战失败：先复盘讲解，再打一题。提示：${question.hint}`;
           setTimeout(() => completeReviveChallenge(false), 900);
@@ -1495,6 +1552,7 @@
             explain: question.explain,
             audio: question.audio,
             speak: question.speak,
+            tier: question.tier,
             seen: false,
             corrected: false
           });
