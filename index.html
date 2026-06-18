@@ -1123,6 +1123,9 @@
       seenKeys: {},
       mastery: { math: 36, chinese: 32, english: 28 },
       mockDone: false,
+      lastMockScore: null,
+      lastMockTotal: MOCK_TEST_COUNT,
+      lastMockPercent: null,
       currentMode: "subject",
       currentSubject: null,
       currentQuestions: [],
@@ -1197,6 +1200,9 @@
         state.seenKeys = saved.seenKeys || {};
         state.mastery = { ...state.mastery, ...(saved.mastery || {}) };
         state.mockDone = saved.mockDone || false;
+        state.lastMockScore = saved.lastMockScore ?? null;
+        state.lastMockTotal = saved.lastMockTotal || MOCK_TEST_COUNT;
+        state.lastMockPercent = saved.lastMockPercent ?? null;
       } catch (error) {
         console.warn("Progress load failed", error);
       }
@@ -1214,7 +1220,10 @@
           downed: state.downed,
           seenKeys: state.seenKeys,
           mastery: state.mastery,
-          mockDone: state.mockDone
+          mockDone: state.mockDone,
+          lastMockScore: state.lastMockScore,
+          lastMockTotal: state.lastMockTotal,
+          lastMockPercent: state.lastMockPercent
         }));
       } catch (error) {
         console.warn("Progress save failed", error);
@@ -1227,8 +1236,8 @@
       $("nextXp").textContent = Math.max(0, 220 - state.xp);
       $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
       $("todayDone").textContent = state.currentMode === "mock"
-        ? `${state.score}/${MOCK_TEST_COUNT}`
-        : state.mockDone ? "20/20" : `0/${MOCK_TEST_COUNT}`;
+        ? `${Math.round(state.score / MOCK_TEST_COUNT * 100)}分`
+        : state.mockDone ? `${state.lastMockPercent ?? 0}分` : `0分`;
       $("downedCount").textContent = activeDowned().length;
       $("reviveBtn").disabled = activeDowned().length > 0;
       $("reviveBtn").textContent = activeDowned().length > 0 ? "先清倒地题" : "复活再玩一局";
@@ -1344,6 +1353,7 @@
         const downedCount = activeItems(progress.downed).length;
         const complete = isDayComplete(progress);
         const started = completedCount > 0 || downedCount > 0;
+        const scoreText = progress.lastMockPercent !== null && progress.lastMockPercent !== undefined ? `${progress.lastMockPercent}分` : null;
         const isPast = dateKey < todayKey;
         const isToday = dateKey === todayKey;
         const status = complete ? "完成" : started ? "进行中" : isPast ? "未完成" : "未开始";
@@ -1352,7 +1362,7 @@
           <div class="day-cell ${cls} ${isToday ? "today" : ""}">
             <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
             <span>${status}</span>
-            <span>${progress.mockDone ? "20题完成" : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
+            <span>${progress.mockDone ? `${scoreText || "20题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
           </div>
         `;
       }).join("");
@@ -1368,14 +1378,14 @@
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
-            <p>${todayKey}：${isComplete ? "今日20题小测已完成，倒地题已清空。" : "今日还未达标，请完成20题小测并清空倒地题。"}</p>
+            <p>${todayKey}：${state.mockDone ? `今日小测 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成20题小测并清空倒地题。"}</p>
             <div class="progress-grid">${subjectProgress}</div>
           </div>
-          <div class="score">${isComplete ? "完成" : "未完成"}</div>
+          <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
           <div><h3>今日90分作战节奏</h3><p>每天20题：数学7、语文7、英语6；其中保分题8、提分题8、冲90题4。冲90题专练最后5-10分的阅读、应用、综合题。</p></div>
-          <div class="score">${state.mockDone ? "20/20" : `${done}/3`}</div>
+          <div class="score">${state.mockDone ? `${state.lastMockPercent}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
           <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。看讲解后还要答对一道同科复活题，才算真正复活。</p></div>
@@ -1585,8 +1595,12 @@
     function finishSubject() {
       const subject = state.currentSubject;
       const total = state.currentQuestions.length;
+      const percent = Math.round(state.score / total * 100);
       if (state.currentMode === "mock") {
         state.mockDone = true;
+        state.lastMockScore = state.score;
+        state.lastMockTotal = total;
+        state.lastMockPercent = percent;
         subjects.forEach(item => { state.completed[item.id] = true; });
       } else {
         state.completed[subject.id] = true;
@@ -1594,10 +1608,10 @@
       if (state.score === total) {
         state.xp += 45;
         state.loot += 1;
-        $("feedback").textContent = `${state.currentMode === "mock" ? "90分小测满分通关" : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
+        $("feedback").textContent = `${state.currentMode === "mock" ? `小测得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
       } else {
         if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
-        const estimate = state.currentMode === "mock" ? `，折算约 ${Math.round(state.score / total * 100)} 分` : "";
+        const estimate = state.currentMode === "mock" ? `，小测得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
         $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。`;
       }
       if (state.xp >= 220) {
