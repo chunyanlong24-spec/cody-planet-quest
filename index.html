@@ -814,7 +814,7 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>数学星、语文星、英语星围绕 Cody 飞船。每科 30 题题库，每局随机抽 3 题速通；答错会掉进陨石坑复活站，打赢复活题后才能继续航行。</p>
+          <p>数学星、语文星、英语星围绕 Cody 飞船。每局 8 题作战训练，题库会避开已做题；语文加入阅读和诗词，英语加入短文阅读和综合语法，打赢复活题后才能继续航行。</p>
           <div class="hero-actions">
             <button class="btn primary" id="startToday">开始今日三关</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
@@ -823,7 +823,7 @@
           <div class="stats">
             <div class="stat"><strong id="todayDone">0/3</strong><span>今日三关</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
-            <div class="stat"><strong id="streakCount">1</strong><span>连续天数</span></div>
+            <div class="stat"><strong id="lootCount">0</strong><span>装备箱</span></div>
           </div>
         </div>
       </div>
@@ -886,7 +886,7 @@
         tag: "第一关",
         skill: "30题题库",
         color: "#45d7ff",
-        desc: "分数、因数倍数、长方体正方体，每局随机抽 3 题。",
+        desc: "因数倍数、分数运算、长方体正方体、应用题，每局 8 题。",
         questions: [
           { q: "12 和 18 的最大公因数是？", a: "6", options: ["3", "6", "12", "36"], hint: "列出共同因数，最大的是 6。", explain: "12 的因数有 1、2、3、4、6、12；18 的因数有 1、2、3、6、9、18。共同因数里最大的是 6。" },
           { q: "4 和 6 的最小公倍数是？", a: "12", options: ["2", "10", "12", "24"], hint: "找共同倍数中最小的。", explain: "4 的倍数有 4、8、12；6 的倍数有 6、12。第一个共同倍数是 12。" },
@@ -924,9 +924,9 @@
         id: "chinese",
         title: "语文侦察关",
         tag: "第二关",
-        skill: "30题题库",
+        skill: "60题题库",
         color: "#ffbd4a",
-        desc: "字词、修辞、阅读、作文，每局随机抽 3 题。",
+        desc: "阅读理解、诗词积累、字词句段、作文表达，每局 8 题。",
         questions: [
           { q: "“聚精会神”的意思最接近哪一个？", a: "注意力非常集中", options: ["动作很快", "注意力非常集中", "声音很大", "心情很难过"], hint: "关键词是“聚精”和“会神”。", explain: "聚精会神表示集中全部精神，形容注意力非常集中。" },
           { q: "“弯弯的月亮像小船”使用了什么修辞？", a: "比喻", options: ["拟人", "排比", "比喻", "夸张"], hint: "把月亮比作小船。", explain: "把一种事物说成另一种相似的事物，这是比喻。" },
@@ -964,9 +964,9 @@
         id: "english",
         title: "英语通讯关",
         tag: "第三关",
-        skill: "30题题库",
+        skill: "60题题库",
         color: "#9b7cff",
-        desc: "单词、句型、语法、听音频理解，每局随机抽 3 题。",
+        desc: "听力、语法、情景交际、英文短文阅读，每局 8 题。",
         questions: [
           { q: "听音频，选择你听到的单词。", a: "apple", options: ["apple", "table", "people", "pencil"], hint: "注意开头音 /æ/。", explain: "音频读的是 apple，意思是苹果。", audio: "audio/eng-apple.wav", speak: "apple" },
           { q: "听音频，句子里的地点是哪里？", a: "library", options: ["park", "library", "classroom", "kitchen"], hint: "听 I go to the ...", explain: "句子是 I go to the library on Sunday. 地点是 library。", audio: "audio/eng-library.wav", speak: "I go to the library on Sunday." },
@@ -1002,6 +1002,95 @@
       }
     ];
 
+    const extraQuestionBank = {
+      math: [
+        { q: "一个长方体鱼缸长 6dm、宽 4dm、高 5dm，最多能装水多少升？", a: "120升", options: ["15升", "60升", "120升", "240升"], hint: "1立方分米=1升。", explain: "体积=6×4×5=120立方分米，也就是120升。" },
+        { q: "把 3/4 和 5/6 通分，公分母最合适的是？", a: "12", options: ["6", "10", "12", "24"], hint: "4和6的最小公倍数。", explain: "4和6的最小公倍数是12，用12作公分母计算更简便。" },
+        { q: "一根彩带长 5/6 米，用去 1/3 米，还剩多少米？", a: "1/2米", options: ["4/3米", "1/2米", "2/9米", "1/3米"], hint: "1/3=2/6。", explain: "5/6-2/6=3/6=1/2米。" },
+        { q: "一个正方体棱长扩大到原来的2倍，体积扩大到原来的几倍？", a: "8倍", options: ["2倍", "4倍", "6倍", "8倍"], hint: "体积有长、宽、高三个方向。", explain: "棱长×2，体积就是2×2×2=8倍。" },
+        { q: "36和48的最大公因数是？", a: "12", options: ["6", "8", "12", "24"], hint: "找两数共同的最大因数。", explain: "36=2×2×3×3，48=2×2×2×2×3，共同部分是2×2×3=12。" },
+        { q: "7/8 - 1/4 = ?", a: "5/8", options: ["6/4", "5/8", "3/8", "1/2"], hint: "1/4=2/8。", explain: "7/8-2/8=5/8。" },
+        { q: "一个数既是18的倍数，又是24的倍数，最小的是？", a: "72", options: ["36", "48", "72", "96"], hint: "求18和24的最小公倍数。", explain: "18=2×3×3，24=2×2×2×3，最小公倍数是2×2×2×3×3=72。" },
+        { q: "一个无盖正方体盒子棱长5cm，做这个盒子至少需要多少平方厘米材料？", a: "125cm²", options: ["25cm²", "100cm²", "125cm²", "150cm²"], hint: "无盖只有5个面。", explain: "一个面25cm²，5个面共25×5=125cm²。" },
+        { q: "2又1/3 + 1又1/6 = ?", a: "3又1/2", options: ["3又1/2", "3又2/9", "4又1/6", "2又1/2"], hint: "整数和分数分别相加。", explain: "2+1=3，1/3+1/6=2/6+1/6=3/6=1/2，所以是3又1/2。" },
+        { q: "把 0.75 化成分数并约分是？", a: "3/4", options: ["75/10", "15/20", "3/4", "7/5"], hint: "0.75=75/100。", explain: "75/100同时除以25，得到3/4。" },
+        { q: "一个长方体有几条棱？", a: "12条", options: ["6条", "8条", "12条", "24条"], hint: "长、宽、高各有4条。", explain: "长方体有12条棱、8个顶点、6个面。" },
+        { q: "15分钟是1小时的几分之几？", a: "1/4", options: ["1/2", "1/3", "1/4", "1/5"], hint: "1小时=60分钟。", explain: "15÷60=15/60=1/4。" }
+      ],
+      chinese: [
+        { q: "阅读：清晨，雾还没有散，爷爷已经来到菜园。他先松土，再浇水，最后把倒伏的辣椒苗扶正。短文主要写什么？", a: "爷爷清晨照料菜园", options: ["雾很大", "爷爷清晨照料菜园", "辣椒很好吃", "我去上学"], hint: "抓人物和主要事情。", explain: "人物是爷爷，主要事情是清晨在菜园松土、浇水、扶苗。" },
+        { q: "阅读：小军想放弃练字，老师拿出他一个月前的作业本。小军看见现在的字比以前工整多了，又坐回桌前。小军为什么继续练字？", a: "看到自己有进步", options: ["老师批评他", "看到自己有进步", "作业太少", "同学叫他"], hint: "找让他改变想法的原因。", explain: "他看到现在的字比以前工整，意识到练习有效，所以继续练。" },
+        { q: "阅读：雨后的操场像洗过一样，树叶亮得发光，空气里有青草味。这段主要描写了什么？", a: "雨后校园景色", options: ["比赛过程", "雨后校园景色", "人物动作", "课堂内容"], hint: "看景物词：操场、树叶、空气。", explain: "这段用操场、树叶、空气描写雨后校园的清新景色。" },
+        { q: "诗句“孤帆远影碧空尽，唯见长江天际流”表达了什么情感？", a: "送别友人的依依不舍", options: ["春游快乐", "送别友人的依依不舍", "打仗紧张", "丰收喜悦"], hint: "孤帆远去，诗人还在看。", explain: "诗人目送友人远去，表现了送别时的不舍。" },
+        { q: "诗句“童孙未解供耕织，也傍桑阴学种瓜”写出了儿童什么特点？", a: "天真可爱、爱模仿劳动", options: ["懒惰贪玩", "害怕劳动", "天真可爱、爱模仿劳动", "非常伤心"], hint: "学种瓜是模仿大人劳动。", explain: "儿童不会真正耕织，却在桑阴下学种瓜，显得天真可爱。" },
+        { q: "“青山处处埋忠骨，何须马革裹尸还”体现了怎样的胸怀？", a: "为国牺牲的崇高胸怀", options: ["只想回家", "为国牺牲的崇高胸怀", "喜欢旅游", "害怕困难"], hint: "忠骨、马革裹尸都和为国牺牲有关。", explain: "诗句表现革命者为国牺牲、死得其所的崇高精神。" },
+        { q: "阅读题问“这句话在文中的作用”，常见答案不包括哪项？", a: "增加页数", options: ["承上启下", "点明中心", "设置悬念", "增加页数"], hint: "作用要和文章结构或内容有关。", explain: "增加页数不是句子作用；承上启下、点明中心、设置悬念都是常见作用。" },
+        { q: "“他把书包往沙发上一扔，气呼呼地坐下。”主要用了什么描写？", a: "动作和神态描写", options: ["景物描写", "动作和神态描写", "说明方法", "外貌描写"], hint: "扔、坐是动作，气呼呼是神态。", explain: "句中有动作描写，也有神态描写，表现人物生气。" },
+        { q: "概括短文中心时，哪种说法最好？", a: "既写事情，也写道理或感情", options: ["只抄第一句", "只写人物名字", "既写事情，也写道理或感情", "越长越好"], hint: "中心不只是内容，还要有意义。", explain: "中心通常包括文章写了什么，以及表达了什么感情或说明了什么道理。" },
+        { q: "“刷子李刷墙时，屋里什么都不用放，单坐着就行。”这种写法主要突出什么？", a: "刷子李技艺高超", options: ["房间很小", "刷子李技艺高超", "墙很脏", "他不爱说话"], hint: "不用保护物品，说明手艺稳。", explain: "这种夸张的说法突出刷子李刷墙技艺高超。" },
+        { q: "“严监生临死前伸着两个指头”这个细节主要表现人物什么特点？", a: "吝啬", options: ["勇敢", "吝啬", "大方", "健忘"], hint: "细节和两茎灯草有关。", explain: "严监生临死还惦记两茎灯草，突出吝啬。" },
+        { q: "阅读：妈妈把伞推到我这边，自己的肩膀却湿了一大片。“推”字表现了什么？", a: "妈妈对我的爱", options: ["妈妈力气大", "雨很小", "妈妈对我的爱", "伞坏了"], hint: "动作背后有感情。", explain: "妈妈把伞推向孩子，自己淋湿，表现母爱。" },
+        { q: "“这里的桂花再香，也比不上家乡院子里的桂花。”表达了什么？", a: "思念家乡", options: ["讨厌桂花", "思念家乡", "喜欢买花", "天气很热"], hint: "家乡是关键词。", explain: "拿别处桂花和家乡桂花比较，表达对家乡的思念。" },
+        { q: "“威尼斯的小艇行动轻快灵活，仿佛田沟里的水蛇。”用了什么修辞？", a: "比喻", options: ["比喻", "排比", "设问", "反问"], hint: "把小艇比作水蛇。", explain: "用水蛇比喻小艇，写出小艇轻快灵活。" },
+        { q: "“船夫的驾驶技术特别好。”如果要展开具体写，最合适写什么？", a: "船夫怎样拐弯、穿行、停靠", options: ["船夫喜欢吃什么", "船夫怎样拐弯、穿行、停靠", "船的颜色", "天气预报"], hint: "具体事例要证明技术好。", explain: "写拐弯、穿行、停靠等动作，能具体表现驾驶技术好。" },
+        { q: "作文写人要写出特点，最有效的方法是？", a: "用具体事例表现人物", options: ["只写身高", "用具体事例表现人物", "堆很多成语", "只写名字"], hint: "特点要靠事例证明。", explain: "写人不能空喊品质，要用具体事件表现人物特点。" },
+        { q: "“虽然今天下雨，但是运动会照常举行。”是什么关系？", a: "转折", options: ["因果", "并列", "转折", "条件"], hint: "虽然……但是……", explain: "虽然……但是……表示前后意思有转折。" },
+        { q: "“只要认真复盘错题，成绩就会慢慢提高。”是什么关系？", a: "条件", options: ["条件", "转折", "并列", "选择"], hint: "只要……就……", explain: "只要……就……表示条件关系。" },
+        { q: "下面哪项最像阅读理解中的“联系生活实际谈体会”？", a: "结合自己经历说启发", options: ["只抄原文", "结合自己经历说启发", "写一个词语意思", "数自然段"], hint: "生活实际就是自己的经历。", explain: "谈体会要结合文章内容和自己的生活经历。" },
+        { q: "古诗默写题中，如果问“诗眼”，通常指什么？", a: "最能表现情感或画面的关键字词", options: ["诗人的眼睛", "最长的句子", "最能表现情感或画面的关键字词", "标点符号"], hint: "诗眼是关键处。", explain: "诗眼是全诗中最传神、最能表现主旨或画面的字词。" },
+        { q: "阅读：父亲没有回答，只是弯下腰，把散落一地的零件一个个捡起来。这里的“没有回答”可能表现什么？", a: "父亲用行动教育孩子", options: ["父亲没听见", "父亲用行动教育孩子", "父亲不会说话", "父亲很开心"], hint: "联系后面的动作。", explain: "父亲不说教，而是用行动示范，教育孩子要负责。" },
+        { q: "判断文章详略时，通常哪部分应该详写？", a: "最能表现中心的内容", options: ["和中心无关的内容", "最能表现中心的内容", "天气", "人物名字"], hint: "详略服务中心。", explain: "详写能突出中心的内容，略写次要内容。" },
+        { q: "“我鼻子一酸，眼泪差点掉下来。”主要表现人物什么？", a: "感动或难过", options: ["很饿", "感动或难过", "想睡觉", "很骄傲"], hint: "鼻子一酸常和情绪有关。", explain: "这类细节常表现人物内心感动、委屈或难过。" },
+        { q: "诗句“黄沙百战穿金甲，不破楼兰终不还”表现了将士什么精神？", a: "保家卫国的坚定决心", options: ["害怕战争", "保家卫国的坚定决心", "想念美食", "喜欢沙漠"], hint: "不破楼兰终不还。", explain: "诗句表现边塞将士不打败敌人誓不回还的坚定决心。" },
+        { q: "“总—分—总”结构的文章，开头和结尾通常有什么关系？", a: "开头总起，结尾总结或点题", options: ["完全无关", "开头总起，结尾总结或点题", "都写天气", "都写人物外貌"], hint: "结构名称里有两个总。", explain: "总—分—总结构常开头总起，中间分写，结尾总结或点题。" },
+        { q: "“他像离弦的箭一样冲了出去。”这个比喻突出什么？", a: "速度快", options: ["声音大", "速度快", "个子高", "心情好"], hint: "离弦的箭很快。", explain: "把他比作离弦的箭，突出动作速度快。" },
+        { q: "阅读题中“照应题目”是什么意思？", a: "内容和题目相互呼应", options: ["把题目抄一遍", "内容和题目相互呼应", "题目写得很长", "题目有错别字"], hint: "照应就是前后呼应。", explain: "照应题目指文章内容、结尾或关键句与题目形成联系。" },
+        { q: "作文《一次难忘的尝试》最应该重点写什么？", a: "尝试的经过和收获", options: ["天气预报", "尝试的经过和收获", "同学名字列表", "只写结尾"], hint: "题眼是尝试、难忘。", explain: "要写清尝试过程、遇到困难、如何解决以及收获。" },
+        { q: "“这件事深深地印在我的脑海里。”适合作为什么？", a: "结尾点题句", options: ["说明天气", "结尾点题句", "人物外貌", "数字计算"], hint: "强调难忘。", explain: "这句话能总结感受，适合放在结尾点题。" },
+        { q: "读文章时，哪种方法最能帮助回答“为什么”？", a: "找原因词和前后句", options: ["只看标题", "找原因词和前后句", "数逗号", "跳过原文"], hint: "因为、由于、所以附近常有答案。", explain: "回答原因题要回到原文，找原因词和相关前后句。" }
+      ],
+      english: [
+        { q: "Read: Tom gets up at 6:30. He has bread and milk for breakfast. Then he walks to school. How does Tom go to school?", a: "On foot.", options: ["By bus.", "On foot.", "By bike.", "By car."], hint: "walks to school。", explain: "walk to school 表示步行去学校，所以答案是 On foot." },
+        { q: "Read: Lily likes winter because she can make a snowman. Which season does Lily like?", a: "Winter.", options: ["Spring.", "Summer.", "Autumn.", "Winter."], hint: "likes winter。", explain: "文中直接说 Lily likes winter。" },
+        { q: "Read: My father is a doctor. He works in a hospital. Where does my father work?", a: "In a hospital.", options: ["In a school.", "In a hospital.", "On a farm.", "In a shop."], hint: "works in a ...", explain: "He works in a hospital. 表示他在医院工作。" },
+        { q: "Read: We had a picnic last Sunday. We flew kites and took photos. When did we have a picnic?", a: "Last Sunday.", options: ["Last Sunday.", "Every day.", "Tomorrow.", "This Friday."], hint: "注意时间短语。", explain: "last Sunday 表示上周日。" },
+        { q: "Read: There is a big tree near the house. Two birds are singing in the tree. Where are the birds?", a: "In the tree.", options: ["Under the tree.", "In the tree.", "Behind the house.", "Near the river."], hint: "singing in the tree。", explain: "文中说 two birds are singing in the tree。" },
+        { q: "Choose the best answer: What did you do yesterday?", a: "I cleaned my room.", options: ["I clean my room every day.", "I cleaned my room.", "I am cleaning my room.", "I will clean my room."], hint: "yesterday 用过去式。", explain: "问昨天做了什么，回答用一般过去时 cleaned。" },
+        { q: "Choose the best answer: What are you doing now?", a: "I am reading.", options: ["I read yesterday.", "I am reading.", "I reads.", "I will read."], hint: "now 用现在进行时。", explain: "What are you doing now? 回答 I am doing..." },
+        { q: "He often ____ football after school.", a: "plays", options: ["play", "plays", "playing", "played"], hint: "He 第三人称单数。", explain: "一般现在时中，he/she/it 后动词加 s。" },
+        { q: "They ____ to the zoo last weekend.", a: "went", options: ["go", "goes", "went", "going"], hint: "last weekend 用过去式。", explain: "go 的过去式是 went。" },
+        { q: "There ____ some water in the bottle.", a: "is", options: ["is", "are", "am", "be"], hint: "water 不可数。", explain: "water 是不可数名词，用 There is。" },
+        { q: "There ____ many children in the park.", a: "are", options: ["is", "are", "am", "was"], hint: "many children 是复数。", explain: "复数名词前用 There are。" },
+        { q: "My birthday is ____ May.", a: "in", options: ["in", "on", "at", "to"], hint: "月份前用 in。", explain: "月份前通常用介词 in。" },
+        { q: "The party is ____ June 1st.", a: "on", options: ["in", "on", "at", "for"], hint: "具体日期前用 on。", explain: "具体某一天用 on。" },
+        { q: "I go to school ____ 7:30.", a: "at", options: ["in", "on", "at", "by"], hint: "具体时刻前用 at。", explain: "at 7:30 表示在7:30。" },
+        { q: "Which sentence is right?", a: "She doesn't like fish.", options: ["She don't like fish.", "She doesn't like fish.", "She doesn't likes fish.", "She not like fish."], hint: "She 否定用 doesn't，后接动词原形。", explain: "doesn't 后面动词用原形 like。" },
+        { q: "Make a question: He is playing chess.", a: "Is he playing chess?", options: ["Does he playing chess?", "Is he playing chess?", "He is playing chess?", "Are he playing chess?"], hint: "be 动词提前。", explain: "现在进行时的一般疑问句把 is 提到句首。" },
+        { q: "Choose the opposite word: early", a: "late", options: ["late", "fast", "easy", "small"], hint: "早的反义词。", explain: "early 的反义词是 late。" },
+        { q: "Choose the same kind: subway, train, bus, ____", a: "taxi", options: ["taxi", "apple", "sunny", "jump"], hint: "前三个是交通工具。", explain: "taxi 也是交通工具。" },
+        { q: "What should you say when you need help?", a: "Can you help me, please?", options: ["Can you help me, please?", "You're welcome.", "Happy birthday.", "Good night."], hint: "需要帮助用 help。", explain: "请求帮助可以说 Can you help me, please?" },
+        { q: "What should you say when someone says “Thank you”?", a: "You're welcome.", options: ["I'm sorry.", "You're welcome.", "Good morning.", "Let's go."], hint: "感谢后的礼貌回应。", explain: "别人说谢谢，回答 You're welcome." },
+        { q: "Read: Mike is ill today. He has a headache. His mother takes him to see a doctor. What is wrong with Mike?", a: "He has a headache.", options: ["He has a headache.", "He is hungry.", "He lost a book.", "He is late."], hint: "has a headache。", explain: "文中说 He has a headache." },
+        { q: "Read: Sarah's bag is heavier than Amy's bag. Whose bag is heavier?", a: "Sarah's bag.", options: ["Amy's bag.", "Sarah's bag.", "John's bag.", "The teacher's bag."], hint: "heavier than。", explain: "Sarah's bag is heavier than Amy's bag 表示 Sarah 的包更重。" },
+        { q: "Read: The library is quiet. Students are reading books. They must not talk loudly. What mustn't they do?", a: "Talk loudly.", options: ["Read books.", "Talk loudly.", "Sit down.", "Open books."], hint: "must not。", explain: "must not talk loudly 表示不能大声说话。" },
+        { q: "Which is correct for past tense?", a: "I saw a film yesterday.", options: ["I see a film yesterday.", "I saw a film yesterday.", "I seeing a film yesterday.", "I sees a film yesterday."], hint: "see 的过去式 saw。", explain: "yesterday 用过去式，see 变 saw。" },
+        { q: "Which one means “我打算明天去游泳”？", a: "I am going to swim tomorrow.", options: ["I swam yesterday.", "I am going to swim tomorrow.", "I swim every day.", "I am swimming now."], hint: "be going to 表示打算。", explain: "am going to swim tomorrow 表示明天打算去游泳。" },
+        { q: "The elephant is ____ than the monkey.", a: "bigger", options: ["big", "bigger", "biggest", "small"], hint: "than 前用比较级。", explain: "有 than 时常用比较级 bigger。" },
+        { q: "This is ____ book. The book is mine.", a: "my", options: ["I", "me", "my", "mine"], hint: "名词 book 前用形容词性物主代词。", explain: "my book 表示我的书。" },
+        { q: "The red pencil is ____. It belongs to Amy.", a: "hers", options: ["her", "hers", "she", "his"], hint: "后面没有名词。", explain: "表示“她的”且后面不接名词，用 hers。" },
+        { q: "What does “No photos” mean?", a: "You can't take photos.", options: ["You can't take photos.", "You can run.", "You must eat.", "You can sing."], hint: "No + 名词表示禁止。", explain: "No photos 表示禁止拍照。" },
+        { q: "Choose the best title: A text talks about planting trees, watering them and protecting the forest.", a: "Protect the Forest", options: ["My New Shoes", "Protect the Forest", "A Birthday Party", "At the Cinema"], hint: "抓主题词 trees、forest。", explain: "短文主题和种树、保护森林有关，所以标题应是 Protect the Forest。" }
+      ]
+    };
+
+    subjects.forEach(subject => {
+      const extras = extraQuestionBank[subject.id] || [];
+      subject.questions.push(...extras);
+      if (extras.length) subject.skill = `${subject.questions.length}题题库`;
+    });
+
+    const QUESTIONS_PER_ROUND = 8;
+
     const pad2 = value => String(value).padStart(2, "0");
     const makeDateKey = date => `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
     const todayKey = makeDateKey(new Date());
@@ -1011,9 +1100,12 @@
       xp: 140,
       level: 3,
       streak: 1,
+      loot: 0,
       date: todayKey,
       completed: {},
       downed: [],
+      seenKeys: {},
+      mastery: { math: 36, chinese: 32, english: 28 },
       currentSubject: null,
       currentQuestions: [],
       reviveItemIndex: null,
@@ -1054,8 +1146,11 @@
         state.xp = saved.xp ?? state.xp;
         state.level = saved.level ?? state.level;
         state.streak = saved.streak ?? state.streak;
+        state.loot = saved.loot ?? state.loot;
         state.completed = saved.completed || {};
         state.downed = saved.downed || [];
+        state.seenKeys = saved.seenKeys || {};
+        state.mastery = { ...state.mastery, ...(saved.mastery || {}) };
       } catch (error) {
         console.warn("Progress load failed", error);
       }
@@ -1068,8 +1163,11 @@
           xp: state.xp,
           level: state.level,
           streak: state.streak,
+          loot: state.loot,
           completed: state.completed,
-          downed: state.downed
+          downed: state.downed,
+          seenKeys: state.seenKeys,
+          mastery: state.mastery
         }));
       } catch (error) {
         console.warn("Progress save failed", error);
@@ -1077,7 +1175,7 @@
     }
 
     function render() {
-      $("streakCount").textContent = state.streak;
+      $("lootCount").textContent = state.loot;
       $("level").textContent = state.level;
       $("nextXp").textContent = Math.max(0, 220 - state.xp);
       $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
@@ -1092,13 +1190,12 @@
     }
 
     function renderAbilities() {
-      const bonus = Object.keys(state.completed).length * 6;
       const penalty = Math.min(12, activeDowned().length * 3);
-      $("abilities").innerHTML = Object.entries(abilityBase).map(([name, base]) => {
-        const value = Math.max(8, Math.min(99, base + bonus - penalty));
+      $("abilities").innerHTML = subjects.map(subject => {
+        const value = Math.max(8, Math.min(99, (state.mastery[subject.id] ?? abilityBase[subject.title] ?? 30) - penalty));
         return `
           <div class="ability-row">
-            <b>${name}</b>
+            <b>${subject.title.slice(0, 2)}</b>
             <div class="bar"><i style="width:${value}%; background:${value > 45 ? "linear-gradient(90deg, var(--green), var(--cyan))" : "linear-gradient(90deg, var(--orange), var(--amber))"}"></i></div>
             <span>${value}</span>
           </div>
@@ -1111,7 +1208,7 @@
       const done = state.completed[s.id];
       return `
         <article class="planet-card ${s.id} ${locked ? "locked" : ""}" style="--accent:${s.color}" data-subject="${s.id}">
-          <span class="tag">${done ? "已通关" : s.tag}</span>
+          <span class="tag">${done ? "已通关" : `${s.tag} · ${s.skill}`}</span>
           <h3>${s.title}</h3>
           <p>${s.desc}</p>
           <button class="small" ${locked ? "disabled" : ""}>${locked ? "需复活" : done ? "再开一局" : "进入星球"}</button>
@@ -1228,7 +1325,7 @@
           <div class="score">${isComplete ? "完成" : "未完成"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 3 题速通。总时长 20 分钟左右，完成后再给娱乐时间。</p></div>
+          <div><h3>今日三关节奏</h3><p>建议每天数学、语文、英语各 1 关，每关 8 题作战训练。总时长约 25-35 分钟，错题清空后再给娱乐时间。</p></div>
           <div class="score">${done}/3</div>
         </div>
         <div class="parent-row">
@@ -1250,7 +1347,7 @@
       const subject = subjects.find(s => s.id === id);
       if (!subject) return;
       state.currentSubject = subject;
-      state.currentQuestions = pickQuestions(subject.questions, 3);
+      state.currentQuestions = pickSubjectQuestions(subject, QUESTIONS_PER_ROUND);
       state.index = 0;
       state.score = 0;
       state.answered = false;
@@ -1260,6 +1357,21 @@
 
     function pickQuestions(pool, count) {
       return [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+    }
+
+    function pickSubjectQuestions(subject, count) {
+      const seen = new Set(state.seenKeys[subject.id] || []);
+      let pool = subject.questions.filter(question => !seen.has(question.q));
+      if (pool.length < count) {
+        pool = subject.questions;
+        state.seenKeys[subject.id] = [];
+      }
+      const selected = pickQuestions(pool, count);
+      const nextSeen = new Set(state.seenKeys[subject.id] || []);
+      selected.forEach(question => nextSeen.add(question.q));
+      state.seenKeys[subject.id] = [...nextSeen].slice(-subject.questions.length);
+      saveProgress();
+      return selected;
     }
 
     function showQuestion() {
@@ -1318,6 +1430,7 @@
         state.score += 1;
         state.combo += 1;
         state.xp += 12;
+        updateMastery(state.currentSubject.id, 2);
         saveProgress();
         if (state.reviveItemIndex !== null) {
           completeReviveChallenge(true);
@@ -1327,6 +1440,7 @@
       } else {
         btn.classList.add("wrong");
         state.combo = 0;
+        updateMastery(state.currentSubject.id, -1);
         if (state.reviveItemIndex !== null) {
           $("feedback").textContent = `复活挑战失败：先复盘讲解，再打一题。提示：${question.hint}`;
           setTimeout(() => completeReviveChallenge(false), 900);
@@ -1354,6 +1468,11 @@
       render();
     }
 
+    function updateMastery(subjectId, delta) {
+      const current = state.mastery[subjectId] ?? 30;
+      state.mastery[subjectId] = Math.max(8, Math.min(99, current + delta));
+    }
+
     function nextQuestion() {
       if (!state.currentSubject) return;
       if (state.reviveItemIndex !== null) {
@@ -1373,10 +1492,12 @@
       const total = state.currentQuestions.length;
       state.completed[subject.id] = true;
       if (state.score === total) {
-        state.xp += 30;
-        $("feedback").textContent = `完美通关！本关 ${state.score}/${total}，额外能量 +30。`;
+        state.xp += 45;
+        state.loot += 1;
+        $("feedback").textContent = `完美通关！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。`;
       } else {
-        $("feedback").textContent = `完成行动，本关 ${state.score}/${total}。先去陨石坑复活站清倒地题，再开下一局。`;
+        if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
+        $("feedback").textContent = `行动结算：本关 ${state.score}/${total}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。`;
       }
       if (state.xp >= 220) {
         state.level += 1;
