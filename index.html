@@ -829,14 +829,14 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁20题自测，得分兑换积分，去仓库换铅笔、文具和装备。</p>
+          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁30题期末仿真小卷，得分兑换积分，去仓库换铅笔、文具和装备。</p>
           <div class="hero-actions">
-            <button class="btn primary" id="startToday">今日20题小测</button>
+            <button class="btn primary" id="startToday">今日30题仿真小卷</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
             <button class="btn ghost" data-jump="warehouse">进入仓库</button>
           </div>
           <div class="stats">
-            <div class="stat"><strong id="todayDone">0/20</strong><span>今日小测</span></div>
+            <div class="stat"><strong id="todayDone">0/30</strong><span>今日仿真卷</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
             <div class="stat"><strong id="creditCount">0</strong><span>积分</span></div>
           </div>
@@ -1103,6 +1103,19 @@
       ]
     };
 
+    extraQuestionBank.math.push(
+      { q: "期末应用：24朵红花和36朵黄花平均分成若干束，每束红花同样多、黄花也同样多，最多能分成几束？", a: "12束", options: ["6束", "8束", "12束", "24束"], hint: "求最多分几束，就是求24和36的最大公因数。", explain: "24和36的最大公因数是12，所以最多分成12束。", tier: "stretch" },
+      { q: "期末应用：甲每6天值日一次，乙每8天值日一次。今天两人同时值日，至少再过几天又同时值日？", a: "24天", options: ["12天", "14天", "24天", "48天"], hint: "求再次同时出现，用最小公倍数。", explain: "6和8的最小公倍数是24，所以至少再过24天。", tier: "stretch" },
+      { q: "期末应用：一个无盖鱼缸长8dm、宽5dm、高4dm，做这个鱼缸至少需要多少平方分米玻璃？", a: "144dm²", options: ["40dm²", "104dm²", "144dm²", "184dm²"], hint: "无盖只算底面和四个侧面。", explain: "底面8×5=40，前后面2×8×4=64，左右面2×5×4=40，共144dm²。", tier: "stretch" },
+      { q: "期末应用：一个长方体水箱长6dm、宽4dm、高3dm，装满水是多少升？", a: "72L", options: ["13L", "24L", "72L", "120L"], hint: "1dm³=1L。", explain: "体积6×4×3=72dm³，也就是72L。", tier: "improve" },
+      { q: "分数计算：3/4 - 1/6 + 1/12 = ?", a: "2/3", options: ["1/2", "2/3", "5/6", "1/3"], hint: "先通分到12。", explain: "3/4=9/12，1/6=2/12，所以9/12-2/12+1/12=8/12=2/3。", tier: "improve" },
+      { q: "期末易错：把5米长的绳子平均分成8段，每段是全长的几分之几？", a: "1/8", options: ["5/8米", "1/8", "8/5", "1/5"], hint: "问的是全长的几分之几，不是每段多少米。", explain: "平均分成8段，每段占全长的1/8。", tier: "secure" },
+      { q: "期末易错：把5米长的绳子平均分成8段，每段长多少米？", a: "5/8米", options: ["1/8", "5/8米", "8/5米", "5/13米"], hint: "问每段长度，用总长度除以段数。", explain: "5÷8=5/8米。", tier: "improve" },
+      { q: "统计分析：折线统计图最适合用来表示下面哪一项？", a: "一周气温变化", options: ["一周气温变化", "文具盒的形状", "一本书的页数", "一个班的座位表"], hint: "折线统计图看变化趋势。", explain: "一周气温随时间变化，适合用折线统计图。", tier: "secure" },
+      { q: "体积单位：3.2L 等于多少 mL？", a: "3200mL", options: ["32mL", "320mL", "3200mL", "32000mL"], hint: "1L=1000mL。", explain: "3.2×1000=3200mL。", tier: "secure" },
+      { q: "长方体综合：长方体的长、宽、高都扩大到原来的2倍，体积扩大到原来的几倍？", a: "8倍", options: ["2倍", "4倍", "6倍", "8倍"], hint: "体积有长、宽、高三个方向。", explain: "2×2×2=8，所以体积扩大到原来的8倍。", tier: "stretch" }
+    );
+
     extraQuestionBank.chinese.push(
       { q: "诗句填空：牧童归去横牛背，____。", a: "短笛无腔信口吹", options: ["短笛无腔信口吹", "彩丝穿取当银钲", "也傍桑阴学种瓜", "白雨跳珠乱入船"], hint: "这是《村晚》中的诗句。", explain: "《村晚》后两句是“牧童归去横牛背，短笛无腔信口吹”。", tier: "secure" },
       { q: "诗句填空：稚子金盆脱晓冰，____。", a: "彩丝穿取当银钲", options: ["彩丝穿取当银钲", "短笛无腔信口吹", "也傍桑阴学种瓜", "子规声里雨如烟"], hint: "这是《稚子弄冰》中的句子。", explain: "“稚子金盆脱晓冰，彩丝穿取当银钲”写孩子清晨玩冰的画面。", tier: "secure" },
@@ -1115,7 +1128,13 @@
       { q: "阅读方法：回答“这个句子在文中有什么作用”时，最应该从哪两方面想？", a: "内容和结构", options: ["字数和标点", "内容和结构", "作者年龄和职业", "题目长短"], hint: "作用题常看写了什么、和上下文有什么关系。", explain: "句子作用题常从内容作用和结构作用两方面回答，例如点明中心、承上启下、照应题目。", tier: "stretch" },
       { q: "阅读理解：一句话反复出现，通常可能有什么作用？", a: "强调中心或推动情节", options: ["凑字数", "强调中心或推动情节", "说明作者忘了删", "只表示声音大"], hint: "反复不是随便重复。", explain: "反复出现的句子常用来强调情感、突出中心，也可能推动情节或形成线索。", tier: "stretch" },
       { q: "作文表达：写“他很紧张”时，哪种写法最具体？", a: "他的手心冒汗，声音也小了下去。", options: ["他很紧张。", "他特别特别紧张。", "他的手心冒汗，声音也小了下去。", "他紧张得不得了。"], hint: "具体描写要有动作、神态、细节。", explain: "通过手心冒汗、声音变小等细节能更具体地表现紧张。", tier: "stretch" },
-      { q: "课文理解：抓人物特点时，最可靠的依据是什么？", a: "人物的语言、动作、神态和事件", options: ["人物名字", "人物的语言、动作、神态和事件", "段落数量", "标点符号"], hint: "人物特点要从文本证据里找。", explain: "分析人物要结合语言、动作、神态、心理和具体事件。", tier: "improve" }
+      { q: "课文理解：抓人物特点时，最可靠的依据是什么？", a: "人物的语言、动作、神态和事件", options: ["人物名字", "人物的语言、动作、神态和事件", "段落数量", "标点符号"], hint: "人物特点要从文本证据里找。", explain: "分析人物要结合语言、动作、神态、心理和具体事件。", tier: "improve" },
+      { q: "短文阅读：清晨，奶奶把热粥放在桌上，自己却拿起扫帚去院子里扫雪。文中“热粥”和“扫雪”主要表现了什么？", a: "奶奶对家人的关爱", options: ["奶奶喜欢劳动", "奶奶对家人的关爱", "天气很暖和", "粥很难喝"], hint: "注意人物先为别人做了什么。", explain: "奶奶先准备热粥，又去扫雪，动作背后表现的是对家人的关心。", tier: "stretch" },
+      { q: "短文阅读：小明摔倒后没有哭，拍拍裤子又站到起跑线前。这个细节最能表现他什么特点？", a: "坚强、不服输", options: ["粗心大意", "坚强、不服输", "爱说话", "不讲卫生"], hint: "看摔倒后的反应。", explain: "摔倒后继续站到起跑线前，说明他坚强、不轻易放弃。", tier: "improve" },
+      { q: "短文阅读：文章结尾写“那盏灯一直亮在我的心里”，这里的“灯”最可能指什么？", a: "温暖和鼓励", options: ["真正的台灯", "温暖和鼓励", "路灯坏了", "考试成绩"], hint: "阅读题里具体事物常有象征意义。", explain: "“亮在心里”不是实写灯，而是象征温暖、鼓励或精神力量。", tier: "stretch" },
+      { q: "阅读概括：概括一篇写事文章主要内容时，最完整的是哪一项？", a: "谁在什么情况下做了什么，结果怎样", options: ["只写人物名字", "谁在什么情况下做了什么，结果怎样", "只抄第一句话", "只写自己的感受"], hint: "写事要抓人物、事件、结果。", explain: "概括写事文章要抓住人物、起因/情况、经过和结果。", tier: "improve" },
+      { q: "古诗理解：“童孙未解供耕织，也傍桑阴学种瓜”写出了儿童什么特点？", a: "天真可爱、热爱劳动", options: ["害怕劳动", "天真可爱、热爱劳动", "不喜欢乡村", "很会写诗"], hint: "孩子不会耕织，却学着种瓜。", explain: "诗句写儿童模仿大人劳动，表现天真可爱和乡村生活情趣。", tier: "improve" },
+      { q: "表达训练：如果作文题是《那一刻，我长大了》，重点应写什么？", a: "一件让自己有成长感受的具体事情", options: ["很多无关小事", "一件让自己有成长感受的具体事情", "只写题目", "只写景色"], hint: "题眼是“那一刻”和“长大”。", explain: "这类作文要写清一件具体事情，以及自己从中产生的成长感受。", tier: "stretch" }
     );
 
     extraQuestionBank.english.push(
@@ -1124,7 +1143,15 @@
       { type: "speaking", q: "跟读训练：The library is quiet.（中文：图书馆很安静。）", speak: "The library is quiet.", meaning: "图书馆很安静。", a: "跟读达标", options: ["跟读达标"], hint: "library 可以分成 li-bra-ry 练。", explain: "quiet 表示安静的。", tier: "secure" },
       { type: "speaking", q: "跟读训练：Sarah's bag is heavier than Amy's bag.（中文：Sarah 的书包比 Amy 的书包更重。）", speak: "Sarah's bag is heavier than Amy's bag.", meaning: "Sarah 的书包比 Amy 的书包更重。", a: "跟读达标", options: ["跟读达标"], hint: "than 前面用比较级 heavier。", explain: "这句话练习比较级 heavier than。", tier: "stretch" },
       { type: "speaking", q: "跟读训练：I am going to swim tomorrow.（中文：我明天打算去游泳。）", speak: "I am going to swim tomorrow.", meaning: "我明天打算去游泳。", a: "跟读达标", options: ["跟读达标"], hint: "going to 表示打算做某事。", explain: "be going to 表示计划或打算。", tier: "improve" },
-      { type: "speaking", q: "跟读训练：You mustn't talk loudly.（中文：你不能大声说话。）", speak: "You mustn't talk loudly.", meaning: "你不能大声说话。", a: "跟读达标", options: ["跟读达标"], hint: "mustn't 表示禁止，loudly 表示大声地。", explain: "这是规则类句子，常见于阅读理解。", tier: "stretch" }
+      { type: "speaking", q: "跟读训练：You mustn't talk loudly.（中文：你不能大声说话。）", speak: "You mustn't talk loudly.", meaning: "你不能大声说话。", a: "跟读达标", options: ["跟读达标"], hint: "mustn't 表示禁止，loudly 表示大声地。", explain: "这是规则类句子，常见于阅读理解。", tier: "stretch" },
+      { q: "补全对话：A: What did you do last weekend? B: ____", a: "I visited my grandparents.", options: ["I visit them every day.", "I visited my grandparents.", "I am visiting now.", "I will visit tomorrow."], hint: "last weekend 用一般过去时。", explain: "问上周末做了什么，回答要用过去式 visited。", tier: "improve" },
+      { q: "句型转换：She is reading a book. 变一般疑问句，正确的是？", a: "Is she reading a book?", options: ["Does she reading a book?", "Is she reading a book?", "She is reading a book?", "Do she read a book?"], hint: "含be动词的句子，把be动词提前。", explain: "现在进行时的一般疑问句把 is 提到句首。", tier: "improve" },
+      { q: "看中文选英文：我们明天打算去公园。", a: "We are going to the park tomorrow.", options: ["We went to the park yesterday.", "We are going to the park tomorrow.", "We go to the park every day.", "We are in the park now."], hint: "打算做某事用 be going to。", explain: "tomorrow 表示将来，are going to 表示打算。", tier: "improve" },
+      { q: "阅读理解：Lucy has a new bike. She rides it to school every day. How does Lucy go to school?", a: "By bike.", options: ["By bike.", "By bus.", "On foot.", "By train."], hint: "rides it to school。", explain: "ride a bike to school 表示骑自行车上学。", tier: "secure" },
+      { q: "阅读理解：It was rainy yesterday. We stayed at home and watched a film. What was the weather like yesterday?", a: "Rainy.", options: ["Sunny.", "Rainy.", "Windy.", "Snowy."], hint: "第一句直接给天气。", explain: "It was rainy yesterday. 说明昨天下雨。", tier: "secure" },
+      { q: "阅读理解：John is 1.50 metres. Mike is 1.58 metres. Who is taller?", a: "Mike.", options: ["John.", "Mike.", "They are the same.", "Amy."], hint: "比较两个身高数字。", explain: "1.58m 大于1.50m，所以 Mike 更高。", tier: "improve" },
+      { q: "补全对话：A: Thank you for your help. B: ____", a: "You're welcome.", options: ["You're welcome.", "I'm ten.", "It's red.", "No, I don't."], hint: "别人感谢你，礼貌回应。", explain: "Thank you 的常见回答是 You're welcome.", tier: "secure" },
+      { q: "阅读冲90：A notice says, “No eating or drinking in the library.” What should students do?", a: "They shouldn't eat or drink there.", options: ["They can eat there.", "They shouldn't eat or drink there.", "They must run there.", "They can shout there."], hint: "No eating or drinking 表示禁止吃喝。", explain: "No eating or drinking means students shouldn't eat or drink in the library.", tier: "stretch" }
     );
 
     const tierMeta = {
@@ -1134,9 +1161,9 @@
     };
 
     const mockTierPlan = {
-      math: { secure: 3, improve: 3, stretch: 1 },
-      chinese: { secure: 2, improve: 3, stretch: 2 },
-      english: { secure: 3, improve: 2, stretch: 1 }
+      math: { secure: 5, improve: 3, stretch: 2 },
+      chinese: { secure: 5, improve: 3, stretch: 2 },
+      english: { secure: 5, improve: 4, stretch: 1 }
     };
 
     subjects.forEach(subject => {
@@ -1148,15 +1175,15 @@
     });
 
     const QUESTIONS_PER_ROUND = 8;
-    const MOCK_TEST_COUNT = 20;
-    const mockSubjectPlan = { math: 7, chinese: 7, english: 6 };
+    const MOCK_TEST_COUNT = 30;
+    const mockSubjectPlan = { math: 10, chinese: 10, english: 10 };
     const operators = [
       { id: "scout", name: "小路", role: "侦察干员", perk: "阅读题提示更明确", badge: "侦" },
       { id: "medic", name: "阿澈", role: "医疗干员", perk: "错题复活奖励+5", badge: "医" },
       { id: "engineer", name: "小砚", role: "工程干员", perk: "数学应用题能量+3", badge: "工" }
     ];
     const warehouseItems = [
-      { id: "pencil", name: "黑金铅笔", cost: 30, type: "文具", desc: "完成一次80分小测即可兑换。" },
+      { id: "pencil", name: "黑金铅笔", cost: 30, type: "文具", desc: "完成一次80分仿真小卷即可兑换。" },
       { id: "eraser", name: "错题橡皮", cost: 45, type: "文具", desc: "错题复盘专用装备。" },
       { id: "ruler", name: "战术直尺", cost: 60, type: "文具", desc: "数学图形题装备。" },
       { id: "notebook", name: "冲90笔记本", cost: 90, type: "装备", desc: "90分目标纪念装备。" },
@@ -1358,7 +1385,7 @@
         <div class="parent-row">
           <div>
             <h3>战术仓库</h3>
-            <p>小测得分兑换积分：80分给30积分，90分给60积分，100分给100积分。积分可以兑换铅笔、橡皮、尺子、笔记本和文具盒。</p>
+            <p>仿真小卷得分兑换积分：80分给30积分，90分给60积分，100分给100积分。积分可以兑换铅笔、橡皮、尺子、笔记本和文具盒。</p>
           </div>
           <div class="score">${state.credits}积分</div>
         </div>
@@ -1411,7 +1438,7 @@
         <div class="ship-core">
           <div>
             <strong>CODY</strong>
-            <span>先三科专项，再复活错题，最后20题小测</span>
+            <span>先三科专项，再复活错题，最后30题仿真卷</span>
           </div>
         </div>
         ${subjects.map(questCard).join("")}
@@ -1492,7 +1519,7 @@
           <div class="day-cell ${cls} ${isToday ? "today" : ""}">
             <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
             <span>${status}</span>
-            <span>${progress.mockDone ? `${scoreText || "20题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
+            <span>${progress.mockDone ? `${scoreText || "30题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
           </div>
         `;
       }).join("");
@@ -1500,7 +1527,7 @@
         <div class="parent-row">
           <div>
             <h3>6月16日-6月29日进度雷达</h3>
-            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成20题考前小测，才算当天完成。</p>
+            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成30题期末仿真小卷，才算当天完成。</p>
             <div class="calendar-grid">${calendarCells}</div>
           </div>
           <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
@@ -1508,13 +1535,13 @@
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
-            <p>${todayKey}：${state.mockDone ? `今日小测 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成20题小测并清空倒地题。"}</p>
+            <p>${todayKey}：${state.mockDone ? `今日仿真小卷 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成30题仿真小卷并清空倒地题。"}</p>
             <div class="progress-grid">${subjectProgress}</div>
           </div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题/跟读 → 复活错题 → 20题小测。小测按保分题8、提分题8、冲90题4出题。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题/跟读 → 复活错题 → 30题仿真小卷。仿真卷为数学10、语文10、英语10，按保分15、提分10、冲90题5出题。</p></div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -1567,19 +1594,19 @@
     function startMockTest() {
       if (!requireOperator()) return;
       if (activeDowned().length > 0) {
-        alert("先去复活站清空错题，再开启20题小测。");
+        alert("先去复活站清空错题，再开启30题期末仿真小卷。");
         document.querySelector('.tab[data-view="revive"]').click();
         return;
       }
       const missing = incompleteSubjects();
       if (missing.length > 0) {
-        alert(`先完成三科单科学习，再开启20题小测。还差：${missing.map(subject => subject.title).join("、")}`);
+        alert(`先完成三科单科学习，再开启30题期末仿真小卷。还差：${missing.map(subject => subject.title).join("、")}`);
         document.querySelector('.tab[data-view="home"]').click();
         return;
       }
       const mixed = subjects.flatMap(subject => pickMockSubjectQuestions(subject));
       state.currentMode = "mock";
-      state.currentSubject = { id: "mock", title: "90分考前小测" };
+      state.currentSubject = { id: "mock", title: "90分期末仿真小卷" };
       state.currentQuestions = pickQuestions(mixed, MOCK_TEST_COUNT);
       state.index = 0;
       state.score = 0;
@@ -1667,7 +1694,7 @@
         : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
       const isSpeaking = question.type === "speaking";
       $("answers").innerHTML = isSpeaking
-        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，再点“跟读打分”。浏览器无法识别时，可由家长确认通过。</div><button class="answer" data-speaking-manual="true">家长确认通过</button><button class="answer" disabled>等待跟读评分</button>`
+        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，再点“跟读打分”。系统会按浏览器听到的英文和目标句相似度评分；无法识别时，可由家长确认通过。</div><button class="answer" data-speaking-manual="true">家长确认通过</button><button class="answer" disabled>等待跟读评分</button>`
         : question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak || isSpeaking));
       $("startSpeaking").style.display = isSpeaking ? "" : "none";
@@ -1745,7 +1772,7 @@
         if (score >= 70) {
           passSpeakingQuestion(score, heard);
         } else {
-          $("feedback").textContent = `跟读分 ${score}，听到的是：“${heard}”。再听一遍示范，重读到70分以上再过关。`;
+          $("feedback").textContent = `跟读识别分 ${score}，系统听到的是：“${heard}”。再听一遍示范，重读到70分以上再过关。`;
         }
       };
       recognition.onerror = () => {
@@ -1758,7 +1785,7 @@
       if (state.answered) return;
       const question = state.currentQuestions[state.index];
       answer(question.a, {});
-      $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}；识别结果：${heard}。`;
+      $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}；系统听到：${heard}。`;
     }
 
     function answer(value, btn) {
@@ -1857,15 +1884,15 @@
         state.completed[subject.id] = true;
       }
       const rewardText = state.currentMode === "mock"
-        ? (awardedCredits > 0 ? ` 本次小测奖励 ${awardedCredits} 积分，去仓库兑换装备。` : firstMockSettlement ? " 本次低于80分，复盘后再冲80分拿积分。" : " 今天积分已结算，重复小测只记录新分数。")
+        ? (awardedCredits > 0 ? ` 本次仿真小卷奖励 ${awardedCredits} 积分，去仓库兑换装备。` : firstMockSettlement ? " 本次低于80分，复盘后再冲80分拿积分。" : " 今天积分已结算，重复仿真小卷只记录新分数。")
         : "";
       if (state.score === total) {
         state.xp += 45;
         state.loot += 1;
-        $("feedback").textContent = `${state.currentMode === "mock" ? `小测得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。${rewardText}`;
+        $("feedback").textContent = `${state.currentMode === "mock" ? `仿真小卷得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。${rewardText}`;
       } else {
         if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
-        const estimate = state.currentMode === "mock" ? `，小测得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
+        const estimate = state.currentMode === "mock" ? `，仿真小卷得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
         $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。${rewardText}`;
       }
       if (state.xp >= 220) {
