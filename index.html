@@ -877,14 +877,14 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁30题期末仿真小卷，得分兑换积分，去仓库换铅笔、文具和装备。</p>
+          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁45题期末仿真小卷，得分兑换积分，去仓库换铅笔、文具和装备。</p>
           <div class="hero-actions">
-            <button class="btn primary" id="startToday">今日30题仿真小卷</button>
+            <button class="btn primary" id="startToday">今日45题仿真小卷</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
             <button class="btn ghost" data-jump="warehouse">进入仓库</button>
           </div>
           <div class="stats">
-            <div class="stat"><strong id="todayDone">0/30</strong><span>今日仿真卷</span></div>
+            <div class="stat"><strong id="todayDone">0/45</strong><span>今日仿真卷</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
             <div class="stat"><strong id="creditCount">0</strong><span>积分</span></div>
           </div>
@@ -930,7 +930,7 @@
           <h2 class="question-title" id="questionTitle">题目</h2>
           <div class="audio-line" id="audioLine">
             <button class="btn safe" id="playAudio">播放音频</button>
-            <button class="btn primary" id="startSpeaking">跟读打分</button>
+            <button class="btn primary" id="startSpeaking">跟读规则</button>
             <span class="audio-note" id="audioNote"></span>
           </div>
         </div>
@@ -952,7 +952,7 @@
         id: "math",
         title: "数学突击关",
         tag: "第一关",
-        skill: "30题题库",
+        skill: "期末题库",
         color: "#45d7ff",
         desc: "因数倍数、分数运算、长方体正方体、应用题，每局 8 题。",
         questions: [
@@ -1182,7 +1182,13 @@
       { q: "短文阅读：文章结尾写“那盏灯一直亮在我的心里”，这里的“灯”最可能指什么？", a: "温暖和鼓励", options: ["真正的台灯", "温暖和鼓励", "路灯坏了", "考试成绩"], hint: "阅读题里具体事物常有象征意义。", explain: "“亮在心里”不是实写灯，而是象征温暖、鼓励或精神力量。", tier: "stretch" },
       { q: "阅读概括：概括一篇写事文章主要内容时，最完整的是哪一项？", a: "谁在什么情况下做了什么，结果怎样", options: ["只写人物名字", "谁在什么情况下做了什么，结果怎样", "只抄第一句话", "只写自己的感受"], hint: "写事要抓人物、事件、结果。", explain: "概括写事文章要抓住人物、起因/情况、经过和结果。", tier: "improve" },
       { q: "古诗理解：“童孙未解供耕织，也傍桑阴学种瓜”写出了儿童什么特点？", a: "天真可爱、热爱劳动", options: ["害怕劳动", "天真可爱、热爱劳动", "不喜欢乡村", "很会写诗"], hint: "孩子不会耕织，却学着种瓜。", explain: "诗句写儿童模仿大人劳动，表现天真可爱和乡村生活情趣。", tier: "improve" },
-      { q: "表达训练：如果作文题是《那一刻，我长大了》，重点应写什么？", a: "一件让自己有成长感受的具体事情", options: ["很多无关小事", "一件让自己有成长感受的具体事情", "只写题目", "只写景色"], hint: "题眼是“那一刻”和“长大”。", explain: "这类作文要写清一件具体事情，以及自己从中产生的成长感受。", tier: "stretch" }
+      { q: "表达训练：如果作文题是《那一刻，我长大了》，重点应写什么？", a: "一件让自己有成长感受的具体事情", options: ["很多无关小事", "一件让自己有成长感受的具体事情", "只写题目", "只写景色"], hint: "题眼是“那一刻”和“长大”。", explain: "这类作文要写清一件具体事情，以及自己从中产生的成长感受。", tier: "stretch" },
+      { q: "阅读短文：傍晚，雨终于停了。小院里的石榴树挂着水珠，像刚洗过的绿灯笼。爷爷搬来小板凳，让我坐在树下背古诗。他没有催我，只是一遍遍轻声提示。后来我背下来了，爷爷笑着说：“慢慢来，种子发芽也要时间。”这段短文主要写了什么？", a: "爷爷耐心陪我背古诗并鼓励我", options: ["爷爷修剪石榴树", "爷爷耐心陪我背古诗并鼓励我", "我在雨中玩水", "院子里有很多灯笼"], hint: "抓人物、事件和结果。", explain: "短文主要写爷爷陪“我”背古诗，并用“种子发芽”鼓励我慢慢进步。", tier: "stretch" },
+      { q: "阅读短文：傍晚，雨终于停了。小院里的石榴树挂着水珠，像刚洗过的绿灯笼。爷爷搬来小板凳，让我坐在树下背古诗。他没有催我，只是一遍遍轻声提示。后来我背下来了，爷爷笑着说：“慢慢来，种子发芽也要时间。”句子“像刚洗过的绿灯笼”运用了什么修辞？", a: "比喻", options: ["比喻", "拟人", "排比", "反问"], hint: "把石榴树挂水珠的样子比作绿灯笼。", explain: "把一种事物比作另一种相似事物，是比喻。", tier: "improve" },
+      { q: "阅读短文：傍晚，雨终于停了。小院里的石榴树挂着水珠，像刚洗过的绿灯笼。爷爷搬来小板凳，让我坐在树下背古诗。他没有催我，只是一遍遍轻声提示。后来我背下来了，爷爷笑着说：“慢慢来，种子发芽也要时间。”爷爷的话主要告诉“我”什么？", a: "学习要耐心，坚持就会进步", options: ["背古诗不用努力", "学习要耐心，坚持就会进步", "种子不能发芽", "下雨天不能学习"], hint: "联系“慢慢来”和“发芽也要时间”。", explain: "爷爷用种子发芽作比，鼓励孩子学习要有耐心，坚持会进步。", tier: "stretch" },
+      { q: "阅读短文：傍晚，雨终于停了。小院里的石榴树挂着水珠，像刚洗过的绿灯笼。爷爷搬来小板凳，让我坐在树下背古诗。他没有催我，只是一遍遍轻声提示。短文中“没有催我”“一遍遍轻声提示”表现了爷爷怎样的特点？", a: "耐心、温和", options: ["急躁", "耐心、温和", "粗心", "骄傲"], hint: "从人物动作和态度判断。", explain: "不催促、轻声提示，体现爷爷耐心、温和。", tier: "stretch" },
+      { q: "阅读短文：学校举行旧书交换活动。我拿出一本最喜欢的童话书，心里有些舍不得。看到低年级小朋友抱着书笑起来，我忽然觉得，书被更多人读到，比放在书架上更有意义。短文中“我”的心情发生了怎样的变化？", a: "由舍不得到高兴、释然", options: ["由高兴到生气", "由舍不得到高兴、释然", "一直很难过", "一直很害怕"], hint: "注意“舍不得”和“觉得更有意义”。", explain: "开始舍不得，后来看到别人喜欢，理解分享的意义，心情变得高兴释然。", tier: "stretch" },
+      { q: "阅读短文：学校举行旧书交换活动。我拿出一本最喜欢的童话书，心里有些舍不得。看到低年级小朋友抱着书笑起来，我忽然觉得，书被更多人读到，比放在书架上更有意义。这段短文表达的中心最接近哪一项？", a: "分享能让物品产生更大的价值", options: ["旧书都没有用", "分享能让物品产生更大的价值", "童话书不能交换", "低年级小朋友不爱读书"], hint: "中心常藏在人物感受变化里。", explain: "“被更多人读到更有意义”点明了分享的价值。", tier: "stretch" }
     );
 
     extraQuestionBank.english.push(
@@ -1202,6 +1208,22 @@
       { q: "阅读冲90：A notice says, “No eating or drinking in the library.” What should students do?", a: "They shouldn't eat or drink there.", options: ["They can eat there.", "They shouldn't eat or drink there.", "They must run there.", "They can shout there."], hint: "No eating or drinking 表示禁止吃喝。", explain: "No eating or drinking means students shouldn't eat or drink in the library.", tier: "stretch" }
     );
 
+    extraQuestionBank.english = extraQuestionBank.english.filter(question => question.type !== "speaking");
+    extraQuestionBank.english.push(
+      { q: "Read the passage: Amy is going to have a busy Sunday. In the morning, she will visit her grandparents with her mother. In the afternoon, she will go to the library and return two books. In the evening, she will finish her science homework. What will Amy do in the morning?", a: "Visit her grandparents.", options: ["Visit her grandparents.", "Go to the library.", "Finish science homework.", "Play football."], hint: "Look at the sentence with In the morning.", explain: "The passage says she will visit her grandparents in the morning.", tier: "stretch" },
+      { q: "Read the passage: Amy is going to have a busy Sunday. In the morning, she will visit her grandparents with her mother. In the afternoon, she will go to the library and return two books. In the evening, she will finish her science homework. Where will Amy go in the afternoon?", a: "To the library.", options: ["To the library.", "To the park.", "To school.", "To the cinema."], hint: "Find In the afternoon.", explain: "In the afternoon, Amy will go to the library.", tier: "improve" },
+      { q: "Read the passage: Amy is going to have a busy Sunday. In the morning, she will visit her grandparents with her mother. In the afternoon, she will go to the library and return two books. In the evening, she will finish her science homework. Which title is best?", a: "Amy's Busy Sunday", options: ["Amy's Busy Sunday", "A Snowy Day", "My New Bike", "At the Restaurant"], hint: "The passage is about Amy's plan for Sunday.", explain: "The whole passage talks about Amy's busy Sunday plan.", tier: "stretch" },
+      { q: "Read the passage: Last weekend, Tom and his father went to a small farm. They picked tomatoes and fed the sheep. Tom was tired, but he was happy because he learned how farmers work. Where did Tom go last weekend?", a: "To a small farm.", options: ["To a small farm.", "To a hospital.", "To a museum.", "To a post office."], hint: "The first sentence gives the place.", explain: "Tom and his father went to a small farm.", tier: "improve" },
+      { q: "Read the passage: Last weekend, Tom and his father went to a small farm. They picked tomatoes and fed the sheep. Tom was tired, but he was happy because he learned how farmers work. Why was Tom happy?", a: "Because he learned how farmers work.", options: ["Because he bought a toy.", "Because he learned how farmers work.", "Because he watched TV.", "Because he slept all day."], hint: "Look after because.", explain: "The passage says he was happy because he learned how farmers work.", tier: "stretch" },
+      { q: "Read the passage: Last weekend, Tom and his father went to a small farm. They picked tomatoes and fed the sheep. Tom was tired, but he was happy because he learned how farmers work. What did Tom and his father do?", a: "Picked tomatoes and fed the sheep.", options: ["Picked tomatoes and fed the sheep.", "Played computer games.", "Went swimming.", "Cooked noodles."], hint: "Find the two actions after They.", explain: "They picked tomatoes and fed the sheep.", tier: "stretch" },
+      { q: "Read the passage: There are some rules in our school library. Students should keep quiet. They can read books there, but they must not eat or drink. They should return books on time. What mustn't students do in the library?", a: "Eat or drink.", options: ["Eat or drink.", "Read books.", "Keep quiet.", "Return books."], hint: "must not 表示禁止。", explain: "The passage says students must not eat or drink.", tier: "stretch" },
+      { q: "Read the passage: There are some rules in our school library. Students should keep quiet. They can read books there, but they must not eat or drink. They should return books on time. What should students do?", a: "Keep quiet and return books on time.", options: ["Run fast.", "Keep quiet and return books on time.", "Eat snacks.", "Talk loudly."], hint: "Look for should.", explain: "Students should keep quiet and return books on time.", tier: "stretch" },
+      { q: "Read the passage: There are some rules in our school library. Students should keep quiet. They can read books there, but they must not eat or drink. They should return books on time. The passage is mainly about ____.", a: "library rules", options: ["library rules", "birthday food", "sports day", "weather"], hint: "The first sentence says rules.", explain: "The passage talks about school library rules.", tier: "improve" },
+      { q: "Read the passage: Mike is taller than John, but John runs faster than Mike. Mike likes basketball. John likes football. They are different, but they are good friends. Who runs faster?", a: "John.", options: ["Mike.", "John.", "Both.", "Amy."], hint: "Find runs faster.", explain: "The passage says John runs faster than Mike.", tier: "improve" },
+      { q: "Read the passage: Mike is taller than John, but John runs faster than Mike. Mike likes basketball. John likes football. They are different, but they are good friends. What sport does Mike like?", a: "Basketball.", options: ["Football.", "Basketball.", "Table tennis.", "Swimming."], hint: "Find Mike likes.", explain: "Mike likes basketball.", tier: "secure" },
+      { q: "Read the passage: Mike is taller than John, but John runs faster than Mike. Mike likes basketball. John likes football. They are different, but they are good friends. Which sentence is true?", a: "Mike and John are good friends.", options: ["Mike and John are good friends.", "John is taller than Mike.", "Mike likes football.", "They don't know each other."], hint: "Check every sentence with the passage.", explain: "The passage says they are good friends.", tier: "stretch" }
+    );
+
     const tierMeta = {
       secure: { label: "保分题", bonus: 10, mastery: 1 },
       improve: { label: "提分题", bonus: 12, mastery: 2 },
@@ -1209,9 +1231,9 @@
     };
 
     const mockTierPlan = {
-      math: { secure: 5, improve: 3, stretch: 2 },
-      chinese: { secure: 5, improve: 3, stretch: 2 },
-      english: { secure: 5, improve: 4, stretch: 1 }
+      math: { secure: 1, improve: 5, stretch: 9 },
+      chinese: { secure: 1, improve: 5, stretch: 9 },
+      english: { secure: 1, improve: 5, stretch: 9 }
     };
 
     subjects.forEach(subject => {
@@ -1223,8 +1245,8 @@
     });
 
     const QUESTIONS_PER_ROUND = 8;
-    const MOCK_TEST_COUNT = 30;
-    const mockSubjectPlan = { math: 10, chinese: 10, english: 10 };
+    const MOCK_TEST_COUNT = 45;
+    const mockSubjectPlan = { math: 15, chinese: 15, english: 15 };
     const operators = [
       { id: "scout", name: "小路", role: "侦察干员", perk: "阅读题提示更明确", badge: "侦", colors: ["#45d7ff", "#54f0a0"] },
       { id: "medic", name: "阿澈", role: "医疗干员", perk: "错题复活奖励+5", badge: "医", colors: ["#ffbd4a", "#54f0a0"] },
@@ -1499,7 +1521,7 @@
         <div class="ship-core">
           <div>
             <strong>CODY</strong>
-            <span>先三科专项，再复活错题，最后30题仿真卷</span>
+            <span>先三科专项，再复活错题，最后45题仿真卷</span>
           </div>
         </div>
         ${subjects.map(questCard).join("")}
@@ -1580,7 +1602,7 @@
           <div class="day-cell ${cls} ${isToday ? "today" : ""}">
             <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
             <span>${status}</span>
-            <span>${progress.mockDone ? `${scoreText || "30题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
+            <span>${progress.mockDone ? `${scoreText || "45题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
           </div>
         `;
       }).join("");
@@ -1588,7 +1610,7 @@
         <div class="parent-row">
           <div>
             <h3>${todayKey.slice(5)}-06-29进度雷达</h3>
-            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成30题期末仿真小卷，才算当天完成。</p>
+            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成45题期末仿真小卷，才算当天完成。</p>
             <div class="calendar-grid">${calendarCells}</div>
           </div>
           <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
@@ -1596,13 +1618,13 @@
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
-            <p>${todayKey}：${state.mockDone ? `今日仿真小卷 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成30题仿真小卷并清空倒地题。"}</p>
+            <p>${todayKey}：${state.mockDone ? `今日仿真小卷 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成45题仿真小卷并清空倒地题。"}</p>
             <div class="progress-grid">${subjectProgress}</div>
           </div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题/跟读 → 复活错题 → 30题仿真小卷。仿真卷为数学10、语文10、英语10，按保分15、提分10、冲90题5出题。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题阅读 → 复活错题 → 45题仿真小卷。仿真卷为数学15、语文15、英语15，保分题仅3题，提分题15题，冲90题提高到27题。</p></div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -1656,13 +1678,13 @@
     function startMockTest() {
       if (!requireOperator()) return;
       if (activeDowned().length > 0) {
-        alert("先去复活站清空错题，再开启30题期末仿真小卷。");
+        alert("先去复活站清空错题，再开启45题期末仿真小卷。");
         document.querySelector('.tab[data-view="revive"]').click();
         return;
       }
       const missing = incompleteSubjects();
       if (missing.length > 0) {
-        alert(`先完成三科单科学习，再开启30题期末仿真小卷。还差：${missing.map(subject => subject.title).join("、")}`);
+        alert(`先完成三科单科学习，再开启45题期末仿真小卷。还差：${missing.map(subject => subject.title).join("、")}`);
         document.querySelector('.tab[data-view="home"]').click();
         return;
       }
@@ -1756,14 +1778,14 @@
         : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
       const isSpeaking = question.type === "speaking";
       $("answers").innerHTML = isSpeaking
-        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，再点“跟读打分”。系统会按浏览器听到的英文和目标句相似度评分；无法识别时，可由家长确认通过。</div><button class="answer" data-speaking-manual="true">家长确认通过</button><button class="answer" disabled>等待跟读评分</button>`
+        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，孩子跟读一遍后，由家长或孩子按实际情况打分。100分=读准且流利，80分=基本读对，60分=还需要复活重练。</div><button class="answer" data-speaking-score="100">读准了 · 100分</button><button class="answer" data-speaking-score="80">基本会读 · 80分</button><button class="answer" data-speaking-score="60">还不会读 · 60分</button>`
         : question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak || isSpeaking));
       $("startSpeaking").style.display = isSpeaking ? "" : "none";
-      $("audioNote").textContent = isSpeaking ? "英语跟读会显示中文意思，并按发音相似度给分。" : "";
+      $("audioNote").textContent = isSpeaking ? "跟读不再依赖自动识别，家长/孩子按100、80、60三档评分。" : "";
       document.querySelectorAll(".answer").forEach(btn => {
-        if (btn.dataset.speakingManual) {
-          btn.addEventListener("click", () => passSpeakingQuestion(80, "家长确认"));
+        if (btn.dataset.speakingScore) {
+          btn.addEventListener("click", () => gradeSpeakingQuestion(Number(btn.dataset.speakingScore), btn));
         } else {
           btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
         }
@@ -1818,36 +1840,19 @@
       if (!state.currentSubject) return;
       const question = state.currentQuestions[state.index];
       if (!question || question.type !== "speaking" || state.answered) return;
-      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!Recognition) {
-        $("feedback").textContent = "这个浏览器不支持自动跟读打分。可以先听示范，让孩子跟读，再点“家长确认通过”。Chrome 和 Edge 通常最稳定。";
-        return;
-      }
-      const recognition = new Recognition();
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-      $("feedback").textContent = "正在听，请大声跟读目标句。";
-      recognition.onresult = event => {
-        const heard = event.results?.[0]?.[0]?.transcript || "";
-        const score = pronunciationScore(question.speak, heard);
-        if (score >= 70) {
-          passSpeakingQuestion(score, heard);
-        } else {
-          $("feedback").textContent = `跟读识别分 ${score}，系统听到的是：“${heard}”。再听一遍示范，重读到70分以上再过关。`;
-        }
-      };
-      recognition.onerror = () => {
-        $("feedback").textContent = "没有成功听到声音。请检查麦克风权限，或让孩子跟读后由家长确认通过。";
-      };
-      recognition.start();
+      $("feedback").textContent = "跟读评分方式：先听示范，再让孩子看中文意思读英文。读准且流利点100，基本读对点80，还不会读点60进入复活站。";
     }
 
-    function passSpeakingQuestion(score, heard) {
+    function gradeSpeakingQuestion(score, btn) {
       if (state.answered) return;
       const question = state.currentQuestions[state.index];
-      answer(question.a, {});
-      $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}；系统听到：${heard}。`;
+      if (score >= 80) {
+        answer(question.a, btn);
+        $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}。继续下一题。`;
+      } else {
+        answer("跟读未达标", btn);
+        $("feedback").textContent = `跟读未达标：${score}分。目标句：${question.speak}。这题会进入复活站，听示范后再练一次。`;
+      }
     }
 
     function answer(value, btn) {
