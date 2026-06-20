@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -755,20 +755,6 @@
       font-size: 13px;
     }
 
-    .speaking-card {
-      grid-column: 1 / -1;
-      border: 2px solid #000;
-      border-radius: var(--radius);
-      padding: 14px;
-      background: rgba(69, 215, 255, 0.12);
-      color: #edf7ff;
-      line-height: 1.55;
-    }
-
-    .speaking-card b {
-      color: var(--amber);
-    }
-
     .answers {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -877,14 +863,14 @@
         <div class="hero-copy">
           <div class="kicker">三科期末 · 每天30分钟</div>
           <h2>选择星球，开始闯关。</h2>
-          <p>先选今日干员，再完成数学、语文、英语三科训练；错题复活后解锁45题期末仿真小卷，得分兑换积分，去仓库换铅笔、文具和装备。</p>
+          <p>先选今日干员，每天直接完成数学、语文、英语三套期末小卷；题型参考老师卷子，错题进复活站，改正后继续冲90。</p>
           <div class="hero-actions">
-            <button class="btn primary" id="startToday">今日45题仿真小卷</button>
+            <button class="btn primary" id="startToday">开始今日三科卷</button>
             <button class="btn safe" id="reviveBtn">复活再玩一局</button>
             <button class="btn ghost" data-jump="warehouse">进入仓库</button>
           </div>
           <div class="stats">
-            <div class="stat"><strong id="todayDone">0/45</strong><span>今日仿真卷</span></div>
+            <div class="stat"><strong id="todayDone">0/3</strong><span>今日三科卷</span></div>
             <div class="stat"><strong id="downedCount">0</strong><span>倒地题</span></div>
             <div class="stat"><strong id="creditCount">0</strong><span>积分</span></div>
           </div>
@@ -928,15 +914,14 @@
         <div>
           <div class="tag" id="questTag">行动任务</div>
           <h2 class="question-title" id="questionTitle">题目</h2>
-          <div class="audio-line" id="audioLine">
-            <button class="btn safe" id="playAudio">播放音频</button>
-            <button class="btn primary" id="startSpeaking">跟读规则</button>
-            <span class="audio-note" id="audioNote"></span>
-          </div>
         </div>
         <button class="small" id="closeModal">撤离</button>
       </div>
       <div class="bar"><i id="questionProgress"></i></div>
+      <div class="audio-line" id="audioLine">
+        <button class="btn safe" id="playAudio">播放听力</button>
+        <span class="audio-note" id="audioNote">听完后选择你听到的内容。</span>
+      </div>
       <div class="answers" id="answers"></div>
       <div class="feedback" id="feedback">选一个答案。错题会进入复活站，看讲解并改正后才能复活。</div>
       <div class="modal-actions">
@@ -954,7 +939,7 @@
         tag: "第一关",
         skill: "期末题库",
         color: "#45d7ff",
-        desc: "因数倍数、分数运算、长方体正方体、应用题，每局 8 题。",
+        desc: "选择、判断、填空、计算、图形和应用题，每套 20 题。",
         questions: [
           { q: "12 和 18 的最大公因数是？", a: "6", options: ["3", "6", "12", "36"], hint: "列出共同因数，最大的是 6。", explain: "12 的因数有 1、2、3、4、6、12；18 的因数有 1、2、3、6、9、18。共同因数里最大的是 6。" },
           { q: "4 和 6 的最小公倍数是？", a: "12", options: ["2", "10", "12", "24"], hint: "找共同倍数中最小的。", explain: "4 的倍数有 4、8、12；6 的倍数有 6、12。第一个共同倍数是 12。" },
@@ -994,7 +979,7 @@
         tag: "第二关",
         skill: "60题题库",
         color: "#ffbd4a",
-        desc: "阅读理解、诗词积累、字词句段、作文表达，每局 8 题。",
+        desc: "拼音字词、成语、古诗、课文内容、材料阅读，每套 20 题。",
         questions: [
           { q: "“聚精会神”的意思最接近哪一个？", a: "注意力非常集中", options: ["动作很快", "注意力非常集中", "声音很大", "心情很难过"], hint: "关键词是“聚精”和“会神”。", explain: "聚精会神表示集中全部精神，形容注意力非常集中。" },
           { q: "“弯弯的月亮像小船”使用了什么修辞？", a: "比喻", options: ["拟人", "排比", "比喻", "夸张"], hint: "把月亮比作小船。", explain: "把一种事物说成另一种相似的事物，这是比喻。" },
@@ -1034,7 +1019,7 @@
         tag: "第三关",
         skill: "60题题库",
         color: "#9b7cff",
-        desc: "听力、语法、情景交际、英文短文阅读，每局 8 题。",
+        desc: "词汇句型、情景交际、语法辨析、阅读写作，每套 20 题。",
         questions: [
           { q: "听音频，选择你听到的单词。", a: "apple", options: ["apple", "table", "people", "pencil"], hint: "注意开头音 /æ/。", explain: "音频读的是 apple，意思是苹果。", audio: "audio/eng-apple.wav", speak: "apple" },
           { q: "听音频，句子里的地点是哪里？", a: "library", options: ["park", "library", "classroom", "kitchen"], hint: "听 I go to the ...", explain: "句子是 I go to the library on Sunday. 地点是 library。", audio: "audio/eng-library.wav", speak: "I go to the library on Sunday." },
@@ -1192,12 +1177,6 @@
     );
 
     extraQuestionBank.english.push(
-      { type: "speaking", q: "跟读训练：I cleaned my room yesterday.（中文：我昨天打扫了我的房间。）", speak: "I cleaned my room yesterday.", meaning: "我昨天打扫了我的房间。", a: "跟读达标", options: ["跟读达标"], hint: "注意 cleaned 的 /d/ 音和 yesterday 的重音。", explain: "这句话练习一般过去时，cleaned 表示已经做过。", tier: "improve" },
-      { type: "speaking", q: "跟读训练：Can you help me, please?（中文：请问你能帮我吗？）", speak: "Can you help me, please?", meaning: "请问你能帮我吗？", a: "跟读达标", options: ["跟读达标"], hint: "请求帮助时语气要礼貌，please 要读清楚。", explain: "这是请求帮助的常用句型。", tier: "secure" },
-      { type: "speaking", q: "跟读训练：The library is quiet.（中文：图书馆很安静。）", speak: "The library is quiet.", meaning: "图书馆很安静。", a: "跟读达标", options: ["跟读达标"], hint: "library 可以分成 li-bra-ry 练。", explain: "quiet 表示安静的。", tier: "secure" },
-      { type: "speaking", q: "跟读训练：Sarah's bag is heavier than Amy's bag.（中文：Sarah 的书包比 Amy 的书包更重。）", speak: "Sarah's bag is heavier than Amy's bag.", meaning: "Sarah 的书包比 Amy 的书包更重。", a: "跟读达标", options: ["跟读达标"], hint: "than 前面用比较级 heavier。", explain: "这句话练习比较级 heavier than。", tier: "stretch" },
-      { type: "speaking", q: "跟读训练：I am going to swim tomorrow.（中文：我明天打算去游泳。）", speak: "I am going to swim tomorrow.", meaning: "我明天打算去游泳。", a: "跟读达标", options: ["跟读达标"], hint: "going to 表示打算做某事。", explain: "be going to 表示计划或打算。", tier: "improve" },
-      { type: "speaking", q: "跟读训练：You mustn't talk loudly.（中文：你不能大声说话。）", speak: "You mustn't talk loudly.", meaning: "你不能大声说话。", a: "跟读达标", options: ["跟读达标"], hint: "mustn't 表示禁止，loudly 表示大声地。", explain: "这是规则类句子，常见于阅读理解。", tier: "stretch" },
       { q: "补全对话：A: What did you do last weekend? B: ____", a: "I visited my grandparents.", options: ["I visit them every day.", "I visited my grandparents.", "I am visiting now.", "I will visit tomorrow."], hint: "last weekend 用一般过去时。", explain: "问上周末做了什么，回答要用过去式 visited。", tier: "improve" },
       { q: "句型转换：She is reading a book. 变一般疑问句，正确的是？", a: "Is she reading a book?", options: ["Does she reading a book?", "Is she reading a book?", "She is reading a book?", "Do she read a book?"], hint: "含be动词的句子，把be动词提前。", explain: "现在进行时的一般疑问句把 is 提到句首。", tier: "improve" },
       { q: "看中文选英文：我们明天打算去公园。", a: "We are going to the park tomorrow.", options: ["We went to the park yesterday.", "We are going to the park tomorrow.", "We go to the park every day.", "We are in the park now."], hint: "打算做某事用 be going to。", explain: "tomorrow 表示将来，are going to 表示打算。", tier: "improve" },
@@ -1208,7 +1187,6 @@
       { q: "阅读冲90：A notice says, “No eating or drinking in the library.” What should students do?", a: "They shouldn't eat or drink there.", options: ["They can eat there.", "They shouldn't eat or drink there.", "They must run there.", "They can shout there."], hint: "No eating or drinking 表示禁止吃喝。", explain: "No eating or drinking means students shouldn't eat or drink in the library.", tier: "stretch" }
     );
 
-    extraQuestionBank.english = extraQuestionBank.english.filter(question => question.type !== "speaking");
     extraQuestionBank.english.push(
       { q: "Read the passage: Amy is going to have a busy Sunday. In the morning, she will visit her grandparents with her mother. In the afternoon, she will go to the library and return two books. In the evening, she will finish her science homework. What will Amy do in the morning?", a: "Visit her grandparents.", options: ["Visit her grandparents.", "Go to the library.", "Finish science homework.", "Play football."], hint: "Look at the sentence with In the morning.", explain: "The passage says she will visit her grandparents in the morning.", tier: "stretch" },
       { q: "Read the passage: Amy is going to have a busy Sunday. In the morning, she will visit her grandparents with her mother. In the afternoon, she will go to the library and return two books. In the evening, she will finish her science homework. Where will Amy go in the afternoon?", a: "To the library.", options: ["To the library.", "To the park.", "To school.", "To the cinema."], hint: "Find In the afternoon.", explain: "In the afternoon, Amy will go to the library.", tier: "improve" },
@@ -1224,6 +1202,136 @@
       { q: "Read the passage: Mike is taller than John, but John runs faster than Mike. Mike likes basketball. John likes football. They are different, but they are good friends. Which sentence is true?", a: "Mike and John are good friends.", options: ["Mike and John are good friends.", "John is taller than Mike.", "Mike likes football.", "They don't know each other."], hint: "Check every sentence with the passage.", explain: "The passage says they are good friends.", tier: "stretch" }
     );
 
+    extraQuestionBank.chinese.push(
+      { q: "阅读短文：午后的教室很安静。小林发现同桌的铅笔盒掉在地上，彩笔滚了一地。他没有急着去操场，而是蹲下来一支支捡好，整齐地放回盒子里。同桌回来后，小林只笑了笑，说：“下次拉好书包拉链。”这段短文最能表现小林什么品质？", a: "乐于助人、细心", options: ["乐于助人、细心", "胆小怕事", "爱炫耀", "不守纪律"], hint: "看小林主动做了什么。", explain: "小林主动帮同桌捡好彩笔，还提醒对方，表现出乐于助人和细心。", tier: "stretch" },
+      { q: "阅读短文：午后的教室很安静。小林发现同桌的铅笔盒掉在地上，彩笔滚了一地。他没有急着去操场，而是蹲下来一支支捡好，整齐地放回盒子里。同桌回来后，小林只笑了笑，说：“下次拉好书包拉链。”句子“一支支捡好”有什么表达效果？", a: "写出小林做事认真细致", options: ["说明彩笔很贵", "写出小林做事认真细致", "说明操场很远", "表现他很生气"], hint: "关注叠词和动作细节。", explain: "“一支支”强调动作细致，表现小林认真帮忙。", tier: "stretch" },
+      { q: "阅读短文：清晨，雾还没有散。爸爸带我去看荷塘。起初，我只看见一片灰白。太阳升高后，荷叶上的露珠闪闪发亮，几朵荷花慢慢露出粉色的脸。爸爸说：“观察要等一等，急了就看不到变化。”短文是按什么顺序写景的？", a: "时间变化顺序", options: ["地点转换顺序", "时间变化顺序", "事情发展顺序", "人物出场顺序"], hint: "找“清晨、起初、太阳升高后”。", explain: "短文通过时间变化写出荷塘景色的变化。", tier: "improve" },
+      { q: "阅读短文：清晨，雾还没有散。爸爸带我去看荷塘。起初，我只看见一片灰白。太阳升高后，荷叶上的露珠闪闪发亮，几朵荷花慢慢露出粉色的脸。爸爸说：“观察要等一等，急了就看不到变化。”爸爸的话告诉我们什么？", a: "观察事物要耐心", options: ["荷花不能看", "观察事物要耐心", "清晨不能出门", "露珠没有变化"], hint: "联系“等一等”和“变化”。", explain: "爸爸借看荷塘告诉孩子，观察需要耐心，才能发现变化。", tier: "stretch" },
+      { q: "阅读短文：放学路上，风把一张通知单吹到水坑边。小雨跑过去捡起它，用纸巾一点点吸干水迹。老师问是谁做的，小雨低着头说：“只是顺手。”同学们却把掌声送给了她。这段短文的中心最接近哪一项？", a: "小善举也值得肯定", options: ["通知单不重要", "小善举也值得肯定", "下雨天不能放学", "掌声没有意义"], hint: "看大家为什么鼓掌。", explain: "小雨保护通知单，看似小事，却体现责任心和善意。", tier: "stretch" },
+      { q: "阅读短文：放学路上，风把一张通知单吹到水坑边。小雨跑过去捡起它，用纸巾一点点吸干水迹。老师问是谁做的，小雨低着头说：“只是顺手。”同学们却把掌声送给了她。“低着头”表现了小雨怎样的性格？", a: "谦虚、不张扬", options: ["骄傲", "谦虚、不张扬", "害怕通知单", "很粗心"], hint: "联系她说“只是顺手”。", explain: "小雨做了好事却不炫耀，体现谦虚、不张扬。", tier: "stretch" },
+      { q: "阅读短文：晚上，我把错题本摊在桌上，越看越烦。妈妈没有批评我，只把一道题重新画成线段图。我忽然发现，原来不是我不会，而是没有读懂题。那天以后，我每做应用题都会先圈关键词。短文中“我”明白了什么？", a: "做题要先读懂题、抓关键词", options: ["错题本没有用", "做题要先读懂题、抓关键词", "应用题都很简单", "妈妈不会讲题"], hint: "看最后一句。", explain: "“每做应用题都会先圈关键词”点明收获。", tier: "stretch" },
+      { q: "阅读短文：晚上，我把错题本摊在桌上，越看越烦。妈妈没有批评我，只把一道题重新画成线段图。我忽然发现，原来不是我不会，而是没有读懂题。那天以后，我每做应用题都会先圈关键词。妈妈的做法好在哪里？", a: "用方法引导我自己发现问题", options: ["直接批评我", "用方法引导我自己发现问题", "替我写答案", "让我不做题"], hint: "妈妈没有批评，而是画线段图。", explain: "妈妈通过线段图帮助孩子理解题意，引导孩子发现问题。", tier: "stretch" }
+    );
+
+    extraQuestionBank.english.push(
+      { q: "Read the passage: It is Friday afternoon. The students are cleaning the classroom. Mary is sweeping the floor. Jack is cleaning the windows. Lily is putting the books on the shelf. They want to make the classroom clean for Monday. What is Mary doing?", a: "Sweeping the floor.", options: ["Sweeping the floor.", "Cleaning the windows.", "Putting books on the shelf.", "Drawing pictures."], hint: "Find Mary is...", explain: "The passage says Mary is sweeping the floor.", tier: "improve" },
+      { q: "Read the passage: It is Friday afternoon. The students are cleaning the classroom. Mary is sweeping the floor. Jack is cleaning the windows. Lily is putting the books on the shelf. They want to make the classroom clean for Monday. Why are they cleaning the classroom?", a: "To make it clean for Monday.", options: ["To make it clean for Monday.", "To have a party.", "To look for a cat.", "To play a game."], hint: "Look at the last sentence.", explain: "They want to make the classroom clean for Monday.", tier: "stretch" },
+      { q: "Read the passage: It is Friday afternoon. The students are cleaning the classroom. Mary is sweeping the floor. Jack is cleaning the windows. Lily is putting the books on the shelf. Which sentence is true?", a: "Jack is cleaning the windows.", options: ["Jack is cleaning the windows.", "Mary is putting books away.", "Lily is sweeping the floor.", "They are at the zoo."], hint: "Compare each option with the passage.", explain: "The passage says Jack is cleaning the windows.", tier: "stretch" },
+      { q: "Read the passage: Ben had a cold yesterday. He didn't go to school. He drank warm water and took some medicine. Today he feels better, but his mother says he should still have a good rest. Why didn't Ben go to school yesterday?", a: "Because he had a cold.", options: ["Because he had a cold.", "Because it was Sunday.", "Because he lost his bag.", "Because he went shopping."], hint: "Look at the first two sentences.", explain: "Ben had a cold, so he didn't go to school.", tier: "improve" },
+      { q: "Read the passage: Ben had a cold yesterday. He didn't go to school. He drank warm water and took some medicine. Today he feels better, but his mother says he should still have a good rest. What did Ben drink?", a: "Warm water.", options: ["Warm water.", "Cold juice.", "Milk tea.", "Coffee."], hint: "Find drank.", explain: "He drank warm water.", tier: "secure" },
+      { q: "Read the passage: Ben had a cold yesterday. He didn't go to school. He drank warm water and took some medicine. Today he feels better, but his mother says he should still have a good rest. What should Ben do today?", a: "Have a good rest.", options: ["Have a good rest.", "Run for an hour.", "Eat ice cream.", "Go swimming."], hint: "Look at mother's advice.", explain: "His mother says he should still have a good rest.", tier: "stretch" },
+      { q: "Read the passage: Anna's class went to the science museum. They saw a model spaceship and learned about the moon. Anna liked the robot show best because the robot could answer simple questions. Where did Anna's class go?", a: "To the science museum.", options: ["To the science museum.", "To the library.", "To the farm.", "To the beach."], hint: "The first sentence gives the place.", explain: "Anna's class went to the science museum.", tier: "improve" },
+      { q: "Read the passage: Anna's class went to the science museum. They saw a model spaceship and learned about the moon. Anna liked the robot show best because the robot could answer simple questions. What did they learn about?", a: "The moon.", options: ["The moon.", "Cooking.", "Football.", "Music."], hint: "Find learned about...", explain: "They learned about the moon.", tier: "improve" },
+      { q: "Read the passage: Anna's class went to the science museum. They saw a model spaceship and learned about the moon. Anna liked the robot show best because the robot could answer simple questions. Why did Anna like the robot show best?", a: "Because the robot could answer simple questions.", options: ["Because the robot could answer simple questions.", "Because she was hungry.", "Because it was raining.", "Because she lost a book."], hint: "Look after because.", explain: "She liked it because the robot could answer simple questions.", tier: "stretch" },
+      { q: "Read the passage: Our school will have a sports day next Wednesday. Students should wear sports shoes and bring water. The running race will start at 9:00. If it rains, sports day will be on Friday. When will sports day be if it rains?", a: "On Friday.", options: ["On Friday.", "Next Monday.", "At 9:00.", "This Sunday."], hint: "Find If it rains.", explain: "If it rains, sports day will be on Friday.", tier: "stretch" },
+      { q: "Read the passage: Our school will have a sports day next Wednesday. Students should wear sports shoes and bring water. The running race will start at 9:00. If it rains, sports day will be on Friday. What should students bring?", a: "Water.", options: ["Water.", "A robot.", "A storybook.", "A cake."], hint: "Find bring.", explain: "Students should bring water.", tier: "secure" },
+      { q: "Read the passage: Our school will have a sports day next Wednesday. Students should wear sports shoes and bring water. The running race will start at 9:00. When will the running race start?", a: "At 9:00.", options: ["At 9:00.", "At 7:30.", "On Friday.", "After lunch."], hint: "Find running race.", explain: "The running race will start at 9:00.", tier: "improve" }
+    );
+
+    extraQuestionBank.chinese.push(
+      { q: "阅读短文：端午节前，奶奶把粽叶泡在清水里。她一边教我折叶子，一边说：包粽子不能急，米要压实，绳要扎紧。第一个粽子散开了，我有些泄气。奶奶笑着把粽叶重新递给我，说：手艺都是从散开的第一个开始的。短文主要写了什么？", a: "奶奶教我包粽子并鼓励我", options: ["奶奶教我包粽子并鼓励我", "我去河边洗粽叶", "奶奶一个人包完所有粽子", "端午节只要吃粽子"], hint: "抓住人物、事件和结果。", explain: "短文围绕奶奶教我包粽子、我失败后被鼓励展开。", tier: "stretch" },
+      { q: "阅读短文：端午节前，奶奶把粽叶泡在清水里。她一边教我折叶子，一边说：包粽子不能急，米要压实，绳要扎紧。第一个粽子散开了，我有些泄气。奶奶笑着把粽叶重新递给我，说：手艺都是从散开的第一个开始的。奶奶的话告诉我们什么？", a: "学本领要允许失败并继续练习", options: ["失败后就不必再学", "学本领要允许失败并继续练习", "粽叶不能泡水", "包粽子只靠力气"], hint: "理解“从散开的第一个开始”。", explain: "奶奶用温和的话鼓励孩子从失败中练习。", tier: "stretch" },
+      { q: "阅读短文：端午节前，奶奶把粽叶泡在清水里。她一边教我折叶子，一边说：包粽子不能急，米要压实，绳要扎紧。第一个粽子散开了，我有些泄气。奶奶笑着把粽叶重新递给我，说：手艺都是从散开的第一个开始的。文中“泄气”的意思最接近哪一项？", a: "失去信心", options: ["特别开心", "失去信心", "十分生气", "非常骄傲"], hint: "联系第一个粽子散开了。", explain: "做失败后有些泄气，意思是灰心、失去信心。", tier: "improve" },
+      { q: "阅读短文：班级图书角换新书那天，小周第一个拿到漫画书。他刚翻开，就看见后排的小宁一直望着书架。小周想了想，把漫画书递过去：你先看吧，我去借那本科学故事。小宁连声道谢。放学时，两个人还约好交换读书笔记。短文表现了小周怎样的品质？", a: "懂得分享、体贴同学", options: ["懂得分享、体贴同学", "只喜欢科学书", "不爱看漫画", "做事粗心"], hint: "看小周把书递给谁。", explain: "小周注意到同学想看书，主动让出，体现分享和体贴。", tier: "stretch" },
+      { q: "阅读短文：班级图书角换新书那天，小周第一个拿到漫画书。他刚翻开，就看见后排的小宁一直望着书架。小周想了想，把漫画书递过去：你先看吧，我去借那本科学故事。小宁连声道谢。放学时，两个人还约好交换读书笔记。“一直望着书架”说明小宁当时怎样？", a: "很想借到那本书", options: ["很想借到那本书", "想离开教室", "不喜欢读书", "正在找老师"], hint: "动作描写可以反映心理。", explain: "一直望着书架，说明小宁对书很期待。", tier: "improve" },
+      { q: "阅读短文：班级图书角换新书那天，小周第一个拿到漫画书。他刚翻开，就看见后排的小宁一直望着书架。小周想了想，把漫画书递过去：你先看吧，我去借那本科学故事。小宁连声道谢。放学时，两个人还约好交换读书笔记。给短文拟一个合适题目。", a: "一本漫画书", options: ["一本漫画书", "下雨的一天", "难忘的比赛", "我的铅笔盒"], hint: "题目要扣住主要事件。", explain: "故事围绕一本漫画书带来的分享展开。", tier: "stretch" },
+      { q: "阅读短文：傍晚，操场边的老柳树被风吹得沙沙响。值日生已经走了，地上还落着几张废纸。小禾弯腰捡起来，放进垃圾桶。她没有告诉任何人，只是在黑板角落写下：明天的操场，会更干净。短文中小禾做了什么？", a: "把操场上的废纸捡进垃圾桶", options: ["把操场上的废纸捡进垃圾桶", "在操场上踢足球", "把树叶放进书包", "擦完了所有窗户"], hint: "找小禾的动作。", explain: "小禾弯腰捡废纸并放进垃圾桶。", tier: "improve" },
+      { q: "阅读短文：傍晚，操场边的老柳树被风吹得沙沙响。值日生已经走了，地上还落着几张废纸。小禾弯腰捡起来，放进垃圾桶。她没有告诉任何人，只是在黑板角落写下：明天的操场，会更干净。小禾“没有告诉任何人”表现了她什么特点？", a: "做好事不张扬", options: ["做好事不张扬", "不敢说话", "忘记写作业", "害怕值日"], hint: "联系她主动捡纸。", explain: "她主动做好事，却不炫耀，表现朴实、不张扬。", tier: "stretch" },
+      { q: "阅读短文：傍晚，操场边的老柳树被风吹得沙沙响。值日生已经走了，地上还落着几张废纸。小禾弯腰捡起来，放进垃圾桶。她没有告诉任何人，只是在黑板角落写下：明天的操场，会更干净。短文的中心最接近哪一项？", a: "每个人的小行动都能让环境更好", options: ["每个人的小行动都能让环境更好", "柳树只在傍晚响", "值日生一定偷懒", "废纸不用捡"], hint: "中心要从人物行为中概括。", explain: "小禾用小行动维护环境，体现责任感。", tier: "stretch" },
+      { q: "阅读短文：展览前夜，班里的手工作品还差最后一块背景板。大家都说太晚了，明天再说。小远却拿出尺子和剪刀，量好尺寸，和几个同学一起补完。第二天，展板整齐地摆在走廊，老师说：真正的合作，是有人愿意把最后一步做好。小远为什么留下来？", a: "为了把展览的背景板补完", options: ["为了把展览的背景板补完", "为了等家长", "为了玩剪刀", "为了擦黑板"], hint: "看“还差最后一块背景板”。", explain: "小远留下来是为了完成展览最后一块背景板。", tier: "improve" },
+      { q: "阅读短文：展览前夜，班里的手工作品还差最后一块背景板。大家都说太晚了，明天再说。小远却拿出尺子和剪刀，量好尺寸，和几个同学一起补完。第二天，展板整齐地摆在走廊，老师说：真正的合作，是有人愿意把最后一步做好。老师的话强调了什么？", a: "合作要负责到底", options: ["合作要负责到底", "展板越大越好", "剪刀最重要", "晚上不能做手工"], hint: "理解“最后一步做好”。", explain: "老师肯定的是小远和同学把任务坚持完成。", tier: "stretch" },
+      { q: "阅读短文：展览前夜，班里的手工作品还差最后一块背景板。大家都说太晚了，明天再说。小远却拿出尺子和剪刀，量好尺寸，和几个同学一起补完。第二天，展板整齐地摆在走廊，老师说：真正的合作，是有人愿意把最后一步做好。小远是一个怎样的人？", a: "有责任心、愿意合作", options: ["有责任心、愿意合作", "怕老师批评", "只会剪纸", "不关心集体"], hint: "从他主动补完背景板判断。", explain: "小远主动承担最后一步，说明有责任心，也能合作。", tier: "stretch" }
+    );
+
+    extraQuestionBank.english.push(
+      { q: "Read the passage: There is a notice on the classroom wall. The art club will meet at 4:30 on Thursday. Students should bring colored pencils and a small notebook. They will draw pictures of their school. When will the art club meet?", a: "At 4:30 on Thursday.", options: ["At 4:30 on Thursday.", "At 9:00 on Friday.", "On Sunday morning.", "After dinner."], hint: "Find the time sentence.", explain: "The notice says the art club will meet at 4:30 on Thursday.", tier: "improve" },
+      { q: "Read the passage: There is a notice on the classroom wall. The art club will meet at 4:30 on Thursday. Students should bring colored pencils and a small notebook. They will draw pictures of their school. What should students bring?", a: "Colored pencils and a small notebook.", options: ["Colored pencils and a small notebook.", "Sports shoes and water.", "A camera and food.", "A football and a cap."], hint: "Look after should bring.", explain: "Students should bring colored pencils and a small notebook.", tier: "stretch" },
+      { q: "Read the passage: There is a notice on the classroom wall. The art club will meet at 4:30 on Thursday. Students should bring colored pencils and a small notebook. They will draw pictures of their school. What is the passage mainly about?", a: "An art club notice.", options: ["An art club notice.", "A lost dog.", "A birthday party.", "A weather report."], hint: "The first sentence says notice.", explain: "The passage gives time, things to bring, and activity for the art club.", tier: "stretch" },
+      { q: "Read the passage: On Saturday, Linda's family went to the park by bus. They saw many flowers and took photos near the lake. Linda wanted to pick a flower, but her father said, We should love plants. So Linda only drew the flowers in her notebook. How did Linda's family go to the park?", a: "By bus.", options: ["By bus.", "By train.", "On foot.", "By plane."], hint: "Find went to the park by...", explain: "The passage says they went to the park by bus.", tier: "improve" },
+      { q: "Read the passage: On Saturday, Linda's family went to the park by bus. They saw many flowers and took photos near the lake. Linda wanted to pick a flower, but her father said, We should love plants. So Linda only drew the flowers in her notebook. What did Linda do at last?", a: "She drew the flowers.", options: ["She drew the flowers.", "She picked many flowers.", "She went swimming.", "She bought a plant."], hint: "Look at the last sentence.", explain: "Linda only drew the flowers in her notebook.", tier: "stretch" },
+      { q: "Read the passage: On Saturday, Linda's family went to the park by bus. They saw many flowers and took photos near the lake. Linda wanted to pick a flower, but her father said, We should love plants. So Linda only drew the flowers in her notebook. What can we learn from the passage?", a: "We should protect plants.", options: ["We should protect plants.", "We can pick flowers anywhere.", "Parks are only for buses.", "Notebooks are flowers."], hint: "Understand father's words.", explain: "Her father tells her to love plants, so the idea is to protect plants.", tier: "stretch" },
+      { q: "Read the passage: Peter found a blue pencil case in the playground. There were two pens, a ruler and a name card in it. The name card said Lily, Class Five. Peter gave it to the teacher. Who lost the pencil case?", a: "Lily.", options: ["Lily.", "Peter.", "The teacher.", "Tom."], hint: "Look at the name card.", explain: "The name card said Lily, so Lily lost it.", tier: "improve" },
+      { q: "Read the passage: Peter found a blue pencil case in the playground. There were two pens, a ruler and a name card in it. The name card said Lily, Class Five. Peter gave it to the teacher. Where did Peter find the pencil case?", a: "In the playground.", options: ["In the playground.", "In the library.", "At home.", "In the zoo."], hint: "The first sentence gives the place.", explain: "Peter found it in the playground.", tier: "improve" },
+      { q: "Read the passage: Peter found a blue pencil case in the playground. There were two pens, a ruler and a name card in it. The name card said Lily, Class Five. Peter gave it to the teacher. Which word best describes Peter?", a: "Helpful.", options: ["Helpful.", "Lazy.", "Angry.", "Careless."], hint: "Think about what he did after finding it.", explain: "Peter gave the pencil case to the teacher, so he is helpful.", tier: "stretch" },
+      { q: "Read the passage: My pen pal Jack lives in Canada. It is often snowy in winter there. He likes skating with his friends. This summer he will come to China and visit the Great Wall. Where does Jack live?", a: "In Canada.", options: ["In Canada.", "In China.", "In Australia.", "In the UK."], hint: "Find lives in...", explain: "The passage says Jack lives in Canada.", tier: "improve" },
+      { q: "Read the passage: My pen pal Jack lives in Canada. It is often snowy in winter there. He likes skating with his friends. This summer he will come to China and visit the Great Wall. What does Jack like doing?", a: "Skating.", options: ["Skating.", "Fishing.", "Cooking.", "Singing."], hint: "Find He likes...", explain: "He likes skating with his friends.", tier: "improve" },
+      { q: "Read the passage: My pen pal Jack lives in Canada. It is often snowy in winter there. He likes skating with his friends. This summer he will come to China and visit the Great Wall. What will Jack do this summer?", a: "Visit the Great Wall.", options: ["Visit the Great Wall.", "Stay in Canada only.", "Clean the classroom.", "Have a sports day."], hint: "Look at This summer.", explain: "This summer he will come to China and visit the Great Wall.", tier: "stretch" }
+    );
+
+    extraQuestionBank.chinese.push(
+      { q: "课本字词：下列词语书写完全正确的一项是？", a: "妒忌、锻炼、眷恋、簇拥", options: ["妒忌、锻练、眷恋、簇拥", "妒忌、锻炼、眷恋、簇拥", "都忌、锻炼、卷恋、簇拥", "妒忌、锻炼、眷念、促拥"], hint: "注意“锻炼”的“炼”，“眷恋”的“眷”。", explain: "人教版五下常考生字词要会辨字形：妒忌、锻炼、眷恋、簇拥。", tier: "improve" },
+      { q: "课本字词：下列加点字读音正确的一项是？“踌躇、矜持、窈窕、胚胎”", a: "chou chu、jin chi、yao tiao、pei tai", options: ["chou chu、jin chi、yao tiao、pei tai", "shou chu、jin chi、you tiao、pei tai", "chou zhu、qin chi、yao tiao、pei tai", "chou chu、jin ci、yao zhao、bei tai"], hint: "重点读准翘舌、前后鼻音和易错声母。", explain: "踌躇 chou chu，矜持 jin chi，窈窕 yao tiao，胚胎 pei tai。", tier: "stretch" },
+      { q: "课本字词：选择合适词语填空。“沃克医生的脸上浮现出____的神情。”", a: "惊疑", options: ["惊疑", "慈祥", "悠闲", "喧哗"], hint: "联系《军神》中医生看到病人忍痛时的反应。", explain: "《军神》中沃克医生由惊疑到敬佩，表现刘伯承钢铁般的意志。", tier: "improve" },
+      { q: "成语积累：把成语补充完整。“胸有____、跃跃____、养尊____、神机____”", a: "成竹、欲试、处优、妙算", options: ["成竹、欲试、处优、妙算", "成竹、预试、处忧、妙算", "竹成、欲试、处优、妙想", "成竹、欲事、处优、秒算"], hint: "这些是五下常见四字词，注意字形。", explain: "正确写法：胸有成竹、跃跃欲试、养尊处优、神机妙算。", tier: "improve" },
+      { q: "成语运用：形容诸葛亮计谋高明、预料准确，最合适的成语是？", a: "神机妙算", options: ["神机妙算", "半信半疑", "情不自禁", "手疾眼快"], hint: "联系《草船借箭》。", explain: "《草船借箭》体现诸葛亮知天文、懂人心、安排周密，可用“神机妙算”。", tier: "secure" },
+      { q: "课文内容：《草船借箭》中，诸葛亮借箭成功的关键原因不包括哪一项？", a: "鲁肃主动向曹操借船", options: ["熟悉天气变化", "了解曹操多疑", "安排船只草把子", "鲁肃主动向曹操借船"], hint: "题目问“不包括”。", explain: "诸葛亮成功靠识天气、懂人心、周密安排；鲁肃只是按诸葛亮要求准备船。", tier: "stretch" },
+      { q: "课文内容：《景阳冈》中，武松给人的主要印象是？", a: "勇敢豪放，也有倔强的一面", options: ["胆小谨慎", "勇敢豪放，也有倔强的一面", "只会夸口不会行动", "温柔细心"], hint: "既要看打虎，也要看上冈前的语言动作。", explain: "武松豪放勇敢，但也有不听劝、倔强的一面，人物评价要全面。", tier: "stretch" },
+      { q: "课文内容：《猴王出世》中，石猴被称为“美猴王”的原因是？", a: "他敢于第一个跳进水帘洞并守信用", options: ["他长得最漂亮", "他敢于第一个跳进水帘洞并守信用", "他会写诗", "他力气最大"], hint: "联系群猴的约定。", explain: "石猴勇敢进入水帘洞，又按约成为王，表现勇敢和担当。", tier: "improve" },
+      { q: "课文内容：《跳水》中，船长逼孩子跳水的真正目的是？", a: "让孩子跳进海里脱离危险", options: ["惩罚孩子", "吓唬水手", "让孩子跳进海里脱离危险", "让孩子表演"], hint: "看当时孩子站在桅杆横木上的危险处境。", explain: "船长用枪逼孩子跳水，是在危急时刻用果断办法救孩子。", tier: "stretch" },
+      { q: "课文内容：《威尼斯的小艇》主要抓住小艇的哪几个方面来写？", a: "样子、船夫驾驶技术、与人们生活的关系", options: ["颜色、价格、产地", "样子、船夫驾驶技术、与人们生活的关系", "天气、植物、动物", "作者年龄、职业、爱好"], hint: "回忆课文结构。", explain: "课文写小艇样子独特、船夫驾驶技术高超，以及小艇与威尼斯生活密切相关。", tier: "improve" },
+      { q: "古诗积累：“童孙未解供耕织，____。”横线处应填？", a: "也傍桑阴学种瓜", options: ["也傍桑阴学种瓜", "短笛无腔信口吹", "彩丝穿取当银钲", "村庄儿女各当家"], hint: "出自《四时田园杂兴》（其三十一）。", explain: "这两句写儿童天真可爱、热爱劳动。", tier: "secure" },
+      { q: "古诗理解：“稚子金盆脱晓冰，彩丝穿取当银钲。”写出了儿童怎样的特点？", a: "天真活泼、富有童趣", options: ["天真活泼、富有童趣", "忧国忧民", "十分懒惰", "害怕寒冷"], hint: "抓住“脱晓冰”“当银钲”。", explain: "诗句写儿童把冰当乐器玩，表现天真活泼和童趣。", tier: "improve" },
+      { q: "文言文：《杨氏之子》中“未闻孔雀是夫子家禽”的妙处是？", a: "用对方姓氏巧妙回应，机智有礼", options: ["声音很大", "用对方姓氏巧妙回应，机智有礼", "说明孔雀会说话", "直接批评客人"], hint: "孔君平说杨梅，孩子回应孔雀。", explain: "杨氏子顺着对方的姓氏联想回应，既机智又不失礼貌。", tier: "stretch" },
+      { q: "句子训练：下列句子没有语病的一项是？", a: "通过复习，我掌握了更多课文知识。", options: ["通过复习，使我掌握了更多课文知识。", "通过复习，我掌握了更多课文知识。", "我估计他一定会来。", "老师要求我们认真和习惯。"], hint: "注意“通过……使……”缺主语。", explain: "A缺少主语；C“估计”和“一定”矛盾；D搭配不当。", tier: "improve" },
+      { q: "材料阅读：校园读书节安排：周一开放图书漂流，周三举行诗词大会，周五展示读书小报。小明想参加诗词大会，应选择哪一天？", a: "周三", options: ["周一", "周三", "周五", "周日"], hint: "直接找“诗词大会”。", explain: "材料中写明周三举行诗词大会。", tier: "secure" },
+      { q: "材料阅读：校园读书节安排：周一开放图书漂流，周三举行诗词大会，周五展示读书小报。这个材料最可能是？", a: "活动安排通知", options: ["活动安排通知", "童话故事", "古诗赏析", "人物传记"], hint: "看材料是否有时间和活动。", explain: "材料列出不同日期的活动，是典型的活动安排通知。", tier: "improve" },
+      { q: "阅读答题方法：遇到“请结合文章内容说理由”，最应该怎么答？", a: "先表明观点，再引用文中内容说明", options: ["只写自己的感觉", "先表明观点，再引用文中内容说明", "把文章全抄一遍", "只写一个词"], hint: "考试要有“观点+依据”。", explain: "阅读主观题要答完整：观点明确，理由来自文本。", tier: "stretch" }
+    );
+
+    extraQuestionBank.math.push(
+      { q: "卷型选择：两根绳子分别长2米和3米，第一根用去全长的1/4，第二根用去1米，剩下的谁长？", a: "第二根长", options: ["第一根长", "第二根长", "一样长", "无法比较"], hint: "第一根剩 2×3/4=1.5 米；第二根剩 2 米。", explain: "第一根剩1.5米，第二根剩3-1=2米，所以第二根长。", tier: "stretch" },
+      { q: "卷型判断：把一根长方体木料截成两段，表面积一定增加两个相同的截面。", a: "对", options: ["对", "错"], hint: "切一刀会露出两个新面。", explain: "长方体切成两段，会新增两个完全相同的截面，所以表面积增加。", tier: "improve" },
+      { q: "卷型填空：一个长方体长10cm、宽6cm、高3cm，切成两个完全一样的小长方体，表面积最多增加多少？", a: "120cm²", options: ["36cm²", "60cm²", "120cm²", "180cm²"], hint: "最多增加两个最大截面，最大截面是10×6。", explain: "最大截面面积10×6=60cm²，切开增加两个截面，60×2=120cm²。", tier: "stretch" },
+      { q: "卷型计算：1/3 + 5/6 - 1/2 = ?", a: "2/3", options: ["1/6", "2/3", "5/6", "1"], hint: "通分成六分之几。", explain: "1/3=2/6，1/2=3/6，所以2/6+5/6-3/6=4/6=2/3。", tier: "improve" },
+      { q: "卷型应用：一个无盖鱼缸长8dm、宽5dm、高4dm，做这个鱼缸至少需要多少平方分米玻璃？", a: "144dm²", options: ["104dm²", "144dm²", "160dm²", "184dm²"], hint: "无盖：底面+四个侧面。", explain: "底面8×5=40，侧面2×8×4+2×5×4=64+40，共144dm²。", tier: "stretch" },
+      { q: "卷型填空：一个正方体棱长扩大到原来的2倍，体积扩大到原来的几倍？", a: "8倍", options: ["2倍", "4倍", "6倍", "8倍"], hint: "体积和棱长的三次方有关。", explain: "棱长扩大2倍，体积扩大2×2×2=8倍。", tier: "stretch" },
+      { q: "卷型选择：如果甲数是乙数的2/5，那么乙数与甲数相比，谁大？", a: "乙数大", options: ["甲数大", "乙数大", "一样大", "无法确定"], hint: "甲只占乙的2/5。", explain: "甲数是乙数的2/5，说明甲比乙小，所以乙数大。", tier: "improve" },
+      { q: "卷型应用：一辆车3/5小时行了36千米，照这样计算，1小时行多少千米？", a: "60千米", options: ["21.6千米", "36千米", "60千米", "90千米"], hint: "速度=路程÷时间。", explain: "36÷3/5=36×5/3=60千米。", tier: "stretch" },
+      { q: "卷型图形：一个长方体的长、宽、高分别是5cm、4cm、3cm，它的棱长总和是多少？", a: "48cm", options: ["12cm", "24cm", "48cm", "60cm"], hint: "棱长总和=4×(长+宽+高)。", explain: "4×(5+4+3)=48cm。", tier: "improve" },
+      { q: "卷型综合：把3米长的彩带平均分成8段，每段是全长的几分之几？每段长多少米？", a: "1/8，3/8米", options: ["1/8，3/8米", "3/8，1/8米", "1/3，8/3米", "8/3，1/8米"], hint: "问“全长的几分之几”和“具体长度”是两件事。", explain: "平均分成8段，每段占全长1/8；每段长3÷8=3/8米。", tier: "stretch" }
+    );
+
+    extraQuestionBank.english.push(
+      { q: "听力题：听录音，选择你听到的短语。", audioText: "clean the office", a: "clean the office", options: ["clean the office", "make cards", "drink some water", "April seventeenth"], hint: "注意 clean 和 office。", explain: "录音内容是 clean the office，意思是打扫办公室。", tier: "improve" },
+      { q: "听力题：听录音，选择你听到的短语。", audioText: "make cards", a: "make cards", options: ["make cards", "fly kites", "have a party", "clean the room"], hint: "听 make 和 cards。", explain: "录音内容是 make cards，意思是制作卡片。", tier: "secure" },
+      { q: "听力题：听录音，选择你听到的日期。", audioText: "April seventeenth", a: "April 17th", options: ["April 7th", "April 17th", "August 15th", "March 12th"], hint: "seventeenth 是第十七。", explain: "April seventeenth 表示4月17日。", tier: "improve" },
+      { q: "听力题：听录音，选择你听到的节日。", audioText: "Halloween", a: "Halloween", options: ["Halloween", "Mother's Day", "Teachers' Day", "Tree Planting Day"], hint: "注意 Halloween 的重音。", explain: "录音内容是 Halloween，意思是万圣节前夕。", tier: "secure" },
+      { q: "听力题：听录音，选择你听到的句子。", audioText: "I have breakfast at seven fifty every morning.", a: "I have breakfast at 7:50 every morning.", options: ["I have breakfast at 7:50 every morning.", "I have lunch at 7:50 every morning.", "I have breakfast on Sunday.", "I cook eggs every morning."], hint: "听 breakfast 和 seven fifty。", explain: "句子里有 breakfast 和 at seven fifty。", tier: "improve" },
+      { q: "听力题：听录音，选择你听到的句子。", audioText: "They are going to make a poster for Teachers' Day.", a: "They are going to make a poster for Teachers' Day.", options: ["They are going to make a poster for Teachers' Day.", "They are going to make cards for Mother's Day.", "They are going to clean the office.", "They often fly kites after school."], hint: "听 make a poster 和 Teachers' Day。", explain: "录音内容是 They are going to make a poster for Teachers' Day.", tier: "stretch" },
+      { q: "听力题：听录音，选择正确答语。", audioText: "What does your father do after dinner?", a: "He reads books.", options: ["He reads books.", "At seven fifty.", "Yes, he is.", "It's on March 12th."], hint: "问 does your father do，回答动作。", explain: "问爸爸晚饭后做什么，应该回答 He reads books 这类动作。", tier: "stretch" },
+      { q: "听力题：听录音，选择正确答语。", audioText: "When is Tree Planting Day?", a: "It's on March 12th.", options: ["It's on March 12th.", "I can plant trees.", "Yes, it is.", "They are beautiful."], hint: "When 问时间。", explain: "Tree Planting Day 是 March 12th。", tier: "improve" },
+      { q: "听力题：听录音，选择正确答语。", audioText: "What do you do on New Year's Day?", a: "We sing and dance.", options: ["We sing and dance.", "It's in September.", "No, I don't.", "She is crying."], hint: "问 do you do，回答活动。", explain: "New Year's Day 可以 sing and dance。", tier: "stretch" },
+      { q: "听力题：听录音，选择你听到的单词。", audioText: "seventeenth", a: "seventeenth", options: ["seventh", "seven", "seventeen", "seventeenth"], hint: "注意结尾 th。", explain: "seventeenth 是序数词“第十七”。", tier: "stretch" },
+      { q: "卷型辨音：下面哪一组单词中划线部分读音不同？seventh / seven / seventeen", a: "seventh", options: ["seventh", "seven", "seventeen", "都相同"], hint: "注意 th 的发音。", explain: "seventh 中 th 发 /θ/，seven 和 seventeen 中 sev 发音相同。", tier: "improve" },
+      { q: "卷型辨音：bad / bed / buy 中，哪一个元音读音不同？", a: "buy", options: ["bad", "bed", "buy", "都相同"], hint: "buy 是双元音 /ai/。", explain: "bad 和 bed 是短元音，buy 读 /bai/，明显不同。", tier: "improve" },
+      { q: "卷型辨音：for / fourth / four 中，哪一个读音不同？", a: "fourth", options: ["for", "fourth", "four", "都相同"], hint: "fourth 末尾有 th。", explain: "for 和 four 发音相同，fourth 多了 /θ/。", tier: "improve" },
+      { q: "单项选择：I'm going to cook some eggs ____ Mother's Day.", a: "on", options: ["at", "in", "on", "for"], hint: "具体某一天用 on。", explain: "Mother's Day 是具体节日当天，前面用 on。", tier: "secure" },
+      { q: "单项选择：I have breakfast ____ 7:50 every morning.", a: "at", options: ["in", "on", "at", "for"], hint: "具体时刻用 at。", explain: "7:50 是具体时间点，所以用 at。", tier: "secure" },
+      { q: "单项选择：What ____ your father do after dinner?", a: "does", options: ["is", "do", "does", "doing"], hint: "your father 是第三人称单数。", explain: "一般现在时疑问句，主语是第三人称单数，用 does。", tier: "improve" },
+      { q: "单项选择：They are going to make a poster ____ Teachers' Day.", a: "for", options: ["of", "in", "for", "at"], hint: "为教师节制作海报。", explain: "make a poster for Teachers' Day 表示“为教师节制作海报”。", tier: "improve" },
+      { q: "单项选择：My sister ____ because she is not happy.", a: "cries", options: ["cry", "cried", "cries", "crying"], hint: "主语 My sister 是第三人称单数。", explain: "一般现在时第三人称单数动词加 s，cry 变 cries。", tier: "improve" },
+      { q: "单项选择：Some ____ make cards for their teachers.", a: "children", options: ["children", "child", "childrens", "childes"], hint: "child 的复数是不规则变化。", explain: "child 的复数是 children，不能写 childrens。", tier: "secure" },
+      { q: "单项选择：Tom often goes to the park ____ his grandpa.", a: "with", options: ["and", "but", "with", "to"], hint: "和某人一起用 with。", explain: "with his grandpa 表示“和他的爷爷一起”。", tier: "secure" },
+      { q: "单项选择：We are going to fly ____ kites after school.", a: "our", options: ["us", "ours", "our", "we"], hint: "后面有名词 kites，要用形容词性物主代词。", explain: "our kites 表示“我们的风筝”。", tier: "improve" },
+      { q: "单项选择：I have to do some ____.", a: "chores", options: ["chore", "chores", "choring", "chored"], hint: "some 后面常接可数名词复数。", explain: "do some chores 表示“做一些家务”。", tier: "secure" },
+      { q: "情景交际：—We are going to go to the park. —____", a: "That sounds great.", options: ["That sounds great.", "You're welcome.", "I can help you.", "Thank you."], hint: "对别人的计划表示赞同。", explain: "That sounds great. 表示“听起来不错”。", tier: "secure" },
+      { q: "完形填空：Teachers' Day is a ____ day for teachers.", a: "special", options: ["bad", "special", "sad", "small"], hint: "教师节是特别的日子。", explain: "special 表示“特别的”。", tier: "improve" },
+      { q: "完形填空：It's ____ September 10th.", a: "on", options: ["on", "in", "at", "for"], hint: "具体日期用 on。", explain: "September 10th 是具体日期，所以用 on。", tier: "secure" },
+      { q: "完形填空：On that day, students say “____” and give presents to their teachers.", a: "thank you", options: ["thank you", "hello", "goodbye", "sorry"], hint: "给老师送礼物时通常表达感谢。", explain: "教师节学生会对老师说 thank you。", tier: "secure" },
+      { q: "完形填空：They make pretty cards ____ paper flowers.", a: "and", options: ["but", "and", "not", "or"], hint: "cards 和 paper flowers 是并列关系。", explain: "两个名词短语并列，用 and。", tier: "improve" },
+      { q: "完形填空：There are students ____ the offices for the teachers.", a: "cleaning", options: ["clean", "cleans", "cleaning", "cleaned"], hint: "There are sb. doing sth. 表示有人正在做某事。", explain: "students cleaning the offices 表示“正在打扫办公室的学生”。", tier: "stretch" },
+      { q: "信息卡阅读：Lucy has three favourite special days: Mid-Autumn Festival, New Year's Day and Tree Planting Day. How many favourite special days does Lucy have?", a: "Three.", options: ["Two.", "Three.", "Four.", "Five."], hint: "题干第一句直接给出数量。", explain: "Lucy has three favourite special days. 所以是 Three。", tier: "secure" },
+      { q: "信息卡阅读：Mid-Autumn Festival: Date: August 15th of the lunar calendar. Activities: eat mooncakes, have a party, enjoy the full moon. Is Mid-Autumn Festival on August 15th?", a: "Yes, it is.", options: ["Yes, it is.", "Yes, they are.", "No, it isn't.", "No, they aren't."], hint: "注意回答 Is...?", explain: "日期信息写着 August 15th，所以肯定回答是 Yes, it is.", tier: "improve" },
+      { q: "信息卡阅读：New Year's Day activities: have a party, sing and dance, say hello to the new year. Lucy can have a party on ____.", a: "New Year's Day", options: ["Mid-Autumn Festival", "New Year's Day", "Tree Planting Day", "Mother's Day"], hint: "找 have a party 出现在哪张卡片。", explain: "New Year's Day 的活动里有 have a party。", tier: "improve" },
+      { q: "信息卡阅读：Tree Planting Day Date: March 12th. Activities: plant trees, fly kites, have a picnic. When is Tree Planting Day?", a: "On March 12th.", options: ["On August 15th.", "On March 12th.", "On March 15th.", "On January 1st."], hint: "直接找 Date。", explain: "卡片写明 Tree Planting Day 是 March 12th。", tier: "secure" },
+      { q: "短文判断：The Spring Festival is the most important festival in China. It's on January 1st of the lunar calendar every year. 判断：The Spring Festival is on January 1st.", a: "False", options: ["True", "False"], hint: "注意 of the lunar calendar。", explain: "原文说农历一月一日，不是公历 January 1st，所以按常规英文判断应为 False。", tier: "stretch" },
+      { q: "短文判断：Before the Spring Festival, people clean their houses. 判断：People clean their houses before the Spring Festival.", a: "True", options: ["True", "False"], hint: "和原文完全对应。", explain: "原文直接说 Before the Spring Festival, people clean their houses.", tier: "secure" },
+      { q: "短文阅读：Families get together and have a big dinner on the eve of the Spring Festival. What do families do on the eve?", a: "They get together and have a big dinner.", options: ["They get together and have a big dinner.", "They plant trees.", "They fly kites.", "They clean offices."], hint: "找 on the eve。", explain: "原文说 families get together and have a big dinner。", tier: "stretch" },
+      { q: "短文阅读：Children like the Spring Festival because they can wear new clothes and get lucky money. Are children happy during the Spring Festival?", a: "Yes, they are.", options: ["Yes, they are.", "No, they aren't.", "Yes, it is.", "No, it isn't."], hint: "问 Are children... 用 they 回答。", explain: "孩子们喜欢春节，所以回答 Yes, they are.", tier: "improve" },
+      { q: "写作句型：写“My Favourite Festival”时，第一句最适合写什么？", a: "My favourite festival is New Year's Day.", options: ["My favourite festival is New Year's Day.", "I have a pen.", "He is a boy.", "It is under the desk."], hint: "作文开头先点明最喜欢的节日。", explain: "节日作文要先写清楚主题：我最喜欢的节日是什么。", tier: "improve" },
+      { q: "写作句型：想表达“在那天我们唱歌跳舞”，正确的是？", a: "On that day, we sing and dance.", options: ["On that day, we sing and dance.", "In that day, we sings and dances.", "At that day, we singing.", "On day, we dance sing."], hint: "具体某一天用 on；we 后动词用原形。", explain: "On that day 是固定表达，we 后面用 sing and dance。", tier: "stretch" }
+    );
+
     const tierMeta = {
       secure: { label: "保分题", bonus: 10, mastery: 1 },
       improve: { label: "提分题", bonus: 12, mastery: 2 },
@@ -1235,6 +1343,149 @@
       chinese: { secure: 1, improve: 5, stretch: 9 },
       english: { secure: 1, improve: 5, stretch: 9 }
     };
+    const subjectPaperPlan = {
+      math: { secure: 3, improve: 16, stretch: 1 },
+      chinese: { secure: 3, improve: 16, stretch: 1 },
+      english: { secure: 3, improve: 16, stretch: 1 }
+    };
+
+    function addTenDayExamBanks() {
+      const cnWordSets = [
+        ["妒忌", "锻炼", "眷恋", "簇拥"], ["踌躇", "矜持", "崭新", "慈祥"],
+        ["桅杆", "吆喝", "喧哗", "放肆"], ["屏障", "船艄", "操纵", "祷告"],
+        ["辽阔", "威严", "牲畜", "吓唬"], ["胸膛", "熟练", "侵犯", "荣幸"],
+        ["由衷", "拟定", "特殊", "奔赴"], ["承认", "呐喊", "预计", "遮掩"],
+        ["诊所", "年龄", "审视", "崭露"], ["摔跤", "欺负", "脚腕", "喉咙"],
+        ["船舱", "纵横", "码头", "保姆"]
+      ];
+      const poems = [
+        ["童孙未解供耕织，____。", "也傍桑阴学种瓜", "四时田园杂兴"],
+        ["稚子金盆脱晓冰，____。", "彩丝穿取当银钲", "稚子弄冰"],
+        ["牧童归去横牛背，____。", "短笛无腔信口吹", "村晚"],
+        ["黄沙百战穿金甲，____。", "不破楼兰终不还", "从军行"],
+        ["遗民泪尽胡尘里，____。", "南望王师又一年", "秋夜将晓出篱门迎凉有感"],
+        ["剑外忽传收蓟北，____。", "初闻涕泪满衣裳", "闻官军收河南河北"],
+        ["孤帆远影碧空尽，____。", "唯见长江天际流", "黄鹤楼送孟浩然之广陵"],
+        ["却看妻子愁何在，____。", "漫卷诗书喜欲狂", "闻官军收河南河北"],
+        ["羌笛何须怨杨柳，____。", "春风不度玉门关", "凉州词"],
+        ["白日放歌须纵酒，____。", "青春作伴好还乡", "闻官军收河南河北"],
+        ["昼出耘田夜绩麻，____。", "村庄儿女各当家", "四时田园杂兴"]
+      ];
+      const cnMaterials = [
+        "学校图书馆推出校园文化活动。展区有文物图片、地方戏曲介绍和学生手工作品。五年级同学需要先阅读展板，再完成记录卡。",
+        "操场边的公益劳动开始了。小队长先分发工具，再安排同学清扫跑道、整理花坛。大家发现，只要分工清楚，效率就会提高。",
+        "科学课上，老师让同学们观察种子发芽。小岚每天记录温度和变化，第五天终于看见嫩芽顶破泥土，她明白了观察要连续。",
+        "班级准备诗词大会。小组成员把易错字写成卡片，又把诗句按主题分类。复习时，大家先背诵，再互相提问理解。",
+        "雨后的校门口有些拥堵，志愿者同学举着提示牌，引导低年级学生排队通过。老师说，规则让校园更安全。",
+        "美术展览前，背景板还没有贴好。几个同学留下来量尺寸、裁纸、粘贴，直到展板平整地立起来才离开。",
+        "阅览室里，小哲发现一本书被放错了位置。他按书脊编号找回原来的书架，还提醒同学借书后要放回指定区域。",
+        "劳动课上，老师教大家整理抽屉。小雨把铅笔、尺子、错题纸分开放好，发现东西整齐后，找资料也快了很多。",
+        "运动会报名时，小航想报短跑，可班里缺少跳远选手。他想了想，决定尝试跳远，为班级补上空缺。",
+        "周末，小队去社区采访老手艺人。大家边听边记录，发现一件普通工具背后，也藏着耐心和经验。",
+        "期末复习时，小林把错题分成字词、阅读、表达三类。每天只攻克一类，几天后，他发现自己不再乱复习。"
+      ];
+      const englishTopics = [
+        ["Teachers' Day", "September 10th", "make cards", "say thank you"],
+        ["Tree Planting Day", "March 12th", "plant trees", "fly kites"],
+        ["New Year's Day", "January 1st", "sing and dance", "have a party"],
+        ["Mother's Day", "the second Sunday in May", "cook eggs", "make a card"],
+        ["Mid-Autumn Festival", "August 15th of the lunar calendar", "eat mooncakes", "enjoy the full moon"],
+        ["Spring Festival", "January 1st of the lunar calendar", "clean houses", "get lucky money"],
+        ["Children's Day", "June 1st", "watch a show", "play games"],
+        ["Sports Day", "next Friday", "wear sports shoes", "bring water"],
+        ["Art Club Day", "Thursday afternoon", "draw posters", "bring colored pencils"],
+        ["Reading Day", "Monday morning", "read stories", "write notes"],
+        ["Science Day", "Wednesday", "visit the museum", "see robots"]
+      ];
+
+      for (let dayIndex = 0; dayIndex < 11; dayIndex += 1) {
+        const d = dayIndex + 1;
+        const a = dayIndex + 2;
+        const b = 3 + (dayIndex % 5);
+        const c = 4 + (dayIndex % 4);
+        const words = cnWordSets[dayIndex];
+        const poem = poems[dayIndex];
+        const material = cnMaterials[dayIndex];
+        const topic = englishTopics[dayIndex];
+        const add = (subject, tier, q, a, options, hint, explain, extra = {}) => {
+          extraQuestionBank[subject].push({ dayIndex, tier, q: `D${d}${q}`, a, options, hint, explain, ...extra });
+        };
+
+        add("math", "secure", `数学卷·选择：${a * 6}和${a * 9}的最大公因数是？`, `${a * 3}`, [`${a}`, `${a * 2}`, `${a * 3}`, `${a * 6}`], "找共同因数中最大的。", `${a * 6}和${a * 9}的最大公因数是${a * 3}。`);
+        add("math", "secure", `数学卷·选择：${b}和${b + 1}的最小公倍数是？`, `${b * (b + 1)}`, [`${b + 1}`, `${b * 2}`, `${b * (b + 1)}`, `${b * (b + 2)}`], "相邻两个数通常互质。", `最小公倍数是${b}×${b + 1}=${b * (b + 1)}。`);
+        add("math", "secure", `数学卷·约分：${2 * d + 8}/${4 * d + 16}约分后是？`, "1/2", ["1/2", "2/3", "3/4", "1/4"], "分子是分母的一半。", "分子分母同除以同一个数，得到1/2。");
+        add("math", "secure", "数学卷·判断：一个正方体有6个面、8个顶点、12条棱。", "对", ["对", "错"], "正方体基本特征。", "正方体有6个面、8个顶点、12条棱。");
+        add("math", "secure", `数学卷·计算：1/${b} + 2/${b} = ?`, `3/${b}`, [`2/${b}`, `3/${b}`, `1/${b + 2}`, `3/${b + 1}`], "同分母相加，分母不变。", `1/${b}+2/${b}=3/${b}。`);
+        add("math", "improve", `数学卷·计算：1/${b} + 1/${b + 1} = ?`, `${2 * b + 1}/${b * (b + 1)}`, [`2/${b + 1}`, `${2 * b + 1}/${b * (b + 1)}`, `${b}/${b + 1}`, `1/${b * (b + 1)}`], "先通分。", `通分后相加，结果是${2 * b + 1}/${b * (b + 1)}。`);
+        add("math", "improve", `数学卷·图形：长方体长${a + 5}cm、宽${b}cm、高${c}cm，体积是多少？`, `${(a + 5) * b * c}cm³`, [`${(a + 5) * b}cm³`, `${(a + 5) * b * c}cm³`, `${2 * ((a + 5) * b + (a + 5) * c + b * c)}cm³`, `${(a + 5) + b + c}cm³`], "体积=长×宽×高。", `${a + 5}×${b}×${c}=${(a + 5) * b * c}cm³。`);
+        add("math", "improve", `数学卷·表面积：正方体棱长${c}cm，表面积是多少？`, `${6 * c * c}cm²`, [`${c * c}cm²`, `${4 * c * c}cm²`, `${6 * c * c}cm²`, `${c * c * c}cm²`], "一个面面积乘6。", `${c}×${c}×6=${6 * c * c}cm²。`);
+        add("math", "improve", `数学卷·单位：${c}L等于多少mL？`, `${c * 1000}mL`, [`${c * 100}mL`, `${c * 1000}mL`, `${c * 10}mL`, `${c * 10000}mL`], "1L=1000mL。", `${c}L=${c * 1000}mL。`);
+        add("math", "improve", `数学卷·统计：${a}、${a + 2}、${a + 2}、${a + 4}的众数是？`, `${a + 2}`, [`${a}`, `${a + 2}`, `${a + 4}`, `${a + 8}`], "众数出现次数最多。", `${a + 2}出现两次，是众数。`);
+        add("math", "improve", `数学卷·应用：一根绳子长${b}米，用去1/${b}，还剩全长的几分之几？`, `${b - 1}/${b}`, [`1/${b}`, `${b - 1}/${b}`, `${b}/${b - 1}`, `1/${b - 1}`], "全长看作1。", `1-1/${b}=${b - 1}/${b}。`);
+        add("math", "improve", "数学卷·判断：棱长扩大到原来的2倍，正方体体积扩大到原来的8倍。", "对", ["对", "错"], "体积和棱长三次方有关。", "2×2×2=8。");
+        add("math", "improve", `数学卷·填空：把${d + 2}米平均分成${b}段，每段长多少米？`, `${d + 2}/${b}米`, [`${b}/${d + 2}米`, `${d + 2}/${b}米`, `1/${b}米`, `${d + b}米`], "总长度除以段数。", `每段长${d + 2}/${b}米。`);
+        add("math", "improve", `数学卷·应用：无盖盒子长${a + 4}cm、宽${b}cm、高${c}cm，求用料面积应少算哪个面？`, "上面", ["上面", "下面", "左面", "前面"], "无盖就是没有上盖。", "无盖盒子求用料时少算上面。");
+        add("math", "stretch", `数学卷·拓展：长方体长${a + 5}cm、宽${b + 2}cm、高${c}cm，沿最大面切成两个小长方体，表面积最多增加多少？`, `${2 * (a + 5) * (b + 2)}cm²`, [`${(a + 5) * (b + 2)}cm²`, `${2 * (a + 5) * (b + 2)}cm²`, `${2 * (a + 5) * c}cm²`, `${2 * (b + 2) * c}cm²`], "切开增加两个最大截面。", `最大截面${a + 5}×${b + 2}，增加两个，共${2 * (a + 5) * (b + 2)}cm²。`);
+
+        add("chinese", "secure", "语文卷·生字词：下列词语书写完全正确的一项是？", words.join("、"), [words.join("、"), `${words[0]}、锻练、${words[2]}、${words[3]}`, `${words[0]}、${words[1]}、眷念、${words[3]}`, `${words[0]}、${words[1]}、${words[2]}、促拥`], "注意课本易错字。", `正确词语是：${words.join("、")}。`);
+        add("chinese", "secure", `语文卷·古诗默写：${poem[0]}`, poem[1], [poem[1], "也傍桑阴学种豆", "短笛无声信口吹", "春风又绿江南岸"], `出自《${poem[2]}》。`, `正确填写：${poem[1]}。`);
+        add("chinese", "secure", "语文卷·成语：形容计谋高明、预料准确的是？", "神机妙算", ["神机妙算", "半信半疑", "情不自禁", "手疾眼快"], "联系《草船借箭》。", "神机妙算常用来评价诸葛亮。");
+        add("chinese", "secure", "语文卷·标点：直接引用人物语言，正确的是？", "妈妈说：“先读题，再动笔。”", ["妈妈说：“先读题，再动笔。”", "妈妈说，先读题，再动笔。", "妈妈说：“先读题，再动笔。", "妈妈说”先读题，再动笔。”"], "提示语后用冒号，引语用引号。", "直接引用人物原话要使用冒号和引号。");
+        add("chinese", "secure", "语文卷·课文：《猴王出世》中石猴成为美猴王，主要因为他？", "勇敢进入水帘洞并守信用", ["长得最漂亮", "勇敢进入水帘洞并守信用", "会写诗", "力气最大"], "联系群猴约定。", "石猴敢进洞，又守约成为王。");
+        add("chinese", "improve", "语文卷·病句：下列句子没有语病的一项是？", "通过复习，我掌握了更多课文知识。", ["通过复习，使我掌握了更多课文知识。", "通过复习，我掌握了更多课文知识。", "我估计他一定会来。", "老师要求我们认真和习惯。"], "注意缺主语和搭配。", "A缺主语，C前后矛盾，D搭配不当。");
+        add("chinese", "improve", "语文卷·课文：《跳水》中船长逼孩子跳水，是为了？", "让孩子脱离危险", ["惩罚孩子", "让孩子脱离危险", "吓唬水手", "展示枪法"], "联系孩子站在高处。", "船长当机立断是为了救孩子。");
+        add("chinese", "improve", "语文卷·课文：《威尼斯的小艇》除了写样子、驾驶技术，还写了？", "小艇与人们生活的关系", ["小艇的价格", "小艇与人们生活的关系", "作者的家乡", "天气变化"], "回忆课文结构。", "小艇与威尼斯人的生活密切相关。");
+        add("chinese", "improve", `语文卷·材料阅读：${material} 这则材料主要考查什么？`, "提取关键信息", ["提取关键信息", "背诵全文", "猜测作者年龄", "只看插图"], "材料题看时间、地点、任务、要求。", "校园材料题重点是提取信息并完成任务。");
+        add("chinese", "improve", `语文卷·阅读理解：${material} 中心最接近哪一项？`, "做事要有方法和责任心", ["做事要有方法和责任心", "校园里不能活动", "只要速度快就行", "所有事情都很简单"], "抓人物行动和结果。", "短文表现方法、合作或责任意识。");
+        add("chinese", "improve", "语文卷·词句赏析：“一支支”“一点点”“慢慢”这类词的作用是？", "写出动作或变化的细致过程", ["让句子变短", "写出动作或变化的细致过程", "表示没有变化", "只表示数量多"], "关注叠词和细节。", "这类词让动作、变化更具体。");
+        add("chinese", "improve", "语文卷·口语交际：同学考试没考好，最合适的安慰是？", "别灰心，我们一起看看错在哪里。", ["你真差。", "别灰心，我们一起看看错在哪里。", "不用复习了。", "我不想听。"], "要礼貌、有帮助。", "安慰别人要真诚，并给出积极建议。");
+        add("chinese", "improve", "语文卷·作文：写“一件难忘的事”，最重要的是？", "写清事情经过和自己的感受", ["只写天气", "写清事情经过和自己的感受", "只写题目", "堆很多成语"], "叙事作文要具体。", "事件具体、感受真实，才能突出中心。");
+        add("chinese", "improve", "语文卷·阅读答题：问“为什么”时，答案通常要包含？", "原因和文本依据", ["原因和文本依据", "一个字", "自己的生日", "题目页码"], "回原文找依据。", "说明原因要结合文本。");
+        add("chinese", "stretch", `语文卷·拓展表达：请概括这段材料的复习启示。${material}`, "先抓重点，再按方法完成任务", ["先抓重点，再按方法完成任务", "不需要阅读材料", "只看最后一句", "题目越长越不用做"], "把材料中的做法提炼成方法。", "拓展题训练概括和迁移。");
+
+        add("english", "secure", "英语卷·听力：听录音，选择你听到的节日。", topic[0], [topic[0], "Halloween", "Mother's Day", "Sports Day"], "听关键词。", `录音内容是 ${topic[0]}。`, { audioText: topic[0] });
+        add("english", "secure", "英语卷·听力：听录音，选择你听到的活动。", topic[2], [topic[2], topic[3], "drink some water", "clean the office"], "听动词短语。", `录音内容是 ${topic[2]}。`, { audioText: topic[2] });
+        add("english", "secure", `英语卷·单选：${topic[0]} is ____ ${topic[1]}.`, "on", ["in", "on", "at", "for"], "具体日期或节日前常用on。", "具体某一天或节日当天用 on。");
+        add("english", "secure", "英语卷·词汇：Some ____ make cards for teachers.", "children", ["children", "child", "childrens", "childes"], "child复数是不规则变化。", "child 的复数是 children。");
+        add("english", "secure", "英语卷·情景：别人说 Thank you. 你应该回答？", "You're welcome.", ["You're welcome.", "I'm ten.", "It's red.", "No, I don't."], "感谢的答语。", "Thank you 的答语是 You're welcome.");
+        add("english", "improve", "英语卷·听句选答。", `It's on ${topic[1]}.`, [`It's on ${topic[1]}.`, `We can ${topic[2]}.`, "Yes, I do.", "They are happy."], "When问时间。", `问 ${topic[0]} 的时间，回答 It's on ${topic[1]}.`, { audioText: `When is ${topic[0]}?` });
+        add("english", "improve", "英语卷·语法：My sister ____ because she is not happy.", "cries", ["cry", "cried", "cries", "crying"], "第三人称单数。", "My sister 是第三人称单数，用 cries。");
+        add("english", "improve", "英语卷·语法：We are going to fly ____ kites after school.", "our", ["us", "ours", "our", "we"], "后面有名词kites。", "名词前用形容词性物主代词 our。");
+        add("english", "improve", `英语卷·完形：${topic[0]} is a special day. Students can ____ on that day.`, topic[2], [topic[2], "slept", "runs", "book"], "选择合适活动短语。", `${topic[2]} 是相关活动。`);
+        add("english", "improve", "英语卷·完形：They make cards ____ paper flowers.", "and", ["but", "and", "not", "because"], "并列关系。", "cards 和 paper flowers 并列，用 and。");
+        add("english", "improve", `英语卷·阅读：${topic[0]} is on ${topic[1]}. Children can ${topic[2]} and ${topic[3]}. When is ${topic[0]}?`, `On ${topic[1]}.`, [`On ${topic[1]}.`, "In the classroom.", "At 7:50.", "By bike."], "找is on后面的时间。", `文中写 ${topic[0]} is on ${topic[1]}。`);
+        add("english", "improve", `英语卷·阅读：${topic[0]} is on ${topic[1]}. Children can ${topic[2]} and ${topic[3]}. What can children do?`, `They can ${topic[2]}.`, [`They can ${topic[2]}.`, "They can sleep all day.", "They can wash a car.", "They can go to hospital."], "找can后面的活动。", `文中说 Children can ${topic[2]} and ${topic[3]}。`);
+        add("english", "improve", `英语卷·判断：${topic[0]} is on ${topic[1]}. 判断：${topic[0]} is a special day.`, "True", ["True", "False"], "结合节日信息。", `${topic[0]} 是特殊日子。`);
+        add("english", "improve", `英语卷·写作句型：想写“我最喜欢的节日是${topic[0]}”，正确的是？`, `My favourite festival is ${topic[0]}.`, [`My favourite festival is ${topic[0]}.`, `My favourite festival are ${topic[0]}.`, `I favourite is ${topic[0]}.`, `${topic[0]} favourite my.`], "主语是festival，用is。", `正确表达是 My favourite festival is ${topic[0]}.`);
+        add("english", "stretch", "英语卷·拓展写作：哪一句最适合放进“My Favourite Festival”的结尾？", `I like ${topic[0]} very much.`, [`I like ${topic[0]} very much.`, "This is a ruler.", "He goes to school by bus.", "It is under the desk."], "结尾回到主题。", "节日作文结尾可表达自己的喜爱。");
+
+        add("math", "improve", `数学卷·选择：下面哪个数既是${b}的倍数，又是${b + 2}的倍数？`, `${b * (b + 2)}`, [`${b + 2}`, `${b * 2}`, `${b * (b + 2)}`, `${b * (b + 1)}`], "找两个数的公倍数。", `${b * (b + 2)}能同时被${b}和${b + 2}整除。`);
+        add("math", "improve", `数学卷·填空：${a + 3}/${b + 6}和${a + 3}/${b + 7}比较，哪个大？`, `${a + 3}/${b + 6}`, [`${a + 3}/${b + 6}`, `${a + 3}/${b + 7}`, "一样大", "无法比较"], "分子相同，分母越小分数越大。", `分子相同，${b + 6}<${b + 7}，所以${a + 3}/${b + 6}更大。`);
+        add("math", "improve", `数学卷·计算：${b}/${b + 3} - 1/${b + 3} = ?`, `${b - 1}/${b + 3}`, [`${b}/${b + 3}`, `${b - 1}/${b + 3}`, `1/${b + 3}`, `${b + 1}/${b + 3}`], "同分母相减，分母不变。", `${b}/${b + 3}-1/${b + 3}=${b - 1}/${b + 3}。`);
+        add("math", "improve", `数学卷·应用：一箱水有${a + 8}瓶，喝了其中的1/${b}，还剩几分之几？`, `${b - 1}/${b}`, [`1/${b}`, `${b - 1}/${b}`, `${b}/${b - 1}`, `${a}/${b}`], "总数不影响剩下的分率。", `喝了1/${b}，还剩1-1/${b}=${b - 1}/${b}。`);
+        add("math", "improve", `数学卷·图形：长方体长${a + 6}cm、宽${b + 1}cm、高${c}cm，棱长总和是多少？`, `${4 * (a + b + c + 7)}cm`, [`${a + b + c + 7}cm`, `${2 * (a + b + c + 7)}cm`, `${4 * (a + b + c + 7)}cm`, `${(a + 6) * (b + 1) * c}cm`], "棱长总和=4×(长+宽+高)。", `4×(${a + 6}+${b + 1}+${c})=${4 * (a + b + c + 7)}cm。`);
+        add("math", "improve", `数学卷·判断：折线统计图适合表示数量增减变化。`, "对", ["对", "错"], "折线能看趋势。", "折线统计图常用来表示数量随时间变化的趋势。");
+        add("math", "improve", `数学卷·应用：一个水箱底面积${(a + 5) * (b + 1)}dm²，高${c}dm，最多能装水多少升？`, `${(a + 5) * (b + 1) * c}L`, [`${(a + 5) * (b + 1)}L`, `${(a + 5) * (b + 1) * c}L`, `${2 * ((a + 5) * (b + 1) + (a + 5) * c + (b + 1) * c)}L`, `${a + b + c + 6}L`], "1dm³=1L，体积=底面积×高。", `${(a + 5) * (b + 1)}×${c}=${(a + 5) * (b + 1) * c}dm³=${(a + 5) * (b + 1) * c}L。`);
+
+        add("chinese", "improve", `语文卷·近义词：“${dayIndex % 2 ? "慈祥" : "熟练"}”的近义词最合适的是？`, dayIndex % 2 ? "和蔼" : "娴熟", dayIndex % 2 ? ["和蔼", "粗暴", "慌张", "陌生"] : ["娴熟", "生疏", "胆怯", "喧闹"], "联系词语感情色彩。", dayIndex % 2 ? "慈祥接近和蔼，常形容长辈温和。" : "熟练接近娴熟，表示掌握得好。");
+        add("chinese", "improve", "语文卷·句式：把“他完成了记录卡。”改成被字句，正确的是？", "记录卡被他完成了。", ["记录卡被他完成了。", "他被记录卡完成了。", "他把记录卡完成了。", "记录卡完成他了。"], "被字句要把受事放前面。", "“记录卡”是被完成的对象，应放在“被”前。");
+        add("chinese", "improve", "语文卷·修辞：句子“荷花慢慢露出粉色的脸”使用了什么修辞？", "拟人", ["比喻", "拟人", "排比", "反问"], "花没有人的脸，是把花当人写。", "“露出脸”把荷花写成人，属于拟人。");
+        add("chinese", "improve", "语文卷·课文：《军神》中沃克医生称刘伯承为“军神”，主要因为他？", "意志坚强，手术中忍受剧痛", ["医术高明", "意志坚强，手术中忍受剧痛", "喜欢打仗", "年纪很大"], "联系手术情节。", "刘伯承手术不用麻醉，表现钢铁般意志。");
+        add("chinese", "improve", "语文卷·课文：《摔跤》中描写小嘎子，主要表现了他什么特点？", "机灵、好胜", ["机灵、好胜", "胆小懦弱", "沉默寡言", "十分懒惰"], "看动作和心理。", "小嘎子的动作和盘算表现他机灵、好胜。");
+        add("chinese", "improve", `语文卷·材料阅读：${material} 如果要完成记录卡，第一步最应该做什么？`, "圈出材料中的关键信息", ["圈出材料中的关键信息", "直接写作文", "只看标题", "跳过材料"], "材料题先找信息。", "先圈时间、地点、人物、任务等关键信息。");
+        add("chinese", "improve", "语文卷·表达：写活动建议时，哪一种表达最清楚？", "先说明活动内容，再写时间地点和注意事项。", ["先说明活动内容，再写时间地点和注意事项。", "只写我很开心。", "把所有词语堆在一起。", "不写具体安排。"], "建议要清楚可执行。", "活动建议要包含内容、时间地点和注意事项。");
+
+        add("english", "improve", "英语卷·听力：听录音，选择正确答语。", `We can ${topic[2]}.`, [`We can ${topic[2]}.`, `It's on ${topic[1]}.`, "No, she isn't.", "By bus."], "What can you do 问活动。", `录音问 What can you do on ${topic[0]}?，应回答 We can ${topic[2]}.`, { audioText: `What can you do on ${topic[0]}?` });
+        add("english", "improve", `英语卷·单选：I have breakfast ____ 7:50 every morning.`, "at", ["in", "on", "at", "for"], "具体时刻用at。", "7:50是具体时间点，用 at。");
+        add("english", "improve", `英语卷·单选：Tom often goes to the park ____ his grandpa.`, "with", ["and", "but", "with", "to"], "和某人一起用with。", "with his grandpa 表示和爷爷一起。");
+        add("english", "improve", `英语卷·辨音：下面哪个单词读音和另外三个不同？`, "buy", ["bad", "bed", "buy", "bag"], "buy 是双元音 /ai/。", "buy 的元音读音不同于 bad、bed、bag。");
+        add("english", "improve", `英语卷·阅读：${topic[0]} is on ${topic[1]}. Children can ${topic[2]} and ${topic[3]}. Which title is best?`, topic[0], [topic[0], "My Schoolbag", "A Rainy Day", "At the Zoo"], "标题要概括主题。", `短文围绕 ${topic[0]} 展开。`);
+        add("english", "improve", `英语卷·写作句型：想写“在那天我们可以${topic[2]}”，正确的是？`, `On that day, we can ${topic[2]}.`, [`On that day, we can ${topic[2]}.`, `In that day, we can ${topic[2]}.`, `On that day, we can ${topic[2]}s.`, `That day can we ${topic[2]}.`], "具体某天用On that day。", `正确表达是 On that day, we can ${topic[2]}.`);
+        add("english", "improve", "英语卷·短答：Are children happy during festivals?", "Yes, they are.", ["Yes, they are.", "Yes, it is.", "No, it isn't.", "They are festival."], "Are children... 用they回答。", "children是复数，答语用 they are。");
+      }
+    }
+
+    addTenDayExamBanks();
 
     subjects.forEach(subject => {
       const extras = extraQuestionBank[subject.id] || [];
@@ -1244,7 +1495,7 @@
       subject.skill = `${subject.questions.length}题 · ${stretchCount}道冲90`;
     });
 
-    const QUESTIONS_PER_ROUND = 8;
+    const QUESTIONS_PER_ROUND = 20;
     const MOCK_TEST_COUNT = 45;
     const mockSubjectPlan = { math: 15, chinese: 15, english: 15 };
     const operators = [
@@ -1253,7 +1504,7 @@
       { id: "engineer", name: "小砚", role: "工程干员", perk: "数学应用题能量+3", badge: "工", colors: ["#9b7cff", "#45d7ff"] }
     ];
     const warehouseItems = [
-      { id: "pencil", name: "黑金铅笔", cost: 30, type: "文具", desc: "完成一次80分仿真小卷即可兑换。" },
+      { id: "pencil", name: "黑金铅笔", cost: 30, type: "文具", desc: "任意一科卷达到80分即可兑换。" },
       { id: "eraser", name: "错题橡皮", cost: 45, type: "文具", desc: "错题复盘专用装备。" },
       { id: "ruler", name: "战术直尺", cost: 60, type: "文具", desc: "数学图形题装备。" },
       { id: "notebook", name: "冲90笔记本", cost: 90, type: "装备", desc: "90分目标纪念装备。" },
@@ -1272,6 +1523,9 @@
       date.setDate(todayDate.getDate() + index);
       return makeDateKey(date);
     });
+    const reviewStartDate = new Date(2026, 5, 19);
+    reviewStartDate.setHours(0, 0, 0, 0);
+    const currentExamDayIndex = Math.max(0, Math.min(10, Math.floor((todayDate - reviewStartDate) / 86400000)));
 
     const state = {
       xp: 140,
@@ -1291,6 +1545,8 @@
       lastMockScore: null,
       lastMockTotal: MOCK_TEST_COUNT,
       lastMockPercent: null,
+      subjectScores: {},
+      subjectRewarded: {},
       currentMode: "subject",
       currentSubject: null,
       currentQuestions: [],
@@ -1372,6 +1628,8 @@
         state.lastMockScore = saved.lastMockScore ?? null;
         state.lastMockTotal = saved.lastMockTotal || MOCK_TEST_COUNT;
         state.lastMockPercent = saved.lastMockPercent ?? null;
+        state.subjectScores = saved.subjectScores || {};
+        state.subjectRewarded = saved.subjectRewarded || {};
       } catch (error) {
         console.warn("Progress load failed", error);
       }
@@ -1396,7 +1654,9 @@
           mockRewardClaimed: state.mockRewardClaimed,
           lastMockScore: state.lastMockScore,
           lastMockTotal: state.lastMockTotal,
-          lastMockPercent: state.lastMockPercent
+          lastMockPercent: state.lastMockPercent,
+          subjectScores: state.subjectScores,
+          subjectRewarded: state.subjectRewarded
         }));
       } catch (error) {
         console.warn("Progress save failed", error);
@@ -1408,9 +1668,10 @@
       $("level").textContent = state.level;
       $("nextXp").textContent = Math.max(0, 220 - state.xp);
       $("xpBar").style.width = Math.min(100, state.xp / 220 * 100) + "%";
-      $("todayDone").textContent = state.currentMode === "mock"
-        ? `${Math.round(state.score / MOCK_TEST_COUNT * 100)}分`
-        : state.mockDone ? `${state.lastMockPercent ?? 0}分` : `0分`;
+      const completedSubjects = Object.keys(state.completed || {}).length;
+      $("todayDone").textContent = state.currentMode === "subject" && state.currentSubject
+        ? `${completedSubjects}/3`
+        : `${completedSubjects}/3`;
       $("downedCount").textContent = activeDowned().length;
       $("reviveBtn").disabled = false;
       $("reviveBtn").textContent = activeDowned().length > 0 ? "先清倒地题" : "复活再玩一局";
@@ -1468,7 +1729,7 @@
         <div class="parent-row">
           <div>
             <h3>战术仓库</h3>
-            <p>仿真小卷得分兑换积分：80分给30积分，90分给60积分，100分给100积分。积分可以兑换铅笔、橡皮、尺子、笔记本和文具盒。</p>
+            <p>每科卷得分兑换积分：80分给30积分，90分给60积分，100分给100积分。积分可以兑换铅笔、橡皮、尺子、笔记本和文具盒。</p>
           </div>
           <div class="score">${state.credits}积分</div>
         </div>
@@ -1521,7 +1782,7 @@
         <div class="ship-core">
           <div>
             <strong>CODY</strong>
-            <span>先三科专项，再复活错题，最后45题仿真卷</span>
+            <span>每天三科卷：数学、语文、英语各20题</span>
           </div>
         </div>
         ${subjects.map(questCard).join("")}
@@ -1551,7 +1812,6 @@
             <b>讲解：</b>${item.explain}<br>
             <b>正确答案：</b>${item.a}
           </div>
-          ${item.audio ? `<button class="small" data-replay="${idx}">重听音频</button>` : ""}
           <button class="small" data-video="${idx}">${item.seen ? "重看讲解" : "看讲解+正确答案"}</button>
           <button class="small" data-correct="${idx}" ${item.seen && !item.corrected ? "" : "disabled"}>打一题复活挑战</button>
         </article>
@@ -1566,12 +1826,6 @@
       document.querySelectorAll("[data-correct]").forEach(btn => {
         btn.addEventListener("click", () => {
           startReviveChallenge(Number(btn.dataset.correct));
-        });
-      });
-      document.querySelectorAll("[data-replay]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const item = state.downed[Number(btn.dataset.replay)];
-          playPromptAudio(item);
         });
       });
     }
@@ -1602,7 +1856,7 @@
           <div class="day-cell ${cls} ${isToday ? "today" : ""}">
             <b>${dateKey.slice(5)}${isToday ? " · 今天" : ""}</b>
             <span>${status}</span>
-            <span>${progress.mockDone ? `${scoreText || "45题完成"}` : `${completedCount}/3 关`} · ${downedCount} 倒地题</span>
+            <span>${completedCount}/3 科${scoreText ? ` · 均分${scoreText}` : ""} · ${downedCount} 倒地题</span>
           </div>
         `;
       }).join("");
@@ -1610,22 +1864,22 @@
         <div class="parent-row">
           <div>
             <h3>${todayKey.slice(5)}-06-29进度雷达</h3>
-            <p>每天先完成数学、语文、英语三科专项，再清空倒地题，最后完成45题期末仿真小卷，才算当天完成。</p>
+            <p>每天完成数学、语文、英语三科卷，再清空倒地题，才算当天完成。</p>
             <div class="calendar-grid">${calendarCells}</div>
           </div>
-          <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/14</div>
+          <div class="score">${planDates.filter(dateKey => isDayComplete(readProgressForDate(dateKey))).length}/${planDates.length}</div>
         </div>
         <div class="parent-row">
           <div>
             <h3>今日完成状态</h3>
-            <p>${todayKey}：${state.mockDone ? `今日仿真小卷 ${state.lastMockPercent} 分，${state.lastMockPercent >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成45题仿真小卷并清空倒地题。"}</p>
+            <p>${todayKey}：${Object.keys(state.completed || {}).length === subjects.length ? `今日三科卷均分 ${state.lastMockPercent ?? "待统计"} 分，${(state.lastMockPercent ?? 0) >= 90 ? "达到90分目标。" : "还没到90分，先清错题再补弱项。"}` : "今日还未达标，请完成数学、语文、英语三科卷并清空倒地题。"}</p>
             <div class="progress-grid">${subjectProgress}</div>
           </div>
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学8题 → 语文8题 → 英语8题阅读 → 复活错题 → 45题仿真小卷。仿真卷为数学15、语文15、英语15，保分题仅3题，提分题15题，冲90题提高到27题。</p></div>
-          <div class="score">${state.mockDone ? `${state.lastMockPercent}/90` : `${done}/3`}</div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学卷20题 → 语文卷20题 → 英语卷20题含听力 → 复活错题。每科3道保分、16道主线提分、1道拓展，覆盖课本重点和参考卷型。</p></div>
+          <div class="score">${Object.keys(state.completed || {}).length === subjects.length ? `${state.lastMockPercent ?? 0}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
           <div><h3>陨石坑复活机制</h3><p>只要有错题未改正，就不能继续开局。看讲解后还要答对一道同科复活题，才算真正复活。</p></div>
@@ -1667,31 +1921,7 @@
       if (!subject) return;
       state.currentMode = "subject";
       state.currentSubject = subject;
-      state.currentQuestions = pickSubjectQuestions(subject, QUESTIONS_PER_ROUND);
-      state.index = 0;
-      state.score = 0;
-      state.answered = false;
-      $("questModal").classList.add("open");
-      showQuestion();
-    }
-
-    function startMockTest() {
-      if (!requireOperator()) return;
-      if (activeDowned().length > 0) {
-        alert("先去复活站清空错题，再开启45题期末仿真小卷。");
-        document.querySelector('.tab[data-view="revive"]').click();
-        return;
-      }
-      const missing = incompleteSubjects();
-      if (missing.length > 0) {
-        alert(`先完成三科单科学习，再开启45题期末仿真小卷。还差：${missing.map(subject => subject.title).join("、")}`);
-        document.querySelector('.tab[data-view="home"]').click();
-        return;
-      }
-      const mixed = subjects.flatMap(subject => pickMockSubjectQuestions(subject));
-      state.currentMode = "mock";
-      state.currentSubject = { id: "mock", title: "90分期末仿真小卷" };
-      state.currentQuestions = pickQuestions(mixed, MOCK_TEST_COUNT);
+      state.currentQuestions = pickSubjectPaperQuestions(subject);
       state.index = 0;
       state.score = 0;
       state.answered = false;
@@ -1724,6 +1954,50 @@
         }
       });
       return planned.slice(0, target);
+    }
+
+    function pickSubjectPaperQuestions(subject) {
+      const plan = subjectPaperPlan[subject.id] || {};
+      const used = new Set();
+      const planned = [];
+      const dailyPool = subject.questions.filter(question => question.dayIndex === currentExamDayIndex);
+      if (dailyPool.length >= QUESTIONS_PER_ROUND) {
+        Object.entries(plan).forEach(([tier, count]) => {
+          pickQuestions(dailyPool.filter(question => question.tier === tier), count).forEach(question => {
+            if (!used.has(question.q)) {
+              used.add(question.q);
+              planned.push(question);
+            }
+          });
+        });
+        if (planned.length < QUESTIONS_PER_ROUND) {
+          pickQuestions(dailyPool.filter(question => !used.has(question.q)), QUESTIONS_PER_ROUND - planned.length).forEach(question => {
+            used.add(question.q);
+            planned.push(question);
+          });
+        }
+        return planned.slice(0, QUESTIONS_PER_ROUND).map(question => ({
+          ...question,
+          subjectId: subject.id,
+          subjectTitle: subject.title
+        }));
+      }
+      Object.entries(plan).forEach(([tier, count]) => {
+        const picked = pickSubjectQuestions(subject, count, tier, used);
+        picked.forEach(question => {
+          used.add(question.q);
+          planned.push(question);
+        });
+      });
+      if (planned.length >= QUESTIONS_PER_ROUND) return planned.slice(0, QUESTIONS_PER_ROUND);
+      const fill = pickSubjectQuestions(subject, QUESTIONS_PER_ROUND - planned.length, null, used);
+      fill.forEach(question => {
+        if (!used.has(question.q)) {
+          used.add(question.q);
+          planned.push(question);
+        }
+      });
+      return planned.slice(0, QUESTIONS_PER_ROUND);
     }
 
     function pickSubjectQuestions(subject, count, tier = null, excludeKeys = new Set()) {
@@ -1776,83 +2050,30 @@
       $("feedback").textContent = state.reviveItemIndex === null
         ? "选一个答案。错题会进入复活站，看讲解并完成复活挑战后才能复活。"
         : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
-      const isSpeaking = question.type === "speaking";
-      $("answers").innerHTML = isSpeaking
-        ? `<div class="speaking-card"><b>中文意思：</b>${question.meaning || "先听示范，再跟读英文句子。"}<br><b>目标句：</b>${question.speak || question.q}<br><b>规则：</b>点击“播放音频”听示范，孩子跟读一遍后，由家长或孩子按实际情况打分。100分=读准且流利，80分=基本读对，60分=还需要复活重练。</div><button class="answer" data-speaking-score="100">读准了 · 100分</button><button class="answer" data-speaking-score="80">基本会读 · 80分</button><button class="answer" data-speaking-score="60">还不会读 · 60分</button>`
-        : question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
-      $("audioLine").classList.toggle("active", Boolean(question.audio || question.speak || isSpeaking));
-      $("startSpeaking").style.display = isSpeaking ? "" : "none";
-      $("audioNote").textContent = isSpeaking ? "跟读不再依赖自动识别，家长/孩子按100、80、60三档评分。" : "";
+      $("audioLine").classList.toggle("active", Boolean(question.audioText || question.speak));
+      $("audioNote").textContent = question.audioText || question.speak ? "听完后选择你听到的内容。" : "";
+      $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       document.querySelectorAll(".answer").forEach(btn => {
-        if (btn.dataset.speakingScore) {
-          btn.addEventListener("click", () => gradeSpeakingQuestion(Number(btn.dataset.speakingScore), btn));
-        } else {
-          btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
-        }
+        btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
       });
     }
 
     function playPromptAudio(question) {
-      if (!question) return;
-      if (question.audio) {
-        const audio = new Audio(question.audio);
-        audio.preload = "auto";
-        audio.play().catch(() => speakFallback(question.speak || question.q));
-        return;
-      }
-      speakFallback(question.speak || question.q);
-    }
-
-    function speakFallback(text) {
+      const text = question?.audioText || question?.speak;
+      if (!text) return;
       if (!("speechSynthesis" in window)) {
-        $("feedback").textContent = "当前浏览器不支持朗读，请查看题目文字。";
+        $("feedback").textContent = `当前设备不支持自动播放听力，请家长读：${text}`;
         return;
       }
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
-      utterance.rate = 0.88;
+      utterance.rate = question.audioRate || 0.82;
       const voices = window.speechSynthesis.getVoices();
       const enVoice = voices.find(v => /en[-_](US|GB)/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang));
       if (enVoice) utterance.voice = enVoice;
       window.speechSynthesis.speak(utterance);
-    }
-
-    function normalizeSpeech(text) {
-      return String(text || "")
-        .toLowerCase()
-        .replace(/[^a-z\s']/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function pronunciationScore(expected, heard) {
-      const expectedWords = normalizeSpeech(expected).split(" ").filter(Boolean);
-      const heardWords = normalizeSpeech(heard).split(" ").filter(Boolean);
-      if (!expectedWords.length || !heardWords.length) return 0;
-      const heardSet = new Set(heardWords);
-      const hit = expectedWords.filter(word => heardSet.has(word) || heardWords.some(item => item.startsWith(word) || word.startsWith(item))).length;
-      const lengthPenalty = Math.max(0, Math.abs(expectedWords.length - heardWords.length) * 4);
-      return Math.max(0, Math.min(100, Math.round(hit / expectedWords.length * 100 - lengthPenalty)));
-    }
-
-    function startSpeakingPractice() {
-      if (!state.currentSubject) return;
-      const question = state.currentQuestions[state.index];
-      if (!question || question.type !== "speaking" || state.answered) return;
-      $("feedback").textContent = "跟读评分方式：先听示范，再让孩子看中文意思读英文。读准且流利点100，基本读对点80，还不会读点60进入复活站。";
-    }
-
-    function gradeSpeakingQuestion(score, btn) {
-      if (state.answered) return;
-      const question = state.currentQuestions[state.index];
-      if (score >= 80) {
-        answer(question.a, btn);
-        $("feedback").textContent = `跟读通过：${score}分。目标句：${question.speak}。继续下一题。`;
-      } else {
-        answer("跟读未达标", btn);
-        $("feedback").textContent = `跟读未达标：${score}分。目标句：${question.speak}。这题会进入复活站，听示范后再练一次。`;
-      }
+      $("feedback").textContent = "听力已播放。可以再听一遍，然后选择答案。";
     }
 
     function answer(value, btn) {
@@ -1897,8 +2118,6 @@
             a: question.a,
             wrong: value,
             explain: question.explain,
-            audio: question.audio,
-            speak: question.speak,
             tier: question.tier,
             seen: false,
             corrected: false
@@ -1949,17 +2168,32 @@
         }
       } else {
         state.completed[subject.id] = true;
+        state.subjectScores[subject.id] = percent;
+        if (!state.subjectRewarded[subject.id]) {
+          awardedCredits = creditsForScore(percent);
+          state.credits += awardedCredits;
+          if (awardedCredits > 0) state.subjectRewarded[subject.id] = true;
+        }
+        const completedCount = Object.keys(state.completed || {}).length;
+        if (completedCount === subjects.length) {
+          const scores = subjects.map(item => state.subjectScores[item.id]).filter(score => Number.isFinite(score));
+          const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : percent;
+          state.mockDone = true;
+          state.lastMockScore = scores.reduce((sum, score) => sum + score, 0);
+          state.lastMockTotal = scores.length * 100;
+          state.lastMockPercent = average;
+        }
       }
       const rewardText = state.currentMode === "mock"
-        ? (awardedCredits > 0 ? ` 本次仿真小卷奖励 ${awardedCredits} 积分，去仓库兑换装备。` : firstMockSettlement ? " 本次低于80分，复盘后再冲80分拿积分。" : " 今天积分已结算，重复仿真小卷只记录新分数。")
-        : "";
+        ? (awardedCredits > 0 ? ` 本次三科卷奖励 ${awardedCredits} 积分，去仓库兑换装备。` : firstMockSettlement ? " 本次低于80分，复盘后再冲80分拿积分。" : " 今天积分已结算，重复三科卷只记录新分数。")
+        : (awardedCredits > 0 ? ` 本科卷奖励 ${awardedCredits} 积分，去仓库兑换装备。` : state.subjectRewarded[subject.id] ? " 本科卷已结算过积分，重复练习只记录新分数。" : " 本科卷低于80分，复盘后再冲80分拿积分。");
       if (state.score === total) {
         state.xp += 45;
         state.loot += 1;
-        $("feedback").textContent = `${state.currentMode === "mock" ? `仿真小卷得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。${rewardText}`;
+        $("feedback").textContent = `${state.currentMode === "mock" ? `三科卷得分 ${percent} 分，超过90分目标` : "完美通关"}！本关 ${state.score}/${total}，解锁金色战术箱，额外能量 +45。${rewardText}`;
       } else {
         if (state.score >= Math.ceil(total * 0.75)) state.loot += 1;
-        const estimate = state.currentMode === "mock" ? `，仿真小卷得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
+        const estimate = state.currentMode === "mock" ? `，三科卷得分 ${percent} 分，距离90分还差 ${Math.max(0, 90 - percent)} 分` : "";
         $("feedback").textContent = `行动结算：本关 ${state.score}/${total}${estimate}。${state.score >= Math.ceil(total * 0.75) ? "获得补给箱；" : ""}错题进入陨石坑，清空后才能领取下一轮装备。${rewardText}`;
       }
       if (state.xp >= 220) {
@@ -2041,7 +2275,16 @@
     });
 
     $("startToday").addEventListener("click", () => {
-      startMockTest();
+      const next = incompleteSubjects()[0];
+      if (activeDowned().length > 0) {
+        document.querySelector('.tab[data-view="revive"]').click();
+        return;
+      }
+      if (next) {
+        startSubject(next.id);
+      } else {
+        startSubject(subjects[0].id);
+      }
     });
 
     $("reviveBtn").addEventListener("click", () => {
@@ -2062,14 +2305,12 @@
       if (!state.currentSubject) return;
       playPromptAudio(state.currentQuestions[state.index]);
     });
-    $("startSpeaking").addEventListener("click", startSpeakingPractice);
-
     if ("speechSynthesis" in window) {
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
-
     loadProgress();
     render();
   </script>
 </body>
 </html>
+
