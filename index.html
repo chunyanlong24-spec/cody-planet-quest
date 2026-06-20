@@ -919,7 +919,7 @@
       </div>
       <div class="bar"><i id="questionProgress"></i></div>
       <div class="audio-line" id="audioLine">
-        <button class="btn safe" id="playAudio">播放听力</button>
+        <button class="btn safe" id="playAudio" type="button">播放听力</button>
         <span class="audio-note" id="audioNote">听完后选择你听到的内容。</span>
       </div>
       <div class="answers" id="answers"></div>
@@ -2050,30 +2050,86 @@
       $("feedback").textContent = state.reviveItemIndex === null
         ? "选一个答案。错题会进入复活站，看讲解并完成复活挑战后才能复活。"
         : "这是复活挑战题，答对才能清掉刚才那道倒地题。";
-      $("audioLine").classList.toggle("active", Boolean(question.audioText || question.speak));
-      $("audioNote").textContent = question.audioText || question.speak ? "听完后选择你听到的内容。" : "";
+      const hasAudioPrompt = Boolean(listeningText(question));
+      $("audioLine").classList.toggle("active", hasAudioPrompt);
+      $("audioNote").textContent = hasAudioPrompt ? "听完后选择你听到的内容。" : "";
       $("answers").innerHTML = question.options.map(opt => `<button class="answer" data-answer="${opt}">${opt}</button>`).join("");
       document.querySelectorAll(".answer").forEach(btn => {
         btn.addEventListener("click", () => answer(btn.dataset.answer, btn));
       });
     }
 
-    function playPromptAudio(question) {
-      const text = question?.audioText || question?.speak;
-      if (!text) return;
+    let currentListeningAudio = null;
+
+    function listeningText(question) {
+      return question ? (question.audioText || question.speak || "") : "";
+    }
+
+    function audioFileNameForText(text) {
+      let hash = 0;
+      for (let i = 0; i < text.length; i += 1) {
+        hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+      }
+      return `audio/tts-${Math.abs(hash).toString(36)}.wav`;
+    }
+
+    function speakWithBrowser(text, question) {
       if (!("speechSynthesis" in window)) {
-        $("feedback").textContent = `当前设备不支持自动播放听力，请家长读：${text}`;
+        $("feedback").textContent = `当前浏览器拦截了听力，请家长临时代读：${text}`;
         return;
       }
       window.speechSynthesis.cancel();
+      if (window.speechSynthesis.resume) window.speechSynthesis.resume();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
-      utterance.rate = question.audioRate || 0.82;
+      utterance.rate = (question && question.audioRate) || 0.82;
       const voices = window.speechSynthesis.getVoices();
       const enVoice = voices.find(v => /en[-_](US|GB)/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang));
       if (enVoice) utterance.voice = enVoice;
+      let started = false;
+      utterance.onstart = () => {
+        started = true;
+        $("feedback").textContent = "听力播放中...";
+      };
+      utterance.onend = () => {
+        $("feedback").textContent = "听力播放完毕。可以再听一遍，然后选择答案。";
+      };
+      utterance.onerror = () => {
+        $("feedback").textContent = `微信浏览器拦截了朗读，请家长临时代读：${text}`;
+      };
       window.speechSynthesis.speak(utterance);
-      $("feedback").textContent = "听力已播放。可以再听一遍，然后选择答案。";
+      setTimeout(() => {
+        if (!started && !window.speechSynthesis.speaking) {
+          $("feedback").textContent = `如果仍没有声音，请点右上角用浏览器打开，或家长临时代读：${text}`;
+        }
+      }, 1300);
+    }
+
+    function playPromptAudio(question) {
+      const text = listeningText(question);
+      if (!text) {
+        $("feedback").textContent = "这题没有听力文本。";
+        return;
+      }
+      $("feedback").textContent = "正在启动听力...";
+      if (currentListeningAudio) {
+        currentListeningAudio.pause();
+        currentListeningAudio.currentTime = 0;
+      }
+      const audio = new Audio(audioFileNameForText(text));
+      currentListeningAudio = audio;
+      audio.preload = "auto";
+      audio.onplaying = () => {
+        $("feedback").textContent = "听力播放中...";
+      };
+      audio.onended = () => {
+        $("feedback").textContent = "听力播放完毕。可以再听一遍，然后选择答案。";
+      };
+      audio.onerror = () => speakWithBrowser(text, question);
+      const playTask = audio.play();
+      if (playTask && playTask.catch) {
+        playTask.catch(() => speakWithBrowser(text, question));
+      }
     }
 
     function answer(value, btn) {
