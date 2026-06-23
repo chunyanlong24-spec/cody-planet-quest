@@ -1346,7 +1346,7 @@
     const subjectPaperPlan = {
       math: { secure: 2, improve: 13, stretch: 5 },
       chinese: { secure: 2, improve: 10, stretch: 8 },
-      english: { secure: 3, improve: 16, stretch: 1 }
+      english: { secure: 2, improve: 12, stretch: 6 }
     };
 
     function addTenDayExamBanks() {
@@ -1512,9 +1512,22 @@
         ["借来的尺子", "数学测量课上，我忘带尺子。小周把自己的尺子推过来，说：“你量完我再量。”后来我发现，他的记录比我还少一项。我把尺子还给他时，心里有点发热。", "小周先把尺子借给我", "同学之间要互相帮助", "借来的尺子"],
         ["一张便签", "期末复习时，我总忘记检查单位。爸爸在我的笔袋上贴了一张便签：先看问什么，再写单位。几天后，我少错了好几道题。那张便签没有替我做题，却提醒我学会检查。", "便签提醒我检查题目和单位", "好方法能帮助减少错误", "一张便签"]
       ];
+      const enSituations = [
+        ["Mother's Day", "May 12th", "make a card", "cook dinner", "Mum feels happy.", "母亲节"],
+        ["Children's Day", "June 1st", "sing and dance", "play games", "Children have fun.", "儿童节"],
+        ["Teachers' Day", "September 10th", "make cards", "clean the office", "Teachers are busy but happy.", "教师节"],
+        ["Tree Planting Day", "March 12th", "plant trees", "water flowers", "We should protect trees.", "植树节"],
+        ["New Year's Day", "January 1st", "have a party", "say hello to the new year", "Everyone says Happy New Year.", "元旦"],
+        ["Sports Day", "next Friday", "run a race", "bring water", "Students should wear sports shoes.", "运动会"],
+        ["Reading Day", "this Wednesday", "read stories", "share books", "Books can help us learn.", "阅读日"],
+        ["Art Club Day", "Thursday afternoon", "draw pictures", "bring colored pencils", "Students will draw their school.", "美术社团日"],
+        ["Science Day", "April 17th", "watch a robot show", "ask questions", "The robot can answer simple questions.", "科学日"],
+        ["Clean-up Day", "Saturday morning", "pick up litter", "clean the playground", "The school will be cleaner.", "清洁日"],
+        ["Family Day", "Sunday", "visit grandparents", "have dinner together", "Family love is important.", "家庭日"]
+      ];
 
-      const pushQ = (subjectId, tier, q, a, options, hint, explain, dayIndex, kind) => {
-        extraQuestionBank[subjectId].push({ q, a, options, hint, explain, tier, dayIndex, kind });
+      const pushQ = (subjectId, tier, q, a, options, hint, explain, dayIndex, kind, extra = {}) => {
+        extraQuestionBank[subjectId].push({ q, a, options, hint, explain, tier, dayIndex, kind, ...extra });
       };
       const uniqueOptions = (answer, options) => [...new Set([answer, ...options])].slice(0, 4);
       const gcd = (x, y) => y ? gcd(y, x % y) : x;
@@ -1565,6 +1578,47 @@
         pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 如果题目问“为什么这样写”，最不能只回答什么？`, "只回答一个词，不说明依据", ["只回答一个词，不说明依据", "联系人物动作", "联系文章中心", "联系前后文"], "为什么类题目要写理由。", "阅读题要有观点和依据，不能只写一个孤立词。", dayIndex, "开放表达");
         pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 如果要把答案从“会选”升级到“会写”，最关键的是？`, "用原文细节支撑自己的判断", ["用原文细节支撑自己的判断", "只记住正确选项的位置", "只看哪个选项最长", "不读短文直接猜"], "考试阅读题重视依据。", "高分答案往往要写出判断，并用原文细节说明理由。", dayIndex, "开放表达");
       });
+
+      enSituations.forEach((item, dayIndex) => {
+        const [festival, date, act1, act2, detail, cnName] = item;
+        const passage = `${festival} is on ${date}. Students can ${act1} and ${act2}. ${detail}`;
+        const activityCn = phrase => ({
+          "make a card": "制作卡片",
+          "cook dinner": "做晚饭",
+          "sing and dance": "唱歌跳舞",
+          "play games": "玩游戏",
+          "make cards": "制作卡片",
+          "clean the office": "打扫办公室",
+          "plant trees": "植树",
+          "water flowers": "浇花",
+          "have a party": "举办派对",
+          "say hello to the new year": "迎接新年",
+          "run a race": "赛跑",
+          "bring water": "带水",
+          "read stories": "读故事",
+          "share books": "分享书",
+          "draw pictures": "画画",
+          "bring colored pencils": "带彩色铅笔",
+          "watch a robot show": "观看机器人表演",
+          "ask questions": "提问",
+          "pick up litter": "捡垃圾",
+          "clean the playground": "打扫操场",
+          "visit grandparents": "看望祖父母",
+          "have dinner together": "一起吃晚饭"
+        }[phrase] || phrase);
+        pushQ("english", "secure", `英语卷·听句理解：听录音，选择这句话的中文意思。`, `孩子们可以${act1 === "sing and dance" ? "唱歌跳舞" : act1 === "make cards" ? "制作卡片" : act1 === "plant trees" ? "植树" : act1 === "have a party" ? "举办派对" : act1 === "run a race" ? "赛跑" : act1 === "read stories" ? "读故事" : act1 === "draw pictures" ? "画画" : act1 === "watch a robot show" ? "观看机器人表演" : act1 === "pick up litter" ? "捡垃圾" : act1 === "visit grandparents" ? "看望祖父母" : "做活动"}。`, [`孩子们可以${act1 === "sing and dance" ? "唱歌跳舞" : act1 === "make cards" ? "制作卡片" : act1 === "plant trees" ? "植树" : act1 === "have a party" ? "举办派对" : act1 === "run a race" ? "赛跑" : act1 === "read stories" ? "读故事" : act1 === "draw pictures" ? "画画" : act1 === "watch a robot show" ? "观看机器人表演" : act1 === "pick up litter" ? "捡垃圾" : act1 === "visit grandparents" ? "看望祖父母" : "做活动"}。`, "孩子们正在睡觉。", "老师正在开车。", "它在桌子下面。"], "先听懂 can 后面的活动。", `录音是 Children can ${act1}.，意思是孩子们可以${act1}。`, dayIndex, "听句理解", { audioText: `Children can ${act1}.` });
+        pushQ("english", "improve", `英语卷·听句理解：听录音，选择句子提到的活动中文意思。`, activityCn(act2), [activityCn(act2), "写数学题", "买新鞋", "看医生"], "听懂 can 后面的动词短语。", `录音是 We can ${act2}.，意思是我们可以${activityCn(act2)}。`, dayIndex, "听句理解", { audioText: `We can ${act2}.` });
+        pushQ("english", "improve", `英语卷·听问句选答语：听录音，选择正确答语。中文提示：问题在问“${cnName}是什么时候”。`, `It's on ${date}.`, [`It's on ${date}.`, `We can ${act1}.`, "Yes, she is.", "I am ten."], "When is... 问时间。", `问句是 When is ${festival}? 应回答日期：It's on ${date}.`, dayIndex, "听句理解", { audioText: `When is ${festival}?` });
+        pushQ("english", "improve", `英语卷·听句理解：听录音，选择中文意思。`, `${cnName}在${date}。`, [`${cnName}在${date}。`, `${cnName}在教室里。`, "他昨天感冒了。", "这本书是我的。"], "听 is on 后面的日期。", `录音是 ${festival} is on ${date}.`, dayIndex, "听句理解", { audioText: `${festival} is on ${date}.` });
+        pushQ("english", "improve", `英语卷·词义语境：句子“We should protect trees.”中 protect 的意思最接近？`, "保护", ["保护", "破坏", "忘记", "购买"], "联系 trees 和 should。", "protect trees 表示保护树木。", dayIndex, "词义语境");
+        pushQ("english", "improve", `英语卷·阅读理解：Read and choose. ${passage} When is ${festival}?`, `On ${date}.`, [`On ${date}.`, "In the library.", "At home.", "By bus."], "找 is on 后面的时间。", `文中写 ${festival} is on ${date}.`, dayIndex, "阅读理解");
+        pushQ("english", "improve", `英语卷·阅读理解：Read and choose. ${passage} What can students do?`, `They can ${act1}.`, [`They can ${act1}.`, "They can sleep all day.", "They can buy a car.", "They can go to hospital."], "找 Students can 后面的活动。", `文中写 Students can ${act1} and ${act2}.`, dayIndex, "阅读理解");
+        pushQ("english", "stretch", `英语卷·阅读理解：Read and choose. ${passage} Which title is best? 中文提示：选最合适的标题。`, festival, [festival, "My New Shoes", "A Rainy Night", "At the Zoo"], "标题要概括全文主题。", `短文围绕 ${festival} 展开。`, dayIndex, "阅读理解");
+        pushQ("english", "stretch", `英语卷·听短文理解：先听录音，再选择短文主要内容。中文提示：不是听单词，要听懂整段意思。`, `${cnName}的时间和活动`, [`${cnName}的时间和活动`, "一个人生病去医院", "一只小狗找不到家", "一本书在桌子下面"], "听日期、活动和最后一句。", `录音短文介绍 ${festival} 的时间和活动。`, dayIndex, "听句理解", { audioText: passage });
+        pushQ("english", "stretch", `英语卷·意义辨析：想表达“在${cnName}，我们可以${act2}”，哪句最准确？`, `On ${festival}, we can ${act2}.`, [`On ${festival}, we can ${act2}.`, `In ${festival}, we can ${act2}s.`, `${festival} can we ${act2}.`, `We ${act2} yesterday ${festival}.`], "节日当天用 On，can 后接动词原形。", `正确句型是 On ${festival}, we can ${act2}.`, dayIndex, "语法语境");
+        pushQ("english", "stretch", `英语卷·中文理解：${passage} 下面哪一句最能概括短文意思？`, `${cnName}的时间和活动`, [`${cnName}的时间和活动`, "一个男孩生病了", "一只狗丢了", "一本书在桌下"], "先看节日、日期和活动。", "短文介绍了节日/活动日的时间和可以做的事。", dayIndex, "阅读理解");
+        pushQ("english", "stretch", `英语卷·写作表达：写一篇“My Favourite Day”时，哪一句适合放在结尾？`, `I like ${festival} very much.`, [`I like ${festival} very much.`, "This is a ruler.", "He is under the chair.", "It has four legs."], "结尾要回到主题并表达喜欢。", "节日作文结尾可以表达 I like... very much.", dayIndex, "写作表达");
+      });
     }
 
     addTenDayExamBanks();
@@ -1598,6 +1652,13 @@
         "中心理解": 3,
         "开放表达": 2,
         "表达运用": 2
+      },
+      english: {
+        "听句理解": 5,
+        "词义语境": 2,
+        "阅读理解": 6,
+        "语法语境": 3,
+        "写作表达": 2
       }
     };
     const operators = [
@@ -1980,7 +2041,7 @@
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学卷20题 → 语文卷20题 → 英语卷20题含听力 → 复活错题。数学按2保分、13提分、5冲90出题；语文提高阅读理解和开放表达比例，减少一眼看答案的送分题。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学卷20题 → 语文卷20题 → 英语卷20题含听力 → 复活错题。数学按2保分、13提分、5冲90出题；语文提高阅读理解和开放表达比例；英语从听单词升级为听句子、懂中文意思和读短文。</p></div>
           <div class="score">${Object.keys(state.completed || {}).length === subjects.length ? `${state.lastMockPercent ?? 0}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -2055,6 +2116,14 @@
         if (/诗句|古诗|生字|字词|读音|书写|成语|默写/.test(text)) return "字词古诗";
         return "表达运用";
       }
+      if (subjectId === "english") {
+        if (/听句理解|听问句|audio|录音/.test(text)) return "听句理解";
+        if (/词义|意思最接近|protect|mean/.test(text)) return "词义语境";
+        if (/Read and choose|阅读理解|passage|Which title|What can|When is/.test(text)) return "阅读理解";
+        if (/语法|意义辨析|____|句型|can 后|On /.test(text)) return "语法语境";
+        if (/写作|Favourite|结尾/.test(text)) return "写作表达";
+        return "阅读理解";
+      }
       return question.tier || "default";
     }
 
@@ -2077,6 +2146,29 @@
         const currentTierCount = planned.filter(question => question.tier === tier).length;
         takeFrom(pool.filter(question => question.tier === tier), Math.max(0, count - currentTierCount));
       });
+      Object.entries(tierPlan || {}).sort((a, b) => (tierOrder[a[0]] ?? 9) - (tierOrder[b[0]] ?? 9)).forEach(([tier, count]) => {
+        while (planned.filter(question => question.tier === tier).length < count) {
+          const candidate = pickQuestions(pool.filter(question => question.tier === tier && !used.has(question.q)), 1)[0];
+          if (!candidate) break;
+          const replaceTier = tier === "stretch" ? ["secure", "improve"] : tier === "improve" ? ["secure"] : [];
+          const replaceIndex = planned.findIndex(question => replaceTier.includes(question.tier));
+          if (replaceIndex === -1) break;
+          used.delete(planned[replaceIndex].q);
+          planned[replaceIndex] = candidate;
+          used.add(candidate.q);
+        }
+      });
+      if (subject.id === "english") {
+        while (planned.filter(question => question.audioText || question.speak).length < 5) {
+          const candidate = pickQuestions(pool.filter(question => (question.audioText || question.speak) && !used.has(question.q)), 1)[0];
+          if (!candidate) break;
+          const replaceIndex = planned.findIndex(question => !(question.audioText || question.speak));
+          if (replaceIndex === -1) break;
+          used.delete(planned[replaceIndex].q);
+          planned[replaceIndex] = candidate;
+          used.add(candidate.q);
+        }
+      }
       takeFrom(pool, total - planned.length);
       return planned.slice(0, total).map(question => ({
         ...question,
