@@ -1344,8 +1344,8 @@
       english: { secure: 1, improve: 5, stretch: 9 }
     };
     const subjectPaperPlan = {
-      math: { secure: 3, improve: 16, stretch: 1 },
-      chinese: { secure: 3, improve: 16, stretch: 1 },
+      math: { secure: 2, improve: 13, stretch: 5 },
+      chinese: { secure: 2, improve: 10, stretch: 8 },
       english: { secure: 3, improve: 16, stretch: 1 }
     };
 
@@ -1485,7 +1485,90 @@
       }
     }
 
+    function addAntiRepeatExamBanks() {
+      const mathContexts = [
+        ["书法社", "毛笔", "宣纸", 24, 36, 6, 8, 5],
+        ["航模队", "机翼片", "螺旋桨", 30, 45, 7, 9, 4],
+        ["图书角", "故事书", "科普书", 28, 42, 8, 10, 6],
+        ["劳动课", "番茄苗", "黄瓜苗", 32, 48, 9, 11, 5],
+        ["运动会", "号码牌", "彩旗", 36, 54, 10, 12, 4],
+        ["美术展", "卡纸", "贴纸", 40, 60, 11, 13, 6],
+        ["科学节", "电池", "导线", 44, 66, 12, 14, 5],
+        ["研学营", "水杯", "餐盒", 48, 72, 13, 15, 4],
+        ["合唱队", "红领巾", "节目单", 52, 78, 14, 16, 6],
+        ["期末整理", "错题卡", "便利贴", 56, 84, 15, 17, 5],
+        ["毕业活动", "纪念卡", "信封", 60, 90, 16, 18, 4]
+      ];
+      const cnReads = [
+        ["操场边的小水洼", "雨后，操场边积着几个小水洼。小宁看见一年级同学绕不过去，就搬来两块旧木板垫在旁边。有人问他累不累，他拍了拍手说：“路好走一点，大家就少一点麻烦。”", "小宁主动为同学垫木板", "关心他人、做事细心", "小善举能给别人带来方便"],
+        ["没有说出口的谢谢", "午饭后，教室里只剩下小雅。她发现讲台上散着一摞作业本，便按组别重新摆好。老师回来时，她已经回到座位读书。老师没有点名表扬，只在黑板上写下：安静地把事做好，也是一种认真。", "小雅默默整理作业本", "认真负责、不张扬", "真正的认真不一定需要被看见"],
+        ["那张旧地图", "研学前，爸爸给我一张旧地图。我嫌它皱巴巴，差点扔掉。到了古城，手机没电了，正是那张地图帮我们找到集合点。我把地图折好放回书包，忽然明白：有些旧东西，也藏着用处。", "旧地图帮我们找到集合点", "不要只看外表判断事物", "旧地图"],
+        ["慢一点的队友", "接力练习时，小峰总是跑得慢。有人叹气，小队长却让他负责最后一棒前的传递训练。几天后，小峰虽然不是最快的，却把接棒练得最稳。比赛那天，他们没有掉棒。", "小峰通过训练把接棒练稳", "每个人都有适合自己的位置", "慢一点的队友"],
+        ["窗台上的豆苗", "科学课后，豆苗被放在窗台上。小琪每天记录高度，还给叶子画上方向。第六天，她发现朝窗外的一侧长得更快。她在记录本上写：观察不是看一眼，而是连续地看。", "小琪连续观察豆苗生长", "观察要耐心、连续记录", "窗台上的豆苗"],
+        ["一枚纽扣", "演出前，小航发现同学衣服上的纽扣快掉了。他没有大声提醒，而是借来针线帮同学缝好。上台时，灯光很亮，纽扣很小，却让整件衣服显得整齐。", "小航帮同学缝好纽扣", "细节也会影响整体", "一枚纽扣"],
+        ["错题本的第一页", "我把错题本翻到第一页，那里写着一道曾经错了三次的题。现在再做，我很快就解出来了。妈妈说：“错题不是羞愧的记录，是你爬上来的台阶。”我忽然愿意继续往后翻。", "我从错题本中看到自己的进步", "错题能帮助发现问题和进步", "错题本的第一页"],
+        ["书包里的雨衣", "早晨天晴，妈妈仍把雨衣塞进我的书包。我嫌麻烦。下午突然下雨，很多同学挤在校门口等家长，我却穿上雨衣，把同桌也送到车棚。那件雨衣很轻，装着妈妈提前想到的关心。", "雨衣在下雨时帮助了我和同桌", "家人的关心常在细节里", "书包里的雨衣"],
+        ["最后一块拼图", "班级展板快完成时，只剩下一块角落没人愿意贴。小唐蹲下来量了三次，终于把它贴正。远看时，大家才发现，正是那块角落让整张展板完整起来。", "小唐认真贴好最后一块拼图", "小细节能成就完整", "最后一块拼图"],
+        ["借来的尺子", "数学测量课上，我忘带尺子。小周把自己的尺子推过来，说：“你量完我再量。”后来我发现，他的记录比我还少一项。我把尺子还给他时，心里有点发热。", "小周先把尺子借给我", "同学之间要互相帮助", "借来的尺子"],
+        ["一张便签", "期末复习时，我总忘记检查单位。爸爸在我的笔袋上贴了一张便签：先看问什么，再写单位。几天后，我少错了好几道题。那张便签没有替我做题，却提醒我学会检查。", "便签提醒我检查题目和单位", "好方法能帮助减少错误", "一张便签"]
+      ];
+
+      const pushQ = (subjectId, tier, q, a, options, hint, explain, dayIndex, kind) => {
+        extraQuestionBank[subjectId].push({ q, a, options, hint, explain, tier, dayIndex, kind });
+      };
+      const uniqueOptions = (answer, options) => [...new Set([answer, ...options])].slice(0, 4);
+      const gcd = (x, y) => y ? gcd(y, x % y) : x;
+      const lcm = (x, y) => x * y / gcd(x, y);
+      const frac = (n, d) => {
+        const g = gcd(Math.abs(n), Math.abs(d));
+        return `${n / g}/${d / g}`;
+      };
+
+      mathContexts.forEach((ctx, dayIndex) => {
+        const [scene, itemA, itemB, n1, n2, len, wid, h] = ctx;
+        const g = gcd(n1, n2);
+        const l = lcm(len, wid);
+        const volume = len * wid * h;
+        const openArea = len * wid + 2 * len * h + 2 * wid * h;
+        const surface = 2 * (len * wid + len * h + wid * h);
+        const cutGrow = 2 * len * wid;
+        const addNum = dayIndex + 2;
+        const sameDen = dayIndex + 7;
+        const diffA = dayIndex + 3;
+        const diffB = dayIndex + 5;
+        const commonDen = diffA * diffB;
+        const sumFrac = frac(diffA + diffB, commonDen);
+
+        pushQ("math", "secure", `数学卷·判断：${n1}能被${g}整除，${n2}也能被${g}整除，所以${g}是它们的公因数。`, "对", ["对", "错"], "先分别除一除。", `${n1}÷${g}和${n2}÷${g}都没有余数，所以判断正确。`, dayIndex, "概念判断");
+        pushQ("math", "secure", `数学卷·填空：${scene}有${n1}个${itemA}和${n2}个${itemB}，平均分装且每份两种物品都同样多，最多能分成几份？`, `${g}份`, uniqueOptions(`${g}份`, [`${g / 2}份`, `${g + 2}份`, `${n1 + n2}份`]), "求最多份数，用最大公因数。", `${n1}和${n2}的最大公因数是${g}，所以最多分${g}份。`, dayIndex, "因数倍数");
+        pushQ("math", "improve", `数学卷·选择：甲每${len}天整理一次${itemA}，乙每${wid}天整理一次${itemB}。今天同时整理，至少再过几天又同时整理？`, `${l}天`, uniqueOptions(`${l}天`, [`${len + wid}天`, `${g}天`, `${l + len}天`]), "再次同时发生，用最小公倍数。", `${len}和${wid}的最小公倍数是${l}。`, dayIndex, "因数倍数");
+        pushQ("math", "improve", `数学卷·计算：${addNum}/${sameDen} + ${sameDen - addNum - 1}/${sameDen} = ?`, `${sameDen - 1}/${sameDen}`, uniqueOptions(`${sameDen - 1}/${sameDen}`, [`${sameDen}/${sameDen}`, `${addNum + 1}/${sameDen}`, `${sameDen - 1}/${sameDen + 1}`]), "同分母分数相加，分母不变。", `分子相加：${addNum}+${sameDen - addNum - 1}=${sameDen - 1}。`, dayIndex, "分数计算");
+        pushQ("math", "improve", `数学卷·计算：1/${diffA} + 1/${diffB} = ?`, sumFrac, uniqueOptions(sumFrac, [`2/${diffA + diffB}`, `1/${commonDen}`, `${diffA + diffB}/${commonDen}`]), "先通分，再相加并约分。", `通分为${diffB}/${commonDen}+${diffA}/${commonDen}=${diffA + diffB}/${commonDen}，约分后是${sumFrac}。`, dayIndex, "分数计算");
+        pushQ("math", "improve", `数学卷·易错辨析：把${len}米长的彩带平均分成${wid}段，每段长多少米？`, `${len}/${wid}米`, uniqueOptions(`${len}/${wid}米`, [`1/${wid}`, `${wid}/${len}米`, `${len + wid}米`]), "问长度，要用总长度除以段数。", `每段长${len}÷${wid}=${len}/${wid}米；如果问每段占全长的几分之几才是1/${wid}。`, dayIndex, "易错辨析");
+        pushQ("math", "improve", `数学卷·图形：一个长方体收纳箱长${len}dm、宽${wid}dm、高${h}dm，体积是多少立方分米？`, `${volume}dm³`, uniqueOptions(`${volume}dm³`, [`${len * wid}dm³`, `${surface}dm³`, `${len + wid + h}dm³`]), "长方体体积=长×宽×高。", `${len}×${wid}×${h}=${volume}dm³。`, dayIndex, "图形体积");
+        pushQ("math", "stretch", `数学卷·应用：${scene}要做一个无盖长方体盒子，长${len}dm、宽${wid}dm、高${h}dm，至少需要多少平方分米材料？`, `${openArea}dm²`, uniqueOptions(`${openArea}dm²`, [`${surface}dm²`, `${len * wid}dm²`, `${volume}dm²`]), "无盖少算上面，只算底面和四个侧面。", `底面${len * wid}，前后${2 * len * h}，左右${2 * wid * h}，共${openArea}dm²。`, dayIndex, "图形应用");
+        pushQ("math", "stretch", `数学卷·冲90：长方体长${len}cm、宽${wid}cm、高${h}cm，沿最大的面切成两个小长方体，表面积最多增加多少？`, `${cutGrow}cm²`, uniqueOptions(`${cutGrow}cm²`, [`${len * wid}cm²`, `${2 * len * h}cm²`, `${surface}cm²`]), "切开会增加两个截面，最多选最大截面。", `最大截面是${len}×${wid}=${len * wid}cm²，增加两个，共${cutGrow}cm²。`, dayIndex, "冲90图形");
+        pushQ("math", "stretch", `数学卷·统计分析：${scene}连续5天完成题数是${n1 / 4}、${n1 / 4 + 3}、${n1 / 4 + 3}、${n1 / 4 + 6}、${n1 / 4 + 9}。这组数据的众数和中位数分别是？`, `${n1 / 4 + 3}、${n1 / 4 + 3}`, uniqueOptions(`${n1 / 4 + 3}、${n1 / 4 + 3}`, [`${n1 / 4}、${n1 / 4 + 3}`, `${n1 / 4 + 6}、${n1 / 4 + 3}`, `${n1 / 4 + 3}、${n1 / 4 + 6}`]), "众数看出现次数，中位数看排中间。", `${n1 / 4 + 3}出现两次，是众数；5个数排好后中间也是${n1 / 4 + 3}。`, dayIndex, "统计");
+        pushQ("math", "stretch", `数学卷·冲90应用：${scene}有一个长方体容器，底面积${len * wid}dm²，先倒入${h - 1}dm深的水，再放入一个体积${len * wid}dm³的物体，水面会上升多少分米？`, "1dm", uniqueOptions("1dm", [`${h}dm`, `${len}dm`, `${wid}dm`]), "上升高度=排开体积÷底面积。", `${len * wid}÷${len * wid}=1dm。`, dayIndex, "冲90图形");
+        pushQ("math", "stretch", `数学卷·冲90辨析：${scene}把${n1}个${itemA}和${n2}个${itemB}装礼包，要求每包两种物品都同样多且没有剩余。下面哪句话一定正确？`, `礼包数必须是${n1}和${n2}的公因数`, [`礼包数必须是${n1}和${n2}的公因数`, `每包一定有${g}个${itemA}`, `最多只能装${len}包`, `每包物品总数一定相等`], "抓“没有剩余”和“两种都同样多”。", "礼包数要同时整除两种物品数量，所以必须是两个数的公因数。", dayIndex, "因数倍数");
+      });
+
+      cnReads.forEach((item, dayIndex) => {
+        const [title, text, main, trait, center] = item;
+        pushQ("chinese", "improve", `语文卷·阅读短文《${title}》：${text} 短文主要写了什么？`, main, [main, "只描写天气变化", "介绍一种文具", "说明考试规则"], "概括要抓人物、事件和结果。", `短文围绕“${main}”展开。`, dayIndex, "阅读概括");
+        pushQ("chinese", "stretch", `语文卷·阅读短文《${title}》：${text} 文中人物最突出的特点是什么？`, trait, [trait, "骄傲自满", "粗心马虎", "胆小逃避"], "人物特点要从行为和语言中找依据。", `人物的行为体现了“${trait}”。`, dayIndex, "人物分析");
+        pushQ("chinese", "stretch", `语文卷·阅读短文《${title}》：${text} 这篇短文的中心最接近哪一项？`, center, [center, "做事只看速度", "遇事不用思考", "所有旧物都没用"], "中心要从事情背后的意义概括。", `短文通过具体事情表达“${center}”。`, dayIndex, "中心理解");
+        pushQ("chinese", "stretch", `语文卷·阅读短文《${title}》：${text} 如果问“你从中得到什么启示”，哪种答法更完整？`, `结合故事说明：${center}`, [`结合故事说明：${center}`, "我觉得很好。", "不知道。", "把短文抄一遍。"], "启示题要有故事依据和自己的概括。", "开放题不能只写空话，要结合文本再提炼道理。", dayIndex, "开放表达");
+        pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 如果要给这篇短文写批注，哪一项最能抓住关键细节？`, `抓住人物的具体动作，体会“${center}”`, [`抓住人物的具体动作，体会“${center}”`, "只圈出所有标点符号", "只数一数有几句话", "只抄短文题目"], "批注要抓关键细节和中心。", "阅读批注不能停在表面，要把细节和中心联系起来。", dayIndex, "中心理解");
+        pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 下面哪种回答最符合“有依据地分析”？`, `从文中具体行为可以看出：${trait}`, [`从文中具体行为可以看出：${trait}`, "我随便猜的。", "因为选项最长。", "因为这篇文章很短。"], "分析题要回到原文找证据。", "人物分析必须结合文中行为、语言或心理。", dayIndex, "人物分析");
+        pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 这类文章最适合用哪种方法概括中心？`, "先概括事件，再提炼品质或道理", ["先概括事件，再提炼品质或道理", "只抄第一句话", "只看题目猜答案", "只写人物名字"], "中心=事情+意义。", "写事类短文要先说清发生了什么，再提炼人物品质或道理。", dayIndex, "开放表达");
+        pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 如果题目问“为什么这样写”，最不能只回答什么？`, "只回答一个词，不说明依据", ["只回答一个词，不说明依据", "联系人物动作", "联系文章中心", "联系前后文"], "为什么类题目要写理由。", "阅读题要有观点和依据，不能只写一个孤立词。", dayIndex, "开放表达");
+        pushQ("chinese", "stretch", `语文卷·深度阅读《${title}》：${text} 如果要把答案从“会选”升级到“会写”，最关键的是？`, "用原文细节支撑自己的判断", ["用原文细节支撑自己的判断", "只记住正确选项的位置", "只看哪个选项最长", "不读短文直接猜"], "考试阅读题重视依据。", "高分答案往往要写出判断，并用原文细节说明理由。", dayIndex, "开放表达");
+      });
+    }
+
     addTenDayExamBanks();
+    addAntiRepeatExamBanks();
 
     subjects.forEach(subject => {
       const extras = extraQuestionBank[subject.id] || [];
@@ -1498,6 +1581,25 @@
     const QUESTIONS_PER_ROUND = 20;
     const MOCK_TEST_COUNT = 45;
     const mockSubjectPlan = { math: 15, chinese: 15, english: 15 };
+    const subjectKindPlan = {
+      math: {
+        "因数倍数": 2,
+        "分数计算": 3,
+        "易错辨析": 2,
+        "图形体积": 2,
+        "图形应用": 2,
+        "统计": 1,
+        "冲90图形": 3
+      },
+      chinese: {
+        "字词古诗": 3,
+        "阅读概括": 3,
+        "人物分析": 2,
+        "中心理解": 3,
+        "开放表达": 2,
+        "表达运用": 2
+      }
+    };
     const operators = [
       { id: "scout", name: "小路", role: "侦察干员", perk: "阅读题提示更明确", badge: "侦", colors: ["#45d7ff", "#54f0a0"] },
       { id: "medic", name: "阿澈", role: "医疗干员", perk: "错题复活奖励+5", badge: "医", colors: ["#ffbd4a", "#54f0a0"] },
@@ -1878,7 +1980,7 @@
           <div class="score">${state.mockDone ? `${state.lastMockPercent}分` : "未测"}</div>
         </div>
         <div class="parent-row">
-          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学卷20题 → 语文卷20题 → 英语卷20题含听力 → 复活错题。每科3道保分、16道主线提分、1道拓展，覆盖课本重点和参考卷型。</p></div>
+          <div><h3>今日90分作战节奏</h3><p>顺序：选今日干员 → 数学卷20题 → 语文卷20题 → 英语卷20题含听力 → 复活错题。数学按2保分、13提分、5冲90出题；语文提高阅读理解和开放表达比例，减少一眼看答案的送分题。</p></div>
           <div class="score">${Object.keys(state.completed || {}).length === subjects.length ? `${state.lastMockPercent ?? 0}/90` : `${done}/3`}</div>
         </div>
         <div class="parent-row">
@@ -1933,6 +2035,56 @@
       return [...pool].sort(() => Math.random() - 0.5).slice(0, count);
     }
 
+    function questionKind(subjectId, question) {
+      if (question.kind) return question.kind;
+      const text = `${question.q} ${question.hint || ""} ${question.explain || ""}`;
+      if (subjectId === "math") {
+        if (/众数|中位数|平均数|折线|统计|变化/.test(text)) return "统计";
+        if (/切成|表面积最多|无盖|用料|至少需要/.test(text)) return "冲90图形";
+        if (/长方体|正方体|体积|容积|升|L|mL|dm³|cm³|棱|表面积/.test(text)) return "图形体积";
+        if (/每段长|全长的|问的是|易错|平均分成/.test(text)) return "易错辨析";
+        if (/分数|通分|约分|带分数|几分之几/.test(text) || text.includes("/")) return "分数计算";
+        if (/因数|倍数|公因数|公倍数|最小公倍数|最大公因数|整除/.test(text)) return "因数倍数";
+        return "分数计算";
+      }
+      if (subjectId === "chinese") {
+        if (/启示|开放|联系生活|怎么回答|答法/.test(text)) return "开放表达";
+        if (/中心|道理|告诉我们|表达/.test(text)) return "中心理解";
+        if (/特点|品质|人物|性格|表现了/.test(text)) return "人物分析";
+        if (/短文|阅读|主要写|概括|标题|作用/.test(text)) return "阅读概括";
+        if (/诗句|古诗|生字|字词|读音|书写|成语|默写/.test(text)) return "字词古诗";
+        return "表达运用";
+      }
+      return question.tier || "default";
+    }
+
+    function pickBalancedQuestions(subject, pool, total, tierPlan, kindPlan) {
+      const used = new Set();
+      const planned = [];
+      const takeFrom = (candidates, count) => {
+        pickQuestions(candidates.filter(question => !used.has(question.q)), count).forEach(question => {
+          if (planned.length < total && !used.has(question.q)) {
+            used.add(question.q);
+            planned.push(question);
+          }
+        });
+      };
+      Object.entries(kindPlan || {}).forEach(([kind, count]) => {
+        takeFrom(pool.filter(question => questionKind(subject.id, question) === kind), count);
+      });
+      const tierOrder = { stretch: 0, improve: 1, secure: 2 };
+      Object.entries(tierPlan || {}).sort((a, b) => (tierOrder[a[0]] ?? 9) - (tierOrder[b[0]] ?? 9)).forEach(([tier, count]) => {
+        const currentTierCount = planned.filter(question => question.tier === tier).length;
+        takeFrom(pool.filter(question => question.tier === tier), Math.max(0, count - currentTierCount));
+      });
+      takeFrom(pool, total - planned.length);
+      return planned.slice(0, total).map(question => ({
+        ...question,
+        subjectId: subject.id,
+        subjectTitle: subject.title
+      }));
+    }
+
     function pickMockSubjectQuestions(subject) {
       const plan = mockTierPlan[subject.id] || {};
       const used = new Set();
@@ -1962,25 +2114,7 @@
       const planned = [];
       const dailyPool = subject.questions.filter(question => question.dayIndex === currentExamDayIndex);
       if (dailyPool.length >= QUESTIONS_PER_ROUND) {
-        Object.entries(plan).forEach(([tier, count]) => {
-          pickQuestions(dailyPool.filter(question => question.tier === tier), count).forEach(question => {
-            if (!used.has(question.q)) {
-              used.add(question.q);
-              planned.push(question);
-            }
-          });
-        });
-        if (planned.length < QUESTIONS_PER_ROUND) {
-          pickQuestions(dailyPool.filter(question => !used.has(question.q)), QUESTIONS_PER_ROUND - planned.length).forEach(question => {
-            used.add(question.q);
-            planned.push(question);
-          });
-        }
-        return planned.slice(0, QUESTIONS_PER_ROUND).map(question => ({
-          ...question,
-          subjectId: subject.id,
-          subjectTitle: subject.title
-        }));
+        return pickBalancedQuestions(subject, dailyPool, QUESTIONS_PER_ROUND, plan, subjectKindPlan[subject.id]);
       }
       Object.entries(plan).forEach(([tier, count]) => {
         const picked = pickSubjectQuestions(subject, count, tier, used);
